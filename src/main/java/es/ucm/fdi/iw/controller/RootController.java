@@ -24,7 +24,7 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("/")
+    @GetMapping("/foryou")
     public String foryou(Model model) {
         return "foryou";
     }
