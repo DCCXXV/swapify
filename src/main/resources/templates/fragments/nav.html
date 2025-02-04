@@ -9,7 +9,7 @@
 
     <!-- barra de navegación bootstrap 5 -->
     <header th:fragment="nav">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
             <div class="container-fluid">
                 <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
                 <a class="navbar-brand" th:href="@{/}" href="/">
@@ -29,10 +29,10 @@
                             <a class="nav-link active" aria-current="page" href="/foryou">Para ti</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Conectar</a>
+                            <a class="nav-link" href="/conect">Conectar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Amigos</a>
+                            <a class="nav-link" href="/friends">Amigos</a>
                         </li>
                     </ul>
                 </div>
