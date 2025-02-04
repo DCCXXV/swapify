@@ -45,20 +45,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	    http
-			.csrf()
-				.ignoringAntMatchers("/api/**")
-				.and()
-	        .authorizeRequests()
-	            .antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/foryou").permitAll()
-				.antMatchers("/api/**").permitAll()            // <-- public api access
-				.antMatchers("/admin/**").hasRole("ADMIN")	   // <-- administration
-	            .antMatchers("/user/**").hasRole("USER")	   // <-- logged-in users
-	            .anyRequest().authenticated()
-	            .and()
-			.formLogin()
-				.loginPage("/login")
-				.permitAll().successHandler(loginSuccessHandler); // <-- called when login Ok; can redirect
+        http
+			.csrf(csrf -> csrf
+					.ignoringAntMatchers("/api/**"))
+			.authorizeRequests(requests -> requests
+					.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/foryou").permitAll()
+					.antMatchers("/api/**").permitAll()            // <-- public api access
+					.antMatchers("/admin/**").hasRole("ADMIN")	   // <-- administration
+					.antMatchers("/user/**").hasRole("USER")	   // <-- logged-in users
+					.anyRequest().authenticated())
+			.formLogin(login -> login
+					.loginPage("/login")
+					.permitAll().successHandler(loginSuccessHandler)); // <-- called when login Ok; can redirect
 	}
 	
 	/**
