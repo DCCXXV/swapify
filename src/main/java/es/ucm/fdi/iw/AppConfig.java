@@ -9,7 +9,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 
 /**
- * General configuration for a Spring app.
+ * General configuration for a Spring app .
  * 
  * Declares multiple beans (which can later be accessed anywhere) via
  * Spring magic. 
