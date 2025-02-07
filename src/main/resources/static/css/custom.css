@@ -47,3 +47,8 @@ img.preview {
     transform: scale(1.02);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
+
+.carousel {
+    border-radius: 7px;
+    overflow: hidden;
+  }
