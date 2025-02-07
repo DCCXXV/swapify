@@ -1,79 +1,213 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <th:block th:replace="fragments/head :: header" />
-    <title>Para ti | Swapify</title>
-</head>
+	<head>
+		<th:block th:replace="fragments/head :: header" />
+		<title>Para ti | Swapify</title>
+	</head>
 
-<body class="d-flex flex-column h-100 bg-light">
-    <header th:replace="fragments/nav.html :: nav"></header>
-    <main class="flex-shrink-0">
-        <div class="container">
-            <h1 class="mt-5">Cerca de ti</h1>
-            <hr>
-            <div class="row flex-nowrap overflow-auto">
-                <div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px;">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title">Juan</h5>
-                          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px;">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title">Ana</h5>
-                          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px;">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title">Alberto</h5>
-                          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px;">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title">Maria</h5>
-                          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+	<body class="d-flex flex-column h-100 bg-light">
+		<header th:replace="fragments/nav.html :: nav"></header>
+		<main class="flex-shrink-0">
+			<div class="container">
 
-    <th:block th:replace="fragments/footer.html :: footer" />
-</body>
+
+				<h1 class="mt-5">Cerca de ti</h1>
+				<hr class="hr-swp">
+				<div class="row flex-nowrap overflow-auto">
+					<div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/JuanAlberto.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top bg-secondary p-3">
+										<h5 class="card-title">Juan Alberto</h5>
+									</div>
+									<div style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text">¡Hola! Soy Juan Alberto, me gustaría aprender alemán! Tengo amplios conocimientos en python y soy fluido en Inglés.</p>
+										<p class="card-text">
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-primary">Programación en python</span>
+												<span class="badge rounded-pill bg-primary">Inglés</span>
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-orange">Alemán</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="text-body-secondary">A 2 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/Ana.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top bg-secondary p-3">
+										<h5 class="card-title">Ana</h5>
+									</div>
+									<div style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text">¡Hola! Soy Ana, me encantaría aprender edición de fotografía. Soy profesora de yoga con 5 años de experiencia y también puedo enseñar técnicas de meditación. ¡Hablo francés fluidamente!</p>
+										<p class="card-text">
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-primary">Yoga</span>
+												<span class="badge rounded-pill bg-primary">Meditación</span>
+												<span class="badge rounded-pill bg-primary">Francés</span>
+
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-orange">Edición de fotografía</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="text-body-secondary">A 3 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/Luis.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top bg-secondary p-3">
+										<h5 class="card-title">Luis</h5>
+									</div>
+									<div style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text">Me llamo Luis y estoy buscando mejorar mi italiano. Soy guitarrista con experiencia en música clásica y flamenca, y también puedo enseñar diseño gráfico básico con Adobe Illustrator.</p>
+										<p class="card-text">
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-primary">Guitarra</span>
+												<span class="badge rounded-pill bg-primary">Diseño gráfico</span>
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-orange">Italiano</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="text-body-secondary">A 5 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 card mb-3 me-3 bg-secondary" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/María.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top bg-secondary p-3">
+										<h5 class="card-title">María</h5>
+									</div>
+									<div style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text">Soy María y me gustaría aprender cocina japonesa. Tengo experiencia dando clases de baile (salsa y bachata) y soy contadora profesional, puedo ayudar con temas de finanzas personales y Excel avanzado.</p>
+										<p class="card-text">
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-primary">Salsa</span>
+												<span class="badge rounded-pill bg-primary">Bachata</span>
+												<span class="badge rounded-pill bg-primary">Excel</span>
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-orange">Cocina japonesa</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="text-body-secondary">A 1 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<h1 class="mt-5">Habilidades populares más pedidas en tu zona</h1>
+				<hr class="hr-swp">
+				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide carousel-fade">
+					<div class="carousel-inner">
+					  <div class="carousel-item active" style="background-color: #4F4789; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2 class="text-white">Alemán</h2>
+						</div>
+					  </div>
+					  <div class="carousel-item" style="background-color: #FFB17A; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2>Francés</h2>
+						</div>
+					  </div>
+					  <div class="carousel-item" style="background-color: #FCE762; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2>Cocina</h2>
+						</div>
+					  </div>
+					  <div class="carousel-item" style="background-color: #96CEB4; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2 class="text-white">Photoshop</h2>
+						</div>
+					  </div>
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouseldHabilidadesPedidasCerca" data-bs-slide="prev">
+					  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					  <span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouseldHabilidadesPedidasCerca" data-bs-slide="next">
+					  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					  <span class="visually-hidden">Next</span>
+					</button>
+				  </div>
+
+
+				<h1 class="mt-5">Habilidades comunes en tu zona</h1>
+				<hr class="hr-swp">
+				<div id="carouseldHabilidadesComunesCerca" class="carousel slide carousel-fade">
+					<div class="carousel-inner">
+					  <div class="carousel-item active" style="background-color: #FF6B6B; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2 class="text-white">Inglés</h2>
+						</div>
+					  </div>
+					  <div class="carousel-item" style="background-color: #4ECDC4; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2 class="text-white">Programación</h2>
+						</div>
+					  </div>
+					  <div class="carousel-item" style="background-color: #45B7D1; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2 class="text-white">Diseño Gráfico</h2>
+						</div>
+					  </div>
+					  <div class="carousel-item" style="background-color: #96CEB4; height: 300px;">
+						<div class="d-flex justify-content-center align-items-center h-100">
+						  <h2 class="text-white">Música</h2>
+						</div>
+					  </div>
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouseldHabilidadesComunesCerca" data-bs-slide="prev">
+					  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					  <span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouseldHabilidadesComunesCerca" data-bs-slide="next">
+					  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					  <span class="visually-hidden">Next</span>
+					</button>
+				  </div>
+
+				
+			</div>
+		</main>
+
+		<th:block th:replace="fragments/footer.html :: footer" />
+	</body>
 
 </html>
