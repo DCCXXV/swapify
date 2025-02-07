@@ -29,6 +29,11 @@ public class RootController {
         return "foryou";
     }
 
+    @GetMapping("/messages")
+    public String messages(Model model) {
+        return "messages";
+    }
+
     @GetMapping("/rewards")
     public String rewards(Model model) {
         return "rewards";

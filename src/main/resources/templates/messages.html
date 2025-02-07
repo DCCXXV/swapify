@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <th:block th:replace="fragments/head :: header" />
+        <title>Mensajes | Swapify</title>
+    </head>
+
+    <body class="d-flex flex-column h-100 bg-light">
+        <header th:replace="fragments/nav.html :: nav"></header>
+        <main class="flex-shrink-0">
+            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-light" style="width: 380px;">
+                <div class="d-flex align-items-center flex-shrink-0 p-3 text-decoration-none">
+                    <h2>Mensajes</h2>
+                </div>
+                <div class="list-group list-group-flush scrollarea">
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-secondary">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">Juan Alberto</strong>
+                            <small>Today</small>
+                        </div>
+                        <div class="col-10 mb-1 small">El próximo sábado no puedo asistir al intercambio de habilidades, sorry!</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-light">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">Luis</strong>
+                            <small class="text-body-secondary">2d ago</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-light">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">Ana</strong>
+                            <small class="text-body-secondary">2d ago</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-light">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">Rodrigo</strong>
+                            <small class="text-body-secondary">3d ago</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-light">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">María</strong>
+                            <small class="text-body-secondary">1w ago</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                </div>
+            </div>
+            <div class="container">
+
+            </div>
+        </main>
+
+        <th:block th:replace="fragments/footer.html :: footer" />
+    </body>
+
+</html>
