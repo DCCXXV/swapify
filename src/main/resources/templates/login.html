@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>IW: Login</title>
+    <title>Iniciar sesión | Swapify</title>
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -12,7 +12,7 @@
     <main class="flex-shrink-0">
         <div class="container">
             <form class="form-signin" method="post" th:action="@{/login}">
-                <h2 class="form-signin-heading">Please sign in</h2>
+                <h2 class="form-signin-heading">Por favor, inicie sesión</h2>
                 <p th:if="${#request.getQueryString() == 'error'}" class="error">
                     Error en nombre de usuario o contraseña
                 </p>
@@ -24,7 +24,9 @@
                     <label for="password" class="visually-hidden">Password</label>
                     <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">
                 </p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <div class="text-center">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </div>
             </form>
         </div>
     </main>

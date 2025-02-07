@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw;
 
 import java.io.File;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +30,7 @@ public class AppConfig {
 	 */	
     @Bean(name="localData")
     public LocalData getLocalData() {
-    	return new LocalData(new File(env.getProperty("es.ucm.fdi.base-path")));
+    	return new LocalData(new File(Objects.requireNonNull(env.getProperty("es.ucm.fdi.base-path"))));
     } 
     
 	/**

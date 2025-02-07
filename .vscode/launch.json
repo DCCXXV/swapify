@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-IwApplication<plantilla>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "es.ucm.fdi.iw.IwApplication",
+            "projectName": "plantilla",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
