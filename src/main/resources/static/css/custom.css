@@ -55,4 +55,13 @@ img.preview {
 .carousel {
     border-radius: 7px;
     overflow: hidden;
-  }
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card a {
+    margin-top: auto; /* Empuja el botón hacia abajo*/
+}
