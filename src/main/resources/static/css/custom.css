@@ -30,11 +30,15 @@ img.preview {
     background-color: #C26051 !important;
 }
 
+.bg-purple-100 {
+    background-color: #d1cde0 !important;
+}
+
 .hr-swp {
     border: 0;
     height: 1px;
     background: #333;
-    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+    background-image: linear-gradient(to right, #333, #ccc, #ccc);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -51,4 +55,13 @@ img.preview {
 .carousel {
     border-radius: 7px;
     overflow: hidden;
-  }
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card a {
+    margin-top: auto; /* Empuja el botón hacia abajo*/
+}
