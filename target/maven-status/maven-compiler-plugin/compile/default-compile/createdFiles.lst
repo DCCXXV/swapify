@@ -1,0 +1,17 @@
+es\ucm\fdi\iw\LocalData.class
+es\ucm\fdi\iw\model\Lorem.class
+es\ucm\fdi\iw\WebSocketConfig.class
+es\ucm\fdi\iw\controller\UserController$NoEsTuPerfilException.class
+es\ucm\fdi\iw\model\User.class
+es\ucm\fdi\iw\controller\AdminController.class
+es\ucm\fdi\iw\model\User$Transfer.class
+es\ucm\fdi\iw\IwUserDetailsService.class
+es\ucm\fdi\iw\model\User$Role.class
+es\ucm\fdi\iw\IwApplication.class
+es\ucm\fdi\iw\LoginSuccessHandler.class
+es\ucm\fdi\iw\StartupConfig.class
+es\ucm\fdi\iw\controller\UserController.class
+es\ucm\fdi\iw\WebSocketSecurityConfig.class
+es\ucm\fdi\iw\model\Transferable.class
+es\ucm\fdi\iw\model\Message.class
+es\ucm\fdi\iw\model\Message$Transfer.class
