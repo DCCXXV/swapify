@@ -20,15 +20,16 @@
 .bg-abaloneshell {
     background-color: #E1DED9 !important;
 }
-
 .bg-orchid-l0 {
     background-color: hsl(324, 16%, 69%) !important;
+}
+.bg-abaloneshell-l0 {
+    background-color: #c7c1b8 !important;
 }
 
 .fg-abaloneshell {
     color: #E1DED9 !important;
 }
-
 .fg-muted {
     color: #c7c1b8 !important;
 }
