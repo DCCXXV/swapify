@@ -1,5 +1,59 @@
 /* usa este fichero para personalizar tus vistas */
 
+/* PALETA DE COLORES */
+
+.bg-lushaqua {
+    background-color: #004466 !important;
+}
+.bg-oblivion {
+    background-color: #000435 !important;
+}
+.bg-gold {
+    background-color: #E4B55D !important;
+}
+.bg-orchid {
+    background-color: #755468 !important;
+}
+.bg-blendieblue {
+    background-color: #A9C4C4 !important;
+}
+.bg-abaloneshell {
+    background-color: #E1DED9 !important;
+}
+
+.bg-orchid-l0 {
+    background-color: hsl(324, 16%, 69%) !important;
+}
+
+.fg-abaloneshell {
+    color: #E1DED9 !important;
+}
+.fg-blendieblue {
+    color: #A9C4C4 !important;
+}
+.fg-gold {
+    color: #E4B55D !important;
+}
+.fg-orchid {
+    color: #755468 !important;
+}
+.fg-lushaqua {
+    color: #004466 !important;
+}
+.fg-oblivion {
+    color: #000435 !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.lighter {
+    font-weight: lighter;
+}
+
+
+
 .iwthumb {
     height: 32px;
     width: 32px;
@@ -24,14 +78,6 @@ img.preview {
     width: 10%;
     height: 100px;
     border-radius: 10px;
-}
-
-.bg-orange {
-    background-color: #C26051 !important;
-}
-
-.bg-purple-100 {
-    background-color: #d1cde0 !important;
 }
 
 .hr-swp {
