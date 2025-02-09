@@ -117,5 +117,30 @@ img.preview {
 }
 
 .card a {
-    margin-top: auto; /* Empuja el botón hacia abajo*/
+    margin-top: auto; /*Empuja el botón hacia abajo*/
+}
+
+
+
+
+
+/*Acentos al interactuar con el raton*/
+.btn:focus {
+    border-color: rgb(117, 84, 104);
+    box-shadow: 0 0 0 0.25rem rgba(117, 84, 104, 0.25);
+}
+
+.form-control:focus {
+    border-color: rgb(117, 84, 104);
+    box-shadow: 0 0 0 0.25rem rgba(117, 84, 104, 0.25);
+}
+
+::selection {
+    background-color: rgba(169, 196, 196, 0.9);
+    color: #000435;
+}
+
+::-moz-selection {
+    background-color: rgba(169, 196, 196, 0.9);
+    color: #000435;
 }
