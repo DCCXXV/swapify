@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <th:block th:replace="fragments/head :: header" />
-    <title>Iniciar sesión | Swapify</title>
-</head>
+    <head>
+        <th:block th:replace="fragments/head :: header" />
+        <title>Iniciar sesión | Swapify</title>
+    </head>
 
-<body class="d-flex flex-column h-100 bg-light">
-    <header th:replace="fragments/nav.html :: nav"></header>
+    <body class="d-flex flex-column h-100 bg-light">
+        <header th:replace="fragments/nav.html :: nav"></header>
 
-    <main class="flex-shrink-0 p-3">
-        <div class="container">
-            <form class="form-signin" method="post" th:action="@{/login}">
-                <h2 class="form-signin-heading">Por favor, inicie sesión</h2>
-                <div class="hr-swp mb-3"></div>
-                <p th:if="${#request.getQueryString() == 'error'}" class="error">
-                    Error en nombre de usuario o contraseña
-                </p>
-                <p>
-                    <label for="username" class="visually-hidden">Username</label>
-                    <input type="text" id="username" name="username" class="form-control bg-light" placeholder="Username" required="required">
-                </p>
-                <p>
-                    <label for="password" class="visually-hidden">Password</label>
-                    <input type="password" id="password" name="password" class="form-control bg-light" placeholder="Password" required="required">
-                </p>
-                
-                <button class="btn btn-lg bg-primary text-white btn-block" type="submit" style="width:200px;">Sign in</button>
-            </form>
-        </div>
-    </main>
+        <main class="flex-shrink-0">
+            <div class="container">
+                <form class="form-signin" method="post" th:action="@{/login}">
+                    <h2 class="mt-4 form-signin-heading fg-orchid bold">Por favor, inicie sesión</h2>
+                    <div class="hr-swp mb-3"></div>
+                    <p th:if="${#request.getQueryString() == 'error'}" class="error">
+                        Error en nombre de usuario o contraseña
+                    </p>
+                    <p>
+                        <label for="username" class="visually-hidden">Username</label>
+                        <input type="text" id="username" name="username" class="form-control bg-light" placeholder="Username" required="required">
+                    </p>
+                    <p>
+                        <label for="password" class="visually-hidden">Password</label>
+                        <input type="password" id="password" name="password" class="form-control bg-light" placeholder="Password" required="required">
+                    </p>
 
-    <th:block th:replace="fragments/footer.html :: footer" />
-</body>
+                    <button class="btn btn-lg bg-primary text-white btn-block" type="submit" style="width:200px;">Sign in</button>
+                </form>
+            </div>
+        </main>
+
+        <th:block th:replace="fragments/footer.html :: footer" />
+    </body>
 
 </html>
