@@ -12,7 +12,7 @@
     <main class="flex-shrink-0 p-3">
         <div class="container">
             <form class="form-signin" method="post" th:action="@{/login}">
-                <h2 class="form-signin-heading">Por favor, inicie sesión</h2>
+                <h2 class="form-signin-heading fg-orchid bold">Por favor, inicie sesión</h2>
                 <div class="hr-swp mb-3"></div>
                 <p th:if="${#request.getQueryString() == 'error'}" class="error">
                     Error en nombre de usuario o contraseña
