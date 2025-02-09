@@ -32,6 +32,9 @@
 .fg-muted {
     color: #c7c1b8 !important;
 }
+.active {
+    color: #c7c1b8 !important;
+}
 .fg-blendieblue {
     color: #A9C4C4 !important;
 }

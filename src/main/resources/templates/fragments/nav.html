@@ -1,102 +1,109 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <title>Nav fragment - rest intentionally left empty</title>
-</head>
+    <head>
+        <title>Nav fragment - rest intentionally left empty</title>
+    </head>
 
-<body class="d-flex flex-column h-100">
+    <body class="d-flex flex-column h-100">
 
-    <!-- barra de navegación bootstrap 5 -->
-    <header th:fragment="nav">
-        <nav class="navbar sticky-top navbar-expand-lg bg-oblivion navbar-dark">
-            <div class="container-fluid" style="font-size: 18px">
-                <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
-                <a class="navbar-brand fg-gold" th:href="@{/}" href="/">
-                    <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="38" height="38"
-                        class="d-inline-block align-text-to m-1">  Swapify
-                </a>
-                <!-- menu hamburguesa si no cabe todo -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <!-- barra de navegación bootstrap 5 -->
+        <header th:fragment="nav">
+            <nav class="navbar sticky-top navbar-expand-lg bg-oblivion navbar-dark">
+                <div class="container-fluid" style="font-size: 18px">
+                    <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
+                    <a class="navbar-brand fg-gold" th:href="@{/}" href="/">
+                        <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="38" height="38"
+                            class="d-inline-block align-text-to m-1"> Swapify
+                    </a>
+                    <!-- menu hamburguesa si no cabe todo -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/foryou">Para ti</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/conect">Conectar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/messages">Mensajes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/rewards">Recompensas</a>
-                        </li>
-                    </ul>
-                </div>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${#request.requestURI == '/foryou' ? 'active' : ''}" href="/foryou">Para ti</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${#request.requestURI == '/conect' ? 'active' : ''}" href="/conect">Conectar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${#request.requestURI == '/messages' ? 'active' : ''}"
+                                    href="/messages">Mensajes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${#request.requestURI == '/rewards' ? 'active' : ''}"
+                                    href="/rewards">Recompensas</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto">
-                        <th:block th:if="${session.u}">
-                            <li class="nav-item mx-3">
-                                <a class="nav-link" th:if="${session.u.hasRole('ADMIN')}"
-                                    th:href="@{/admin/}">Administrar</a>
-                            </li>
+                    <form class="d-flex w-50" role="search">
+                        <input class="form-control me-2 bg-abaloneshell" type="search" placeholder="Buscar en Swapify" aria-label="Search">
+                        <button class="btn bg-orchid fg-abaloneshell bold" type="submit">Buscar</button>
+                    </form>
 
-                            <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/user/{id}(id=${session.u.id})}">
-                                    <img class="iwthumb rounded" th:src="@{/user/{id}/pic(id=${session.u.id})}">
-                                    <span th:text="${session.u.username}">Pepe</span>
-                                </a>
-                            </li>
-                            <li class="nav-item align-self-center me-4">
-                                <button type="button" class="btn btn-outline-primary btn-sm position-relative">
-                                    ✉️ <span id="nav-unread"
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99
-                                        <span class="visually-hidden">unread messages</span></span>
-                                </button>
-                            </li>
-                            <li class="nav-item align-self-center">
-                                <form th:action="@{/logout}" method="post">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">logout</button>
-                                </form>
-                            </li>
-                        </th:block>
-                        <th:block th:unless="${session.u}">
-                            <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/login}" href="/login">Login</a>
-                            </li>
-                            <!--/*
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto">
+                            <th:block th:if="${session.u}">
+                                <li class="nav-item mx-3">
+                                    <a class="nav-link" th:if="${session.u.hasRole('ADMIN')}"
+                                        th:href="@{/admin/}">Administrar</a>
+                                </li>
+
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link" th:href="@{/user/{id}(id=${session.u.id})}">
+                                        <img class="iwthumb rounded" th:src="@{/user/{id}/pic(id=${session.u.id})}">
+                                        <span th:text="${session.u.username}">Pepe</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item align-self-center me-4">
+                                    <button type="button" class="btn btn-outline-primary btn-sm position-relative">
+                                        ✉️ <span id="nav-unread"
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99
+                                            <span class="visually-hidden">unread messages</span></span>
+                                    </button>
+                                </li>
+                                <li class="nav-item align-self-center">
+                                    <form th:action="@{/logout}" method="post">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">logout</button>
+                                    </form>
+                                </li>
+                            </th:block>
+                            <th:block th:unless="${session.u}">
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link" th:href="@{/login}" href="/login">Login</a>
+                                </li>
+                                <!--/*
                                 Esto es un comentario "thymeleaf" - no se verá en el HTML
                                 El bloque de "debug" sólo está activado si application.properties tiene debug a "true"
                                     (ver StartupConfig.java para ver cómo se lee de la configuración
                                     y luego se escribe a ${application.debug})
                             */-->
-                            <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                <form class="d-flex" th:action="@{/login}" method="post">
-                                    <input type="hidden" name="username" value="a">
-                                    <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">a</button>
-                                </form>
-                            </li>
-                            <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                <form class="d-flex" th:action="@{/login}" method="post">
-                                    <input type="hidden" name="username" value="b">
-                                    <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">b</button>
-                                </form>
-                            </li>
-                        </th:block>
-                    </ul>
+                                <li class="nav-item debug align-self-center" th:if="${application.debug}">
+                                    <form class="d-flex" th:action="@{/login}" method="post">
+                                        <input type="hidden" name="username" value="a">
+                                        <input type="hidden" name="password" value="aa">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">a</button>
+                                    </form>
+                                </li>
+                                <li class="nav-item debug align-self-center" th:if="${application.debug}">
+                                    <form class="d-flex" th:action="@{/login}" method="post">
+                                        <input type="hidden" name="username" value="b">
+                                        <input type="hidden" name="password" value="aa">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">b</button>
+                                    </form>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-</body>
+            </nav>
+        </header>
+    </body>
 
 </html>
