@@ -26,10 +26,7 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" th:classappend="${#request.requestURI == '/foryou' ? 'active' : ''}" href="/foryou">Para ti</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:classappend="${#request.requestURI == '/conect' ? 'active' : ''}" href="/conect">Conectar</a>
+                                <a class="nav-link" th:classappend="${#request.requestURI == '/' ? 'active' : ''}" href="/">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:classappend="${#request.requestURI == '/messages' ? 'active' : ''}"
@@ -43,7 +40,7 @@
                     </div>
 
                     <form class="d-flex w-50" role="search">
-                        <input class="form-control me-2 bg-abaloneshell rounded-pill p-2" type="search" placeholder="  Buscar en Swapify" aria-label="Search">
+                        <input class="form-control bg-abaloneshell rounded-pill p-2  ps-3 me-2" type="search" placeholder="Buscar en Swapify" aria-label="Search">
                         <button class="btn bg-orchid fg-abaloneshell bold rounded-pill" type="submit">Buscar</button>
                     </form>
 

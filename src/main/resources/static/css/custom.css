@@ -33,9 +33,6 @@
 .fg-muted {
     color: #c7c1b8 !important;
 }
-.active {
-    color: #c7c1b8 !important;
-}
 .fg-blendieblue {
     color: #A9C4C4 !important;
 }
@@ -60,6 +57,10 @@
     font-weight: lighter;
 }
 
+.active {
+    color: #c7c1b8 !important;
+    font-weight: bold;
+}
 
 
 .iwthumb {
@@ -121,7 +122,17 @@ img.preview {
 }
 
 
-
+/* MENSAJES */
+.message {
+    margin-bottom: 15px;
+    max-width: 40%;
+}
+.message-received {
+    margin-right: auto;
+}
+.message-sent {
+    margin-left: auto;
+}
 
 
 /*Acentos al interactuar con el raton*/
