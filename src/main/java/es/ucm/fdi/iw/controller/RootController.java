@@ -24,11 +24,6 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("/foryou")
-    public String foryou(Model model) {
-        return "foryou";
-    }
-
     @GetMapping("/messages")
     public String messages(Model model) {
         return "messages";
