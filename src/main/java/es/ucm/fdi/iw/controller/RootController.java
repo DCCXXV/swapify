@@ -25,9 +25,9 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("/messages")
-    public String messages(Model model) {
-        return "messages";
+	@GetMapping("/swaps")
+    public String swaps(Model model) {
+        return "swaps";
     }
 
     @GetMapping("/rewards")

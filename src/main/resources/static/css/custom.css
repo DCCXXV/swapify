@@ -92,9 +92,7 @@ img.preview {
 .hr-swp {
     border: 0;
     height: 1px;
-    background: #333;
-    background-image: linear-gradient(to right, #333, #ccc, #ccc);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-image: linear-gradient(to right, #755468, #755468, #ccc);
 }
 
 .card {
@@ -103,8 +101,7 @@ img.preview {
 }
 
 .card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transform: scale(1.03);
 }
 
 .carousel {
@@ -133,6 +130,31 @@ img.preview {
 .message-sent {
     margin-left: auto;
 }
+
+/*# es para id, recordar de los selectores de css*/
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+}
+#message-box {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.accordion-button:focus,
+.accordion-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.accordion-button.rounded-start {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+  
 
 
 /*Acentos al interactuar con el raton*/

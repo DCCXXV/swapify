@@ -13,8 +13,8 @@
                 <div class="container-fluid" style="font-size: 18px">
                     <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
                     <a class="navbar-brand fg-gold" th:href="@{/}" href="/">
-                        <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="38" height="38"
-                            class="d-inline-block align-text-to m-1"> Swapify
+                        <img th:src="@{/img/logo.svg}" src="/img/logo.svg" alt="logo IW" width="38" height="38"
+                            class="d-inline-block align-text-to m-1" style="vertical-align:middle"> Swapify
                     </a>
                     <!-- menu hamburguesa si no cabe todo -->
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -29,8 +29,8 @@
                                 <a class="nav-link" th:classappend="${#request.requestURI == '/' ? 'active' : ''}" href="/">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:classappend="${#request.requestURI == '/messages' ? 'active' : ''}"
-                                    href="/messages">Mensajes</a>
+                                <a class="nav-link" th:classappend="${#request.requestURI == '/swaps' ? 'active' : ''}"
+                                    href="/swaps">Intercambios</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:classappend="${#request.requestURI == '/rewards' ? 'active' : ''}"
