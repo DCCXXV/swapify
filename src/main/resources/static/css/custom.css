@@ -119,3 +119,48 @@ img.preview {
 .card a {
     margin-top: auto; /* Empuja el botón hacia abajo*/
 }
+
+.user-avatar {
+    width: 250px; /* Aumenta el tamaño */
+    height: 300px; /* Más rectangular */
+    object-fit: cover;
+    border-radius: 10px; /* Esquinas redondeadas */
+}
+
+.skill-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #e2dfd9; /*fondo*/
+}
+
+.rating-star {
+    color: #ffd700;
+}
+
+.rating-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa #eee;
+}
+
+.rating-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.rating-container::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 4px;
+}
+
+.rating-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 300px;
+    flex-shrink: 0;
+}
