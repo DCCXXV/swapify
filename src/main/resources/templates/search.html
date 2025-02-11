@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <th:block th:replace="fragments/head :: header" />
+        <title> Search | Swapify</title>
+    </head>
+
+    <body class="d-flex flex-column h-100 bg-light">
+        <header th:replace="fragments/nav.html :: nav"></header>
+
+        <main class="flex-shrink-0">
+            <div class="container">
+                <form class="form-signin" method="get" th:action="@{/search}">
+                    <h2
+                        class="mt-4 form-signin-heading fg-orchid bold">Resultado
+                        de <span th:text="${param.username}">x</span></h2>
+                    <div class="hr-swp mb-3"></div>
+                    <p th:if="${#request.getQueryString() == 'error'}"
+                        class="error">
+                        No se encontraron resultados
+                    </p>
+
+                </form>
+
+                <!-- Nueva barra de búsqueda -->
+                <div class="bg-abaloneshell-l0 rounded p-4"> 
+                    <h4 class="fg-orchid bold">No se encontraron resultados</h4>
+                    <form class="form-signin mt-4" method="get"
+                        th:action="@{/search}">
+                        <div class="input-group">
+                            <input type="text"
+                                class="form-control rounded-pill bg-abaloneshell fg-oblivion ps-3 me-3"
+                                name="username"
+                                placeholder="Buscar de nuevo en Swapify"
+                                aria-label="Buscar de nuevo en Swapify"
+                                required="required">
+                            <button
+                                class="btn bg-orchid fg-abaloneshell bold rounded-pill"
+                                type="submit">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <th:block th:replace="fragments/footer.html :: footer" />
+    </body>
+
+</html>

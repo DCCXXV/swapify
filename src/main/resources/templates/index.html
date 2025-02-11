@@ -1,21 +1,242 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <th:block th:replace="fragments/head :: header" />
-    <title>IW: Welcome</title>
-</head>
+	<head>
+		<th:block th:replace="fragments/head :: header" />
+		<title>Para ti | Swapify</title>
+	</head>
 
-<body class="d-flex flex-column h-100">
-    <header th:replace="fragments/nav.html :: nav"></header>
+	<body class="d-flex flex-column h-100 bg-light">
+		<header th:replace="fragments/nav.html :: nav"></header>
+		<main class="flex-shrink-0">
+			<div class="container">
+				<h2 class="mt-4 fg-orchid bold">Usuarios cerca de ti</h2>
+				<hr class="hr-swp">
 
-    <main class="flex-shrink-0">
-        <div class="container">
-            <h1 class="mt-5">Bienvenid@</h1>
-        </div>
-    </main>
+				<h4 class="fg-orchid ms-2 mb-3">Filtrando por: </h4>
+				<div class="d-flex align-items-center mb-2 bg-abaloneshell-l0 p-2 rounded-pill">
+					<span class="fg-oblivion ms-3">Habilidades que buscas: </span>
+					<div class="d-flex align-items-center row-md-8 ms-3">
+						<span class="badge rounded-pill bg-lushaqua p-2 me-2">Inglés</span>
+						<span class="badge rounded-pill bg-lushaqua p-2 me-2">Francés</span>
+					</div>
+					<button class="btn bg-abaloneshell fg-oblivion bold ms-auto rounded-pill">Editar</button>
+				</div>
 
-    <th:block th:replace="fragments/footer.html :: footer" />
-</body>
+				<div class="d-flex align-items-center mb-2 bg-abaloneshell-l0 p-2 rounded-pill">
+					<span class="fg-oblivion ms-3">... y habilidades que puedes ofrecer: </span>
+					<div class="d-flex align-items-center row-md-8 ms-3">
+						<span class="badge rounded-pill bg-orchid p-2 me-2">Programación en Java</span>
+						<span class="badge rounded-pill bg-orchid p-2 me-2">Diseño gráfico</span>
+						<span class="badge rounded-pill bg-orchid p-2 me-2">Edición de fotografía</span>
+						<span class="badge rounded-pill bg-orchid p-2 me-2">Cocina</span>
+					</div>
+					<button class="btn bg-abaloneshell fg-oblivion bold ms-auto rounded-pill">Editar</button>
+				</div>
+
+				<div class="row flex-nowrap overflow-auto mt-3">
+					<div class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/JuanAlberto.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top oblivion p-3">
+										<h5 class="card-title fg-gold bold">Juan Alberto</h5>
+									</div>
+									<div class="fg-abaloneshell" style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text fg-muted">¡Hola! Soy Juan Alberto, me gustaría aprender alemán o expandir mis conocimientos de programación aprendiendo
+											Java! Tengo amplios conocimientos en python y soy fluido en Inglés y Francés.</p>
+										<p class="card-text">
+											<div class="row-md-8 mb-3">
+												<span class="badge rounded-pill bg-lushaqua">Inglés</span>
+												<span class="badge rounded-pill bg-lushaqua">Francés</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Programación en python</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Desarrollo web</span>
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-primary">Programación en Java</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-orchid">Alemán</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="fg-blendieblue">A 2 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/Ana.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top bg-oblivion p-3">
+										<h5 class="card-title fg-gold bold">Ana</h5>
+									</div>
+									<div class="fg-abaloneshell" style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text fg-muted">¡Hola! Soy Ana, me encantaría aprender edición de fotografía. Soy profesora de yoga con 5 años de experiencia
+											y también puedo enseñar técnicas de meditación. ¡Hablo francés fluidamente!</p>
+										<p class="card-text">
+											<div class="row-md-8 mb-3">
+												<span class="badge rounded-pill bg-lushaqua">Francés</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Yoga</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Meditación</span>
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-orchid">Edición de fotografía</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="fg-blendieblue">A 3 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/Luis.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top bg-oblivion p-3">
+										<h5 class="card-title fg-gold bold">Luis</h5>
+									</div>
+									<div class="fg-abaloneshell" style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text fg-muted">Me llamo Luis y estoy buscando mejorar mi italiano, aunque también recientemente he tenido ganas de aprender
+											edición de fotografía. Soy guitarrista con experiencia en música clásica y flamenca, y también puedo enseñar diseño gráfico básico con
+											Adobe Illustrator o inglés ya que estoy certificado con un C1 por cambridge.</p>
+										<p class="card-text">
+											<div class="row-md-8 mb-3">
+												<span class="badge rounded-pill bg-lushaqua">Inglés</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Guitarra</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Diseño gráfico</span>
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-orchid">Edición de fotografía</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-orchid">Italiano</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="fg-blendieblue">A 5 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 400px; height: 250px;">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<img src="img/pfp/María.jpg"
+									class="img-fluid rounded-start" alt="...">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body p-0" style="height: 220px; position: relative;">
+									<div class="sticky-top bg-oblivion p-3">
+										<h5 class="card-title fg-gold bold">María</h5>
+									</div>
+									<div class="fg-abaloneshell" style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
+										<p class="card-text fg-muted">Soy María y me gustaría aprender a cocinar. Tengo experiencia dando clases de baile (salsa y bachata) y soy
+											contadora profesional, puedo ayudar con temas de finanzas personales y Excel avanzado. Además debido a mi experiencia laboral tengo un alto
+											nivel de inglés.</p>
+										<p class="card-text">
+											<div class="row-md-8 mb-3">
+												<span class="badge rounded-pill bg-lushaqua">Inglés</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Salsa</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Bachata</span>
+												<span class="badge rounded-pill bg-abaloneshell fg-lushaqua">Excel</span>
+											</div>
+											<div class="row-md-8">
+												<span class="badge rounded-pill bg-orchid">Cocina</span>
+											</div>
+										</p>
+										<p class="card-text"><small class="fg-blendieblue">A 1 km de distancia</small></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<h2 class="mt-4 fg-orchid bold">Habilidades más pedidas en tu zona</h2>
+				<hr class="hr-swp">
+				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide carousel-fade">
+					<div class="carousel-inner">
+						<div class="carousel-item active bg-orchid" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h1 class="fg-gold bold">Alemán</h1>
+							</div>
+						</div>
+						<div class="carousel-item bg-gold" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h1 class="fg-orchid bold">Francés</h1>
+							</div>
+						</div>
+						<div class="carousel-item bg-blendieblue" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h1 class="fg-lushaqua bold">Cocina</h1>
+							</div>
+						</div>
+						<div class="carousel-item bg-lushaqua" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h2 class="fg-gold bold">Photoshop</h2>
+							</div>
+						</div>
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouseldHabilidadesPedidasCerca" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouseldHabilidadesPedidasCerca" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+
+				<h2 class="mt-4 fg-orchid bold">Habilidades comunes en tu zona</h2>
+				<hr class="hr-swp">
+				<div id="carouseldHabilidadesComunesCerca" class="carousel slide carousel-fade">
+					<div class="carousel-inner">
+						<div class="carousel-item active bg-lushaqua" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h1 class="fg-gold bold">Inglés</h1>
+							</div>
+						</div>
+						<div class="carousel-item bg-gold" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h1 class="fg-oblivion bold">Programación</h1>
+							</div>
+						</div>
+						<div class="carousel-item bg-orchid" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h1 class="fg-abaloneshell bold">Diseño Gráfico</h1>
+							</div>
+						</div>
+						<div class="carousel-item bg-oblivion" style="height: 300px;">
+							<div class="d-flex justify-content-center align-items-center h-100">
+								<h1 class="fg-gold bold">Música</h1>
+							</div>
+						</div>
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouseldHabilidadesComunesCerca" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouseldHabilidadesComunesCerca" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+
+			</div>
+		</main>
+
+		<th:block th:replace="fragments/footer.html :: footer" />
+	</body>
 
 </html>
