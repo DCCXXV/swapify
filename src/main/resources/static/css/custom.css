@@ -92,7 +92,13 @@ img.preview {
 .hr-swp {
     border: 0;
     height: 1px;
-    background-image: linear-gradient(to right, #755468, #755468, #ccc);
+    background-image: linear-gradient(to right, #755468, #755468, #c7c1b8);
+}
+
+.hr-swp-center {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, #c7c1b8, #755468, #c7c1b8);
 }
 
 .card {
@@ -142,6 +148,14 @@ img.preview {
     overflow-y: auto;
 }
 
+.border-primary {
+    border-color: #755468 !important;
+}
+
+.border-secondary {
+    border-color: #004466 !important;
+}
+
 .accordion-button:focus,
 .accordion-button:active {
   outline: none !important;
@@ -153,7 +167,7 @@ img.preview {
 .accordion-button.rounded-start {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
-  }
+}
   
 /* Usuario */
 .user-avatar {
