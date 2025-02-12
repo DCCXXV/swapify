@@ -62,6 +62,16 @@
     font-weight: bold;
 }
 
+#loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #E4B55D;
+    transition: width 0.4s ease-out;
+}
+
 
 .iwthumb {
     height: 32px;

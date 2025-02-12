@@ -29,6 +29,15 @@ import java.util.List;
 @Table(name="IWUser")
 public class User implements Transferable<User.Transfer> {
 
+    // RECORDAR CAMBIAR SKILLS A SKILL EN VEZ DE STRING 
+    public User(String nombre, String descripcion, String foto, List<String> habilidadesOfrecidas, List<String> habilidadesBuscadas) {
+        this.firstName = nombre;
+        this.description = descripcion;
+        this.pfp = foto;
+        this.currentSkills = habilidadesOfrecidas;
+        this.desiredSkills = habilidadesBuscadas;
+    }
+
     public enum Role {
         USER,			// normal users 
         ADMIN,          // admin users
@@ -44,6 +53,7 @@ public class User implements Transferable<User.Transfer> {
     @Column(nullable = false)
     private String password;
 
+    @Getter
     private String firstName;
     private String lastName;
 
@@ -56,6 +66,35 @@ public class User implements Transferable<User.Transfer> {
 	@OneToMany
 	@JoinColumn(name = "recipient_id")	
 	private List<Message> received = new ArrayList<>();		
+
+    // habilidades actuales (string temporal)
+    //@ManyToMany
+    @Getter
+    @ElementCollection
+    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "currentSkills")
+    private List<String> currentSkills = new ArrayList<>();
+
+    // y habilidades que el usuario esta buscando adquirir (string temporal)
+    //@ManyToMany
+    @Getter
+    @ElementCollection
+    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "desiredSkills")
+    private List<String> desiredSkills = new ArrayList<>();
+
+    // descripción
+    @Getter
+    private String description;
+
+    // valoración
+    @Getter
+    private double rating;
+
+    // foto de perfil
+    @Getter
+    private String pfp;
+
 
     /**
      * Checks whether this user has a given role.
