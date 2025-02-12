@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf(csrf -> csrf
 					.ignoringAntMatchers("/api/**"))
 			.authorizeRequests(requests -> requests
-					.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/foryou", "/rewards", "/search", "/swaps").permitAll()
+					.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/foryou", "/rewards", "/search", "/swaps", "/swaps/info").permitAll()
 					.antMatchers("/api/**").permitAll()            // <-- public api access
 					.antMatchers("/admin/**").hasRole("ADMIN")	   // <-- administration
 					.antMatchers("/user/**").hasRole("USER")	   // <-- logged-in users

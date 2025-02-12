@@ -15,10 +15,10 @@
                     <div class="flex-shrink-0">
                         <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-abaloneshell-l0 rounded">
 
-                            <h2 class="bold fg-orchid p-3">Intercambios</h2>
+                            <h2 class="bold fg-orchid p-3 text-center">Swaps</h2>
 
                             <div class="accordion accordion-flush" id="accordionSwaps">
-                                <div class="accordion-item bg-abaloneshell">
+                                <div class="accordion-item bg-abaloneshell fg-orchid">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button bg-abaloneshell-l0 fg-orchid bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseActives"
                                             aria-expanded="true" aria-controls="collapseActives">
@@ -30,7 +30,7 @@
                                             <div class="list-group list-group-flush scrollarea overflow-y">
                                                 <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell">
                                                     <div class="d-flex w-100 align-items-center justify-content-between mb-2">
-                                                        <strong class="mb-1">Intercambio inglés - Java</strong>
+                                                        <strong class="mb-1">inglés - Java</strong>
                                                         <small>Hoy</small>
                                                     </div>
                                                     <span class="badge rounded-pill bg-lushaqua p-2 me-2">Inglés</span>
@@ -38,7 +38,7 @@
                                                 </a>
                                                 <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l0">
                                                     <div class="d-flex w-100 align-items-center justify-content-between mb-2">
-                                                        <strong class="mb-1">Intercambio Francés - Java</strong>
+                                                        <strong class="mb-1">Francés - Java</strong>
                                                         <small class="text-body-secondary">2d</small>
                                                     </div>
                                                     <span class="badge rounded-pill bg-lushaqua p-2 me-2">Francés</span>
@@ -46,7 +46,7 @@
                                                 </a>
                                                 <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l0">
                                                     <div class="d-flex w-100 align-items-center justify-content-between mb-2">
-                                                        <strong class="mb-1">Intercambio WP - Cocina italiana</strong>
+                                                        <strong class="mb-1">Programación web - Cocina italiana</strong>
                                                         <small class="text-body-secondary">3d</small>
                                                     </div>
                                                     <span class="badge rounded-pill bg-lushaqua p-2 me-2">Programación Web</span>
@@ -58,7 +58,13 @@
                                     </div>
                                     <h2 class="accordion-header bg-abaloneshell">
                                         <button class="accordion-button bg-abaloneshell-l0 fg-orchid bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFinished"
-                                            aria-expanded="true" aria-controls="collapseFinished">
+                                            aria-expanded="false" aria-controls="collapseFinished">
+                                            Pendientes
+                                        </button>
+                                    </h2>
+                                    <h2 class="accordion-header bg-abaloneshell">
+                                        <button class="accordion-button bg-abaloneshell-l0 fg-orchid bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFinished"
+                                            aria-expanded="false" aria-controls="collapseFinished">
                                             Terminados
                                         </button>
                                     </h2>
@@ -69,14 +75,20 @@
                 </div>
                 <div class="col-9 pe-0">
                     <div class="container bg-abaloneshell pe-0" id="chat-container">
-                        <div class="fg-gold bold bg-orchid p-3 rounded">
+                        <div class="fg-gold bold bg-orchid p-3 rounded" id="">
                             <div class="d-flex justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="mb-0 bold">Intercambio Inglés - Java</h4>
                                     <span class="badge rounded-pill bg-abaloneshell fg-orchid p-2 ms-3 mb-4">Inglés</span>
                                 </div>
                                 <div>
-                                    <button class="btn fg-gold bg-orchid"><i class="bi bi-info-circle-fill fs-4"></i></button>
+                                    <button 
+										hx-get="/swaps/info"
+										hx-target="#chat-container"
+										hx-swap="innerHTML"
+										class="btn fg-gold bg-orchid">
+                                        <i class="bi bi-info-circle-fill fs-4"></i>
+                                    </button>
                                 </div>
                             </div>
                             <h5 class="mb-3 mt-1 fg-abaloneshell">con Juan Alberto</h5>
@@ -84,7 +96,7 @@
                         </div>
 
                         <div id="message-box">
-                            <div style="height: 600px"></div>
+                            <div style="height: 550px"></div>
                             <div class="hr-swp my-4 fg-orchid">11/02/2025</div>
                             <div class="text-end bg-blendieblue fg-lushaqua p-3 rounded message message-sent me-3">
                                 <div>
@@ -130,7 +142,7 @@
 
                             <div class="text-end bg-blendieblue fg-lushaqua p-3 rounded message message-sent me-3">
                                 <div>
-                                    <p class="mb-0">Nos vemos el próximo lunes entonces.</p>
+                                    <p class="mb-0">Nos vemos el próximo martes entonces.</p>
                                 </div>
                                 <small class="text-muted">10:37</small>
                             </div>

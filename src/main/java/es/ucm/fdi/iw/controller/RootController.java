@@ -29,6 +29,11 @@ public class RootController {
     public String swaps(Model model) {
         return "swaps";
     }
+    
+    @GetMapping("/swaps/info")
+    public String getNewContent() {
+        return "swapinfo";
+    }
 
     @GetMapping("/rewards")
     public String rewards(Model model) {
