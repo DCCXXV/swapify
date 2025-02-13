@@ -39,7 +39,6 @@ public class RootController {
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
 
-
         return "index";
     }
 
