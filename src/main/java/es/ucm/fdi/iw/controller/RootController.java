@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.service.SkillService;
 import es.ucm.fdi.iw.service.UserService;
 
 /**
@@ -28,8 +29,17 @@ public class RootController {
 
 	@GetMapping("/")
     public String index(Model model) {
-        List<User> users = UserService.getUsers();
-        model.addAttribute("users", users);
+        List<User> recusers = UserService.getRecommendedUsers();
+        List<User> otherusers = UserService.getPopularUsers();
+        List<String> desiredSkills = SkillService.getRequestedSkills();
+        List<String> commonSkills = SkillService.getCommonSkills();
+
+        model.addAttribute("recusers", recusers);
+        model.addAttribute("otherusers", otherusers);
+        model.addAttribute("desiredSkills", desiredSkills);
+        model.addAttribute("commonSkills", commonSkills);
+
+
         return "index";
     }
 

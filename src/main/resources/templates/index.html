@@ -35,25 +35,26 @@
 				</div>
 				
 				<div class="row flex-nowrap overflow-auto mt-3">
-					<div th:each="usr : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
+					<div th:each="usr : ${recusers}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
 						<div class="row g-0 h-100">
 							<div class="col-md-4 d-flex align-items-center justify-content-center">
 								<img th:src="@{/img/pfp/{foto}(foto=${usr.pfp})}" class="img-fluid rounded" alt="Foto de perfil">
 							</div>
 							<div class="col-md-8">
-								<div class="card-body p-0" style="height: 220px; position: relative;">
+								<div class="card-body p-0" style="height: 255px;">
 									<div class="d-flex justify-content-between oblivion py-3 px-1">
-										<h5 class="card-title fg-gold bold ps-3" th:text="${usr.firstName}">Nombre</h5>
+										<!--TODO: al clicar en el nombre llevarte a su perfil -->
+										<span class="card-title fg-gold bold ps-3 fs-5" th:text="${usr.firstName}">Name</span>
 										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center">Swap!</button>
 									</div>
-									<div class="fg-abaloneshell" style="height: calc(100% - 40px); overflow-y: auto; padding: 0 1rem;">
-										<p class="card-text fg-muted" th:text="${usr.description}">Descripción</p>
+									<div class="fg-abaloneshell overflow-auto px-3">
+										<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
 										<p class="card-text">
 											<div class="row-md-8 mb-3">
-												<span th:each="habilidad : ${usr.currentSkills}" class="badge rounded-pill bg-lushaqua" th:text="${habilidad}">Habilidad</span>
+												<span th:each="skill : ${usr.currentSkills}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
 											</div>
 											<div class="row-md-8">
-												<span th:each="habilidad : ${usr.desiredSkills}" class="badge rounded-pill bg-orchid" th:text="${habilidad}">Habilidad</span>
+												<span th:each="skill : ${usr.desiredSkills}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
 											</div>
 										</p>
 									</div>
@@ -69,22 +70,17 @@
 					<div class="carousel-inner">
 						<div class="carousel-item active bg-orchid" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">
-								<h1 class="fg-gold bold">Alemán</h1>
+								<span class="fg-gold bold fs-1">1. Inglés</span>
 							</div>
 						</div>
 						<div class="carousel-item bg-gold" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">
-								<h1 class="fg-orchid bold">Francés</h1>
+								<hspan1 class="fg-orchid bold fs-1">2. Programación</span>
 							</div>
 						</div>
 						<div class="carousel-item bg-blendieblue" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">
-								<h1 class="fg-lushaqua bold">Cocina</h1>
-							</div>
-						</div>
-						<div class="carousel-item bg-lushaqua" style="height: 300px;">
-							<div class="d-flex justify-content-center align-items-center h-100">
-								<h2 class="fg-gold bold">Photoshop</h2>
+								<span class="fg-lushaqua bold fs-1">3. Español</span>
 							</div>
 						</div>
 					</div>
@@ -98,28 +94,70 @@
 					</button>
 				</div>
 
+				<h4 class="fg-orchid my-3">Otras habilidades pedidas</h4>
+				<div class="hr-swp-center mb-3"></div>
+				<div class="container text-center">
+					<div class="row gap-3 text-center">
+					  <div th:each="skill : ${desiredSkills}" class="col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-lushaqua align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<span th:text="${skill}">Error</span>
+					  </div>
+					</div>
+				</div>
+				<div class="hr-swp-center mt-3"></div>
+		  
+
+				<h2 class="mt-4 fg-orchid bold">Otros usuarios que te podrian interesar</h2>
+				<hr class="hr-swp">
+
+				<div class="container mt-3 p-0">
+					<div class="row row-cols-3 gap-3">
+						<div th:each="usr : ${otherusers}" class="card bg-oblivion" style="width: 419px; height: 265px;">
+							<div class="d-flex h-100">
+								<div class="col-md-4 d-flex align-items-center justify-content-center">
+									<img th:src="@{/img/pfp/{foto}(foto=${usr.pfp})}" class="img-fluid rounded" alt="Foto de perfil">
+								</div>
+								<div class="col-md-8">
+									<div class="card-body p-0" style="height: 245px;">
+										<div class="d-flex justify-content-between oblivion py-3 px-1">
+											<!--TODO: al clicar en el nombre llevarte a su perfil -->
+											<span class="card-title fg-gold bold ps-3 fs-5" th:text="${usr.firstName}">Name</span>
+											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center">Swap!</button>
+										</div>
+										<div class="fg-abaloneshell overflow-auto px-3">
+											<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
+											<p class="card-text">
+												<div class="row-md-8 mb-3">
+													<span th:each="skill : ${usr.currentSkills}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
+												</div>
+												<div class="row-md-8">
+													<span th:each="skill : ${usr.desiredSkills}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
+												</div>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<h2 class="mt-4 fg-orchid bold">Habilidades más comunes</h2>
 				<hr class="hr-swp">
 				<div id="carouseldHabilidadesComunesCerca" class="carousel slide carousel-fade">
 					<div class="carousel-inner">
 						<div class="carousel-item active bg-lushaqua" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">
-								<h1 class="fg-gold bold">Inglés</h1>
+								<h1 class="fg-gold bold">1. Inglés</h1>
 							</div>
 						</div>
 						<div class="carousel-item bg-gold" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">
-								<h1 class="fg-oblivion bold">Programación</h1>
+								<h1 class="fg-oblivion bold">2. Español</h1>
 							</div>
 						</div>
 						<div class="carousel-item bg-orchid" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">
-								<h1 class="fg-abaloneshell bold">Diseño Gráfico</h1>
-							</div>
-						</div>
-						<div class="carousel-item bg-oblivion" style="height: 300px;">
-							<div class="d-flex justify-content-center align-items-center h-100">
-								<h1 class="fg-gold bold">Música</h1>
+								<h1 class="fg-abaloneshell bold">3. Microsoft Office</h1>
 							</div>
 						</div>
 					</div>
@@ -132,6 +170,17 @@
 						<span class="visually-hidden">Next</span>
 					</button>
 				</div>
+
+				<h4 class="fg-orchid my-3">Otras habilidades comúnes</h4>
+				<div class="hr-swp-center mb-3"></div>
+				<div class="container text-center">
+					<div class="row gap-3 text-center">
+					  <div th:each="skill : ${commonSkills}" class="col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-lushaqua align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<span th:text="${skill}">Error</span>
+					  </div>
+					</div>
+				</div>
+				<div class="hr-swp-center mt-3"></div>
 
 			</div>
 		</main>

@@ -8,8 +8,9 @@ import es.ucm.fdi.iw.model.User;
 
 public class UserService {
 
-    public static List<User> getUsers() {
-        ArrayList<User> closeUsers = new ArrayList<>();
+    // no deberian ser esticas, arreglar cuando se haya que hacerlo bien
+    public static List<User> getRecommendedUsers() {
+        ArrayList<User> recommendedUsers = new ArrayList<>();
 
         // Crear usuarios ficticios
         User usuario1 = new User(
@@ -45,11 +46,102 @@ public class UserService {
         );
 
         // Añadir usuarios a la lista
-        closeUsers.add(usuario1);
-        closeUsers.add(usuario2);
-        closeUsers.add(usuario3);
-        closeUsers.add(usuario4);
+        recommendedUsers.add(usuario1);
+        recommendedUsers.add(usuario2);
+        recommendedUsers.add(usuario3);
+        recommendedUsers.add(usuario4);
 
-        return closeUsers;
+        return recommendedUsers;
+    }
+
+    public static List<User> getPopularUsers() {
+        ArrayList<User> popularUsers = new ArrayList<>();
+    
+        // Crear usuarios ficticios
+        User user1 = new User(
+            "Carlos",
+            "¡Hola! Soy Carlos, un apasionado del deporte. Me encanta jugar al fútbol y también soy entrenador personal. Hablo inglés y estoy aprendiendo portugués.",
+            "CarlosPerez.jpg",
+            Arrays.asList("Fútbol", "Entrenamiento personal", "Inglés"),
+            Arrays.asList("Portugués", "Nutrición")
+        );
+    
+        User user2 = new User(
+            "Laura",
+            "Hola, soy Laura. Soy diseñadora gráfica y me encanta crear contenido visual. También tengo experiencia en marketing digital y hablo francés.",
+            "LauraGomez.jpg",
+            Arrays.asList("Diseño gráfico", "Marketing digital", "Francés"),
+            Arrays.asList("Fotografía", "Redes sociales")
+        );
+    
+        User user3 = new User(
+            "Pedro",
+            "Me llamo Pedro y soy desarrollador de software. Tengo experiencia en JavaScript y React. Me gustaría aprender más sobre inteligencia artificial y machine learning.",
+            "PedroMartinez.jpg",
+            Arrays.asList("JavaScript", "React", "Desarrollo web"),
+            Arrays.asList("Inteligencia artificial", "Machine learning")
+        );
+    
+        User user4 = new User(
+            "Sofía",
+            "Soy Sofía, una amante de la naturaleza y la fotografía. Me encanta hacer senderismo y capturar paisajes con mi cámara. También hablo inglés y estoy aprendiendo alemán.",
+            "SofiaRamirez.jpg",
+            Arrays.asList("Fotografía", "Senderismo", "Inglés"),
+            Arrays.asList("Alemán", "Ecología")
+        );
+    
+        User user5 = new User(
+            "Diego",
+            "Hola, soy Diego. Soy músico y compositor. Toco varios instrumentos y me encanta enseñar música a otros. También hablo italiano y estoy aprendiendo ruso.",
+            "DiegoLopez.jpg",
+            Arrays.asList("Música", "Composición", "Italiano"),
+            Arrays.asList("Ruso", "Producción musical")
+        );
+    
+        User user6 = new User(
+            "Elena",
+            "Me llamo Elena y soy chef profesional. Me especializo en cocina mediterránea y me encanta experimentar con nuevos sabores. Hablo inglés y francés.",
+            "ElenaFernandez.jpg",
+            Arrays.asList("Cocina", "Cocina mediterránea", "Inglés", "Francés"),
+            Arrays.asList("Repostería", "Cocina asiática")
+        );
+    
+        User user7 = new User(
+            "Miguel",
+            "Soy Miguel, un entusiasta de la tecnología. Trabajo como administrador de sistemas y me encanta todo lo relacionado con la ciberseguridad. Hablo inglés y estoy aprendiendo chino.",
+            "MiguelSanchez.jpg",
+            Arrays.asList("Administración de sistemas", "Ciberseguridad", "Inglés"),
+            Arrays.asList("Chino", "Redes")
+        );
+    
+        User user8 = new User(
+            "Isabel",
+            "Hola, soy Isabel. Soy profesora de matemáticas y me encanta enseñar. También tengo experiencia en programación en Python y hablo inglés.",
+            "IsabelRodriguez.jpg",
+            Arrays.asList("Matemáticas", "Programación en Python", "Inglés"),
+            Arrays.asList("Educación", "Inteligencia artificial")
+        );
+
+        User user9 = new User(
+            "Lucía",
+            "¡Hola! Soy Lucía, una apasionada de la música y la tecnología. Toco la guitarra y me encanta programar en mis tiempos libres. Hablo alemán y estoy aprendiendo japonés.",
+            "LuciaFernandez.jpg",
+            Arrays.asList("Guitarra", "Programación", "Alemán"),
+            Arrays.asList("Japonés", "Producción musical")
+        );
+
+    
+        // Añadir usuarios a la lista
+        popularUsers.add(user1);
+        popularUsers.add(user8);
+        popularUsers.add(user3);
+        popularUsers.add(user4);
+        popularUsers.add(user5);
+        popularUsers.add(user6);
+        popularUsers.add(user7);
+        popularUsers.add(user2);
+        popularUsers.add(user9);
+    
+        return popularUsers;
     }
 }

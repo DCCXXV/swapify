@@ -12,7 +12,7 @@
         <main class="flex-shrink-0">
             <div class="container">
                 <form class="form-signin" method="post" th:action="@{/login}">
-                    <h2 class="mt-4 form-signin-heading fg-orchid bold">Por favor, inicie sesión</h2>
+                    <h2 class="mt-4 form-signin-heading fg-orchid bold">Por favor, inicie sesión para continuar</h2>
                     <div class="hr-swp mb-3"></div>
                     <p th:if="${#request.getQueryString() == 'error'}" class="error fg-oblivion ps-3">
                         Error en nombre de usuario o contraseña. Por favor, introduzca sus datos de acceso de nuevo.
