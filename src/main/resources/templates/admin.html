@@ -71,7 +71,42 @@
             </div>
         </div>
 
+        <!-- Sección de gestión de reportes -->
+        <div class="card mb-4 border-abaloneshell">
+            <div class="card-header bg-orchid text-white">Reportes</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario Reportado</th>
+                            <th>Razón</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Pedro García</td>
+                            <td>Conducta inapropiada</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger">Eliminar Usuario</button>
+                                <button class="btn btn-sm btn-secondary">Descartar Reporte</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
+        <!-- Sección de recompensas y economía -->
+        <div class="card mb-4 border-abaloneshell">
+            <div class="card-header bg-orchid text-white">Gestión de Recompensas</div>
+            <div class="card-body">
+                <p>Administrar recompensas y Swapicoins dentro de la plataforma.</p>
+                <button class="btn btn-abaloneshell">Administrar Recompensas</button>
+            </div>
+        </div>
     </main>
 
     <footer th:replace="fragments/footer.html :: footer"></footer>
