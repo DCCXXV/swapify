@@ -3,19 +3,78 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>IW: Admin</title>
+    <title>Panel de Administración | Swapify</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100 bg-abaloneshell">
     <header th:replace="fragments/nav.html :: nav"></header>
 
-    <main class="flex-shrink-0">
-        <div class="container">
-            <h1 class="mt-5">Administración</h1>
+    <main class="flex-shrink-0 container mt-4">
+        <h2 class="mb-3 fg-orchid bold">Panel de Administración</h2>
+        
+        <!-- Sección de estadísticas -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card border-abaloneshell">
+                    <div class="card-body">
+                        <h5 class="card-title">Usuarios Totales</h5>
+                        <p class="card-text">500</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-abaloneshell">
+                    <div class="card-body">
+                        <h5 class="card-title">Intercambios Activos</h5>
+                        <p class="card-text">120</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-abaloneshell">
+                    <div class="card-body">
+                        <h5 class="card-title">Reportes Pendientes</h5>
+                        <p class="card-text">8</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Sección de gestión de usuarios -->
+        <div class="card mb-4 border-abaloneshell">
+            <div class="card-header bg-orchid text-white">Gestión de Usuarios</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Juan Pérez</td>
+                            <td>juan@example.com</td>
+                            <td>Usuario</td>
+                            <td>
+                                <button class="btn btn-sm btn-abaloneshell">Editar</button>
+                                <button class="btn btn-sm btn-danger">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-orchid mt-3">Agregar Nuevo Usuario</button>
+            </div>
+        </div>
+
+
     </main>
 
-    <th:block th:replace="fragments/footer.html :: footer" />
+    <footer th:replace="fragments/footer.html :: footer"></footer>
 </body>
 
 </html>
