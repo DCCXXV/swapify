@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html class="h-100" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <head>
         <title>Nav fragment - rest intentionally left empty</title>
@@ -9,16 +10,21 @@
 
         <!-- barra de navegación bootstrap 5 -->
         <header th:fragment="nav">
-            <nav class="navbar sticky-top navbar-expand-lg bg-oblivion navbar-dark">
+            <nav
+                class="navbar sticky-top navbar-expand-lg bg-oblivion navbar-dark">
                 <div class="container-fluid" style="font-size: 18px">
                     <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
                     <a class="navbar-brand fg-gold" th:href="@{/}" href="/">
-                        <img th:src="@{/img/logo.svg}" src="/img/logo.svg" alt="logo IW" width="38" height="38"
-                            class="d-inline-block align-text-to m-1" style="vertical-align:middle"> Swapify
+                        <img th:src="@{/img/logo.svg}" src="/img/logo.svg"
+                            alt="logo IW" width="38" height="38"
+                            class="d-inline-block align-text-to m-1"
+                            style="vertical-align:middle"> Swapify
                     </a>
                     <!-- menu hamburguesa si no cabe todo -->
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -26,54 +32,96 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" th:classappend="${#request.requestURI == '/' ? 'active' : ''}" href="/">Inicio</a>
+                                <a class="nav-link"
+                                    th:classappend="${#request.requestURI == '/' ? 'active' : ''}"
+                                    href="/">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:classappend="${#request.requestURI == '/swaps' ? 'active' : ''}"
+                                <a class="nav-link"
+                                    th:classappend="${#request.requestURI == '/swaps' ? 'active' : ''}"
                                     href="/swaps">Swaps</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:classappend="${#request.requestURI == '/rewards' ? 'active' : ''}"
+                                <a class="nav-link"
+                                    th:classappend="${#request.requestURI == '/rewards' ? 'active' : ''}"
                                     href="/rewards">Recompensas</a>
                             </li>
                         </ul>
                     </div>
 
-                    <form class="d-flex w-50" role="search" th:action="@{/search}" method="get">
-                        <input class="form-control bg-abaloneshell rounded-pill p-2 ps-3 me-2" type="search" name="username" placeholder="Buscar en Swapify" aria-label="Search">
-                        <button class="btn bg-orchid fg-abaloneshell bold rounded-pill" type="submit">Buscar</button>
+                    <!-- FORMULARIO DE BÚSQUEDA -->
+                    <form class="d-flex w-50 align-items-center" role="search"
+                        th:action="@{/search}" method="get">
+                        <!-- BOTÓN DE FILTRO -->
+                        <a
+                            class="btn bg-orchid fg-abaloneshell bold rounded-pill d-flex ps-2 me-3"
+                            data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                height="25" fill="currentColor"
+                                class="bi bi-filter-square ps-1 me-2 "
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                <path
+                                    d="M6 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
+                            </svg>
+                            <span>Filtros</span>
+                        </a>
+
+                        <!-- INPUT DE BÚSQUEDA Y BOTÓN -->
+                        <input
+                            class="form-control bg-abaloneshell rounded-pill p-2 ps-3 me-2"
+                            type="search"
+                            name="username"
+                            placeholder="Buscar en Swapify"
+                            aria-label="Search">
+                        <button
+                            class="btn bg-orchid fg-abaloneshell bold rounded-pill"
+                            type="submit">
+                            Buscar
+                        </button>
                     </form>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse"
+                        id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto">
                             <th:block th:if="${session.u}">
                                 <li class="nav-item mx-3">
-                                    <a class="nav-link" th:if="${session.u.hasRole('ADMIN')}"
+                                    <a class="nav-link"
+                                        th:if="${session.u.hasRole('ADMIN')}"
                                         th:href="@{/admin/}">Administrar</a>
                                 </li>
 
                                 <li class="nav-item mx-2">
-                                    <a class="nav-link" th:href="@{/user/{id}(id=${session.u.id})}">
-                                        <img class="iwthumb rounded" th:src="@{/img/pfp/JuanAlberto.jpg}" >
-                                        <span th:text="${session.u.username}">Pepe</span>
+                                    <a class="nav-link"
+                                        th:href="@{/user/{id}(id=${session.u.id})}">
+                                        <img class="iwthumb rounded"
+                                            th:src="@{/img/pfp/JuanAlberto.jpg}">
+                                        <span
+                                            th:text="${session.u.username}">Pepe</span>
                                     </a>
                                 </li>
                                 <li class="nav-item align-self-center me-4">
-                                    <button type="button" class="btn btn-outline-primary btn-sm position-relative">
+                                    <button type="button"
+                                        class="btn btn-outline-primary btn-sm position-relative">
                                         ✉️ <span id="nav-unread"
                                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99
-                                            <span class="visually-hidden">unread messages</span></span>
+                                            <span class="visually-hidden">unread
+                                                messages</span></span>
                                     </button>
                                 </li>
                                 <li class="nav-item align-self-center">
                                     <form th:action="@{/logout}" method="post">
-                                        <button type="submit" class="btn btn-outline-secondary btn-sm">logout</button>
+                                        <button type="submit"
+                                            class="btn btn-outline-secondary btn-sm">logout</button>
                                     </form>
                                 </li>
                             </th:block>
                             <th:block th:unless="${session.u}">
                                 <li class="nav-item mx-2">
-                                    <a class="nav-link" th:href="@{/login}" href="/login">Login</a>
+                                    <a class="nav-link" th:href="@{/login}"
+                                        href="/login">Login</a>
                                 </li>
                                 <!--/*
                                 Esto es un comentario "thymeleaf" - no se verá en el HTML
@@ -81,18 +129,28 @@
                                     (ver StartupConfig.java para ver cómo se lee de la configuración
                                     y luego se escribe a ${application.debug})
                             */-->
-                                <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                    <form class="d-flex" th:action="@{/login}" method="post">
-                                        <input type="hidden" name="username" value="a">
-                                        <input type="hidden" name="password" value="aa">
-                                        <button type="submit" class="btn btn-outline-danger btn-sm">a</button>
+                                <li class="nav-item debug align-self-center"
+                                    th:if="${application.debug}">
+                                    <form class="d-flex" th:action="@{/login}"
+                                        method="post">
+                                        <input type="hidden" name="username"
+                                            value="a">
+                                        <input type="hidden" name="password"
+                                            value="aa">
+                                        <button type="submit"
+                                            class="btn btn-outline-danger btn-sm">a</button>
                                     </form>
                                 </li>
-                                <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                    <form class="d-flex" th:action="@{/login}" method="post">
-                                        <input type="hidden" name="username" value="b">
-                                        <input type="hidden" name="password" value="aa">
-                                        <button type="submit" class="btn btn-outline-danger btn-sm">b</button>
+                                <li class="nav-item debug align-self-center"
+                                    th:if="${application.debug}">
+                                    <form class="d-flex" th:action="@{/login}"
+                                        method="post">
+                                        <input type="hidden" name="username"
+                                            value="b">
+                                        <input type="hidden" name="password"
+                                            value="aa">
+                                        <button type="submit"
+                                            class="btn btn-outline-danger btn-sm">b</button>
                                     </form>
                                 </li>
                             </th:block>
@@ -101,7 +159,56 @@
                 </div>
                 <div id="loading-bar"></div>
             </nav>
+            <!-- OFFCANVAS  -->
+            <div class="offcanvas offcanvas-start" tabindex="1"
+                id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="d-flex flex-column bg-light">
+                    <div class="offcanvas-header">
+                        <h2 class="fg-orchid bold"
+                            id="offcanvasExampleLabel">
+                            Filtrador de búsqueda
+                        </h2>
+                        <button type="button" class="btn-close text-reset"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column bg-light h-100 fg-orchid bold">
+                    <div class="bg-abaloneshell-l0 rounded p-4">
+                        <div>
+                            Selecciona las opciones de búsqueda
+                        </div>
+                        <div class="dropdown mt-3">
+                            <div class="users-filter">
+                                <input class="user-check-input" type="checkbox"
+                                    value
+                                    id="userCheck">
+                                <label class="user-check-label" for="userCheck">
+                                    Usuarios
+                                </label>
+                            </div>
+                            <div class="habilities-filter">
+                                <input class="hability-check-input"
+                                    type="checkbox"
+                                    value
+                                    id="habilityCheck">
+                                <label class="hability-check-label"
+                                    for="habilityCheck">
+                                    Habilidades
+                                </label>
+                            </div>
+                            <div>
+                                <button type="button"
+                                    class="btn bg-orchid fg-abaloneshell bold rounded-pill mt-3">Aceptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
+
     </body>
 
 </html>
