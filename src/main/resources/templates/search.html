@@ -14,7 +14,7 @@
                 <form class="form-signin" method="get" th:action="@{/search}">
                     <h2
                         class="mt-4 form-signin-heading fg-orchid bold">Resultado
-                        de <span th:text="${param.username}">x</span></h2>
+                        de <span th:text="${param.query}">x</span></h2>
                     <div class="hr-swp mb-3"></div>
                     <p th:if="${#request.getQueryString() == 'error'}"
                         class="error">
@@ -26,40 +26,99 @@
                 <!-- Nueva barra de búsqueda -->
 
                 <div class="bg-abaloneshell-l0 rounded p-4">
-                    <h4 class="fg-orchid bold">No se encontraron resultados</h4>
                     <form class="form-signin mt-4" method="get"
                         th:action="@{/search}">
 
                         <div class="search-bar d-flex">
-                            <a
-                                class="btn bg-orchid fg-abaloneshell bold rounded-pill d-flex ps-2 me-2"
-                                data-bs-toggle="offcanvas"
-                                href="#offcanvasExample"
-                                role="button" aria-controls="offcanvasExample">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    width="20"
-                                    height="25" fill="currentColor"
-                                    class = "ps-1"
-                                    viewBox="0 0 17 17">
-                                    <path
-                                        d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                                    <path
-                                        d="M6 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
-                                </svg>
-                            </a>
+                            </button>
                             <input type="text"
-                                class="form-control rounded-pill bg-abaloneshell fg-oblivion ps-3 me-3"
-                                name="username"
+                                class="form-control rounded-pill bg-abaloneshell fg-oblivion p-3 me-4"
+                                name="query"
                                 placeholder="Buscar de nuevo en Swapify"
                                 aria-label="Buscar de nuevo en Swapify"
                                 required="required">
+
                             <button
-                                class="btn bg-orchid fg-abaloneshell bold rounded-pill"
-                                type="submit">Buscar</button>
+                                type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse"
+                                class="btn bg-lushaqua fg-abaloneshell bold rounded-pill d-flex p-3 me-2">
+                                <i class="bi bi-funnel-fill me-1"></i> Filtro
+                            </button>
+
+                            <button
+                                class="btn bg-orchid fg-abaloneshell bold rounded-pill "
+                                type="submit">Buscar
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="filterCollapse">
+                            <div class="container p-3 m-3 bg-abaloneshell rounded" style="width: 1000px;">
+                                <span class="fs-4 fg-lushaqua mb-3">Buscar en ...</span>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input bg-lushaqua" type="checkbox" id="userFilterCheckbox" checked>
+                                    <label class="form-check-label fg-oblivion" for="userFilterCheckbox">
+                                        Buscar usuarios
+                                    </label>
+                                </div>
+
+
+                                <div class="bg-abaloneshell m-3 p-3 pt-0 rounded" id="userFilters">
+                                    <span class="fs-5 fg-lushaqua">Filtros de usuario</span>
+                                    <div class="form-check">
+                                        <input class="form-check-input bg-lushaqua" type="checkbox" value="" id="nameCheckbox" checked>
+                                        <label class="form-check-label fg-oblivion" for="nameCheckbox">
+                                            Por nombre de usuario
+                                        </label>
+                                      </div>
+                                      <div class="form-check">
+                                        <input class="form-check-input bg-lushaqua" type="checkbox" value="" id="descCheckbox">
+                                        <label class="form-check-label fg-oblivion" for="descCheckbox">
+                                            Por descripción
+                                        </label>
+                                      </div>
+                                      <div class="form-check">
+                                        <input class="form-check-input bg-lushaqua" type="checkbox" value="" id="currentSkillsCheckbox" checked>
+                                        <label class="form-check-label fg-oblivion" for="currentSkillsCheckbox">
+                                            Por habilidades actuales
+                                        </label>
+                                      </div>
+                                      <div class="form-check">
+                                        <input class="form-check-input bg-lushaqua" type="checkbox" value="" id="desiredSkillsCheckbox" checked>
+                                        <label class="form-check-label fg-oblivion" for="desiredSkillsCheckbox">
+                                            Por habilidades deseadas
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input bg-lushaqua" type="checkbox" value="" id="skillFilterCheckbox" checked>
+                                    <label class="form-check-label fg-oblivion" for="skillFilterCheckbox">
+                                        Buscar habilidades
+                                    </label>
+                                </div>
+                                <div class="bg-abaloneshell m-3 p-3 rounded" id="skillFilters">
+
+                                </div>
+                            </div>
                         </div>
                     </form>
+                    <div>
+                        
+                    <div class="p-3 fg-orchid">
+                        <h3 class="bold">Usuarios</h3>
+                        <div class="hr-swp"></div>
+                        <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                    </div>
+        
+                    <div class="p-3 fg-orchid">
+                        <h3 class="bold">Habilidades</h3>
+                        <div class="hr-swp"></div>
+                        <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                    </div>
                 </div>
             </div>
+
+
         </main>
 
         <th:block th:replace="fragments/footer.html :: footer" />

@@ -58,8 +58,8 @@ public class RootController {
     }
 
    @GetMapping("/search")
-    public String search(@RequestParam(name = "username", required = false) String username, Model model) {
-        model.addAttribute("username", username);
+    public String search(@RequestParam(name = "query", required = false) String username, Model model) {
+        model.addAttribute("query", username);
         return "search";
     }
 }
