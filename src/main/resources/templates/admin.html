@@ -11,30 +11,31 @@
 
     <main class="flex-shrink-0 container mt-4">
         <h2 class="mb-3 fg-orchid bold">Panel de Administración</h2>
+        <div class="hr-swp my-3"></div>
         
         <!-- Sección de estadísticas -->
         <div class="row mb-4">
             <div class="col-md-4">
-                <div class="card bg-abaloneshell-l0">
+                <div class="card bg-abaloneshell-l0 fg-oblivion">
                     <div class="card-body">
                         <h5 class="card-title">Usuarios Totales</h5>
-                        <p class="card-text">500</p>
+                        <p class="card-text fs-3">500</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card bg-abaloneshell-l0">
+                <div class="card bg-abaloneshell-l0 fg-oblivion">
                     <div class="card-body">
                         <h5 class="card-title">Intercambios Activos</h5>
-                        <p class="card-text">120</p>
+                        <p class="card-text fs-3">120</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card bg-abaloneshell-l0">
+                <div class="card bg-abaloneshell-l0 fg-oblivion">
                     <div class="card-body">
                         <h5 class="card-title">Reportes Pendientes</h5>
-                        <p class="card-text">8</p>
+                        <p class="card-text fs-3">3</p>
                     </div>
                 </div>
             </div>
@@ -44,7 +45,7 @@
         <div class="card mb-4 bg-abaloneshell-l0">
             <div class="card-header bg-orchid text-white">Gestión de Usuarios</div>
             <div class="card-body">
-                <table class="table table-hover">
+                <table class="table table-borderless table-striped table-hover fg-oblivion">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -61,8 +62,8 @@
                             <td>juan@example.com</td>
                             <td>Usuario</td>
                             <td>
-                                <button class="btn btn-sm btn-abaloneshell">Editar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
+                                <button class="btn btn-sm bg-abaloneshell fg-oblivion">Editar</button>
+                                <button class="btn btn-sm bg-oblivion fg-abaloneshell">Eliminar</button>
                             </td>
                         </tr>
                         <tr>
@@ -71,13 +72,13 @@
                             <td>maria@example.com</td>
                             <td>Administrador</td>
                             <td>
-                                <button class="btn btn-sm btn-abaloneshell">Editar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
+                                <button class="btn btn-sm bg-abaloneshell fg-oblivion">Editar</button>
+                                <button class="btn btn-sm bg-oblivion fg-abaloneshell">Eliminar</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-orchid mt-3">Agregar Nuevo Usuario</button>
+                <button class="btn bg-abaloneshell fg-oblivion bold mt-3">Agregar Nuevo Usuario</button>
             </div>
         </div>
 
@@ -85,7 +86,7 @@
         <div class="card mb-4 bg-abaloneshell-l0">
             <div class="card-header bg-orchid text-white">Reportes</div>
             <div class="card-body">
-                <table class="table table-hover">
+                <table class="table table-borderless table-striped table-hover fg-oblivion">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -100,8 +101,8 @@
                             <td>Pedro García</td>
                             <td>Conducta inapropiada</td>
                             <td>
-                                <button class="btn btn-sm btn-danger">Eliminar Usuario</button>
-                                <button class="btn btn-sm btn-secondary">Descartar Reporte</button>
+                                <button class="btn btn-sm bg-abaloneshell fg-oblivion">Vetar Usuario</button>
+                                <button class="btn btn-sm bg-oblivion fg-abaloneshell">Descartar Reporte</button>
                             </td>
                         </tr>
                         <tr>
@@ -109,8 +110,17 @@
                             <td>Ana Torres</td>
                             <td>Spam</td>
                             <td>
-                                <button class="btn btn-sm btn-danger">Eliminar Usuario</button>
-                                <button class="btn btn-sm btn-secondary">Descartar Reporte</button>
+                                <button class="btn btn-sm bg-abaloneshell fg-oblivion">Vetar Usuario</button>
+                                <button class="btn btn-sm bg-oblivion fg-abaloneshell">Descartar Reporte</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Juan ALberto</td>
+                            <td>Spam</td>
+                            <td>
+                                <button class="btn btn-sm bg-abaloneshell fg-oblivion">Vetar Usuario</button>
+                                <button class="btn btn-sm bg-oblivion fg-abaloneshell">Descartar Reporte</button>
                             </td>
                         </tr>
                     </tbody>
@@ -128,12 +138,12 @@
                     <li>Saldo en Google Play - 600 Swapicoins</li>
                     <li>Mes de Spotify Premium - 1000 Swapicoins</li>
                 </ul>
-                <button class="btn btn-abaloneshell">Administrar Recompensas</button>
+                <button class="btn bg-abaloneshell fg-oblivion bold">Administrar Recompensas</button>
             </div>
         </div>
     </main>
 
-    <footer th:replace="fragments/footer.html :: footer"></footer>
+    <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 
 </html>
