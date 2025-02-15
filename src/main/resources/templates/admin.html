@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Panel de Administración | Swapify</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-5.1.3.css}">
 </head>
 
 <body class="d-flex flex-column h-100 bg-abaloneshell">
@@ -61,8 +62,8 @@
                             <td>juan@example.com</td>
                             <td>Usuario</td>
                             <td>
-                                <button class="btn btn-sm btn-abaloneshell">Editar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
+                                <button class="btn btn-sm bg-orchid text-white" data-bs-toggle="modal" data-bs-target="#editUserModal">Editar</button>
+                                <button class="btn btn-sm bg-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteUserModal">Eliminar</button>
                             </td>
                         </tr>
                         <tr>
@@ -71,19 +72,86 @@
                             <td>maria@example.com</td>
                             <td>Administrador</td>
                             <td>
-                                <button class="btn btn-sm btn-abaloneshell">Editar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
+                                <button class="btn btn-sm bg-orchid text-white" data-bs-toggle="modal" data-bs-target="#editUserModal">Editar</button>
+                                <button class="btn btn-sm bg-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteUserModal">Eliminar</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-orchid mt-3">Agregar Nuevo Usuario</button>
+                <div class="text-center mt-3">
+                    <button class="btn bg-orchid text-white" data-bs-toggle="modal" data-bs-target="#addUserModal">Agregar Nuevo Usuario</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Agregar Usuario -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-orchid text-white">
+                        <h5 class="modal-title">Agregar Nuevo Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control mb-2" placeholder="Nombre">
+                        <input type="email" class="form-control mb-2" placeholder="Email">
+                        <select class="form-control">
+                            <option>Usuario</option>
+                            <option>Administrador</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-orchid text-white">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Editar Usuario -->
+        <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-orchid text-white">
+                        <h5 class="modal-title">Editar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control mb-2" value="Juan Pérez">
+                        <input type="email" class="form-control mb-2" value="juan@example.com">
+                        <select class="form-control">
+                            <option selected>Usuario</option>
+                            <option>Administrador</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-orchid text-white">Actualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Eliminar Usuario -->
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Eliminar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Estás seguro de que deseas eliminar este usuario?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-danger text-white">Eliminar</button>
+                        <button type="button" class="btn bg-secondary text-white" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Sección de gestión de reportes -->
         <div class="card mb-4 bg-abaloneshell-l0">
-            <div class="card-header bg-orchid text-white">Reportes</div>
+            <div class="card-header bg-orchid text-white">Gestión de Reportes</div>
             <div class="card-body">
                 <table class="table table-hover">
                     <thead>
@@ -100,8 +168,8 @@
                             <td>Pedro García</td>
                             <td>Conducta inapropiada</td>
                             <td>
-                                <button class="btn btn-sm btn-danger">Eliminar Usuario</button>
-                                <button class="btn btn-sm btn-secondary">Descartar Reporte</button>
+                                <button class="btn btn-sm bg-orchid text-white">Descartar</button>
+                                <button class="btn btn-sm bg-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteReportUserModal">Eliminar Usuario</button>
                             </td>
                         </tr>
                         <tr>
@@ -109,8 +177,8 @@
                             <td>Ana Torres</td>
                             <td>Spam</td>
                             <td>
-                                <button class="btn btn-sm btn-danger">Eliminar Usuario</button>
-                                <button class="btn btn-sm btn-secondary">Descartar Reporte</button>
+                                <button class="btn btn-sm bg-orchid text-white">Descartar</button>
+                                <button class="btn btn-sm bg-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteReportUserModal">Eliminar Usuario</button>
                             </td>
                         </tr>
                     </tbody>
@@ -118,19 +186,121 @@
             </div>
         </div>
 
-        <!-- Sección de recompensas y economía -->
+        <!-- Sección de gestión de recompensas -->
         <div class="card mb-4 bg-abaloneshell-l0">
             <div class="card-header bg-orchid text-white">Gestión de Recompensas</div>
             <div class="card-body">
-                <p>Administrar recompensas y Swapicoins dentro de la plataforma.</p>
-                <ul>
-                    <li>Tarjeta de regalo de Apple - 1500 Swapicoins</li>
-                    <li>Saldo en Google Play - 600 Swapicoins</li>
-                    <li>Mes de Spotify Premium - 1000 Swapicoins</li>
-                </ul>
-                <button class="btn btn-abaloneshell">Administrar Recompensas</button>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Costo (Swapicoins)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Tarjeta de regalo de Apple</td>
+                            <td>1500</td>
+                            <td>
+                                <button class="btn btn-sm bg-orchid text-white" data-bs-toggle="modal" data-bs-target="#editRewardModal">Editar</button>
+                                <button class="btn btn-sm bg-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteRewardModal">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Saldo en Google Play</td>
+                            <td>600</td>
+                            <td>
+                                <button class="btn btn-sm bg-orchid text-white" data-bs-toggle="modal" data-bs-target="#editRewardModal">Editar</button>
+                                <button class="btn btn-sm bg-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteRewardModal">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center mt-3">
+                    <button class="btn bg-orchid text-white" data-bs-toggle="modal" data-bs-target="#addRewardModal">Agregar Nueva Recompensa</button>
+                </div>
             </div>
         </div>
+
+        <!-- MODAL: Editar Recompensa -->
+<div class="modal fade" id="editRewardModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-orchid text-white">
+                <h5 class="modal-title">Editar Recompensa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-2" value="Tarjeta de regalo de Apple">
+                <input type="number" class="form-control mb-2" value="1500">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-orchid text-white">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Eliminar Recompensa -->
+<div class="modal fade" id="deleteRewardModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Eliminar Recompensa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar esta recompensa?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger text-white">Eliminar</button>
+                <button type="button" class="btn bg-secondary text-white" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Agregar Recompensa -->
+<div class="modal fade" id="addRewardModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-orchid text-white">
+                <h5 class="modal-title">Agregar Nueva Recompensa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-2" placeholder="Nombre de la recompensa">
+                <input type="number" class="form-control mb-2" placeholder="Costo en Swapicoins">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-orchid text-white">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Eliminar Usuario desde Reportes -->
+<div class="modal fade" id="deleteReportUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Eliminar Usuario Reportado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este usuario reportado?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger text-white">Eliminar</button>
+                <button type="button" class="btn bg-secondary text-white" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
     </main>
 
     <footer th:replace="fragments/footer.html :: footer"></footer>
