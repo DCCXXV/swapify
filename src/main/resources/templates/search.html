@@ -13,20 +13,15 @@
             <div class="container">
                 <form class="form-signin" method="get" th:action="@{/search}">
                     <h2
-                        class="mt-4 form-signin-heading fg-orchid bold">Resultado
-                        de <span th:text="${param.query}">x</span></h2>
+                        class="mt-4 form-signin-heading fg-orchid bold">Resultados
+                        de "<span th:text="${param.query}">x</span>"</h2>
                     <div class="hr-swp mb-3"></div>
-                    <p th:if="${#request.getQueryString() == 'error'}"
-                        class="error">
-                        No se encontraron resultados
-                    </p>
-
                 </form>
 
                 <!-- Nueva barra de búsqueda -->
 
                 <div class="bg-abaloneshell-l0 rounded p-4">
-                    <form class="form-signin mt-4" method="get"
+                    <form class="form-signin" method="get"
                         th:action="@{/search}">
 
                         <div class="search-bar d-flex">

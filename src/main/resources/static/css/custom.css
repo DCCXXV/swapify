@@ -5,24 +5,31 @@
 .bg-lushaqua {
     background-color: #004466 !important;
 }
+
 .bg-oblivion {
     background-color: #000435 !important;
 }
+
 .bg-gold {
     background-color: #E4B55D !important;
 }
+
 .bg-orchid {
     background-color: #755468 !important;
 }
+
 .bg-blendieblue {
     background-color: #A9C4C4 !important;
 }
+
 .bg-abaloneshell {
     background-color: #E1DED9 !important;
 }
+
 .bg-orchid-l0 {
     background-color: hsl(324, 16%, 69%) !important;
 }
+
 .bg-abaloneshell-l0 {
     background-color: #c7c1b8 !important;
 }
@@ -30,21 +37,27 @@
 .fg-abaloneshell {
     color: #E1DED9 !important;
 }
+
 .fg-muted {
     color: #c7c1b8 !important;
 }
+
 .fg-blendieblue {
     color: #A9C4C4 !important;
 }
+
 .fg-gold {
     color: #E4B55D !important;
 }
+
 .fg-orchid {
     color: #755468 !important;
 }
+
 .fg-lushaqua {
     color: #004466 !important;
 }
+
 .fg-oblivion {
     color: #000435 !important;
 }
@@ -131,7 +144,8 @@ img.preview {
 }
 
 .card a {
-    margin-top: auto; /*Empuja el botón hacia abajo*/
+    margin-top: auto;
+    /*Empuja el botón hacia abajo*/
 }
 
 
@@ -140,9 +154,11 @@ img.preview {
     margin-bottom: 15px;
     max-width: 40%;
 }
+
 .message-received {
     margin-right: auto;
 }
+
 .message-sent {
     margin-left: auto;
 }
@@ -153,6 +169,7 @@ img.preview {
     flex-direction: column;
     height: 85vh;
 }
+
 #message-box {
     flex: 1;
     overflow-y: auto;
@@ -168,71 +185,25 @@ img.preview {
 
 .accordion-button:focus,
 .accordion-button:active {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
 }
 
 /* Sacado del archivo de css de bootstrap, mejor cambiar las clases aquí*/
 .accordion-button.collapsed::after {
-background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23755468' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") !important;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23755468' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") !important;
 }
 
 .accordion-button:not(.collapsed)::after {
-background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23755468' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") !important;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23755468' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") !important;
 }
-  
+
 
 .accordion-button.rounded-start {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
-}
-  
-/* Usuario */
-.user-avatar {
-    width: 250px; /* Aumenta el tamaño */
-    height: 300px; /* Más rectangular */
-    object-fit: cover;
-    border-radius: 10px; /* Esquinas redondeadas */
-}
-
-.skill-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #e2dfd9; /*fondo*/
-}
-
-.rating-star {
-    color: #ffd700;
-}
-
-.rating-container {
-    display: flex;
-    overflow-x: auto;
-    gap: 20px;
-    padding-bottom: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: #aaa #eee;
-}
-
-.rating-container::-webkit-scrollbar {
-    height: 8px;
-}
-
-.rating-container::-webkit-scrollbar-thumb {
-    background: #aaa;
-    border-radius: 4px;
-}
-
-.rating-item {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    width: 300px;
-    flex-shrink: 0;
 }
 
 /*Acentos al interactuar con el raton*/
