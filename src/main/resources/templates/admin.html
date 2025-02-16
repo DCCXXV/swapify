@@ -50,8 +50,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Nombre de usuario</th>
+                                <th>Nombre de perfil</th>
+                                <th>Nombre de cuenta</th>
                                 <th>Email</th>
                                 <th>Acciones</th>
                             </tr>
@@ -63,9 +63,9 @@
                                 <td>@Juanperez123</td>
                                 <td>juan@example.com</td>
                                 <td>
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
                                         data-bs-target="#editUserModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
                                         data-bs-target="#banUserModal">Vetar usuario</button>
                                 </td>
                             </tr>
@@ -75,9 +75,9 @@
                                 <td>@marlpez7</td>
                                 <td>maria@example.com</td>
                                 <td>
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
                                         data-bs-target="#editUserModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
                                         data-bs-target="#banUserModal">Vetar usuario</button>
                                 </td>
                             </tr>
@@ -117,10 +117,10 @@
 
             <!-- MODAL: Editar Usuario -->
             <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content bg-abaloneshell-l0">
                         <div class="modal-header bg-orchid text-white">
-                            <h5 class="modal-title">Editar Usuario</h5>
+                            <h5 class="modal-title">Vetar Usuario</h5>
                             <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -141,17 +141,17 @@
             <!-- MODAL: Eliminar Usuario -->
             <div class="modal fade" id="banUserModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content fg-orchid bg-abaloneshell-l0">
-                        <div class="modal-header bg-orchid fg-abaloneshell">
-                            <h5 class="modal-title bold">Eliminar Usuario</h5>
+                    <div class="modal-content fg-oblivion bg-abaloneshell">
+                        <div class="modal-header bg-oblivion fg-abaloneshell">
+                            <h5 class="modal-title bold">Vetar Usuario</h5>
                             <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body bold">
                             ¿Estás seguro de que deseas vetar a este usuario?
                         </div>
-                        <div class="m-3 px-3 text-center">
-                            <button type="button" class="btn fg-abaloneshell bg-orchid me-2">Vetar</button>
-                            <button type="button" class="btn fg-orchid bg-abaloneshell" data-bs-dismiss="modal">Cancelar</button>
+                        <div class="m-3 px-3 text-center mt-0">
+                            <button type="button" class="btn fg-abaloneshell bg-oblivion me-2">Vetar</button>
+                            <button type="button" class="btn fg-oblivion bg-abaloneshell-l0" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Usuario Reportado</th>
+                                <th>Nombre de perfil</th>
+                                <th>Nombre de cuenta</th>
                                 <th>Razón</th>
                                 <th class="text-center">Acciones</th>
                             </tr>
@@ -174,6 +175,7 @@
                             <tr>
                                 <td>1</td>
                                 <td>Pedro García</td>
+                                <td>@pedrogar</td>
                                 <td>Conducta inapropiada</td>
                                 <td class="text-center">
                                     <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
@@ -188,6 +190,7 @@
                             <tr>
                                 <td>2</td>
                                 <td>Ana Torres</td>
+                                <td>@anaa.torres</td>
                                 <td>Spam</td>
                                 <td class="text-center">
                                     <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
@@ -202,6 +205,7 @@
                             <tr>
                                 <td>3</td>
                                 <td>Pedro</td>
+                                <td>@pedrito</td>
                                 <td>Spam</td>
                                 <td class="text-center">
                                     <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
@@ -237,9 +241,9 @@
                                 <td>Tarjeta de regalo de Apple de 5€</td>
                                 <td class="font-monospace text-end pe-5">1500 Swapicoins</td>
                                 <td>
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
                                         data-bs-target="#editRewardModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
                                         data-bs-target="#deleteRewardModal">Eliminar</button>
                                 </td>
                             </tr>
@@ -248,9 +252,9 @@
                                 <td>3€ de saldo en Google Play</td>
                                 <td class="font-monospace text-end pe-5">600 Swapicoins</td>
                                 <td>
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
                                         data-bs-target="#editRewardModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell" data-bs-toggle="modal"
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
                                         data-bs-target="#deleteRewardModal">Eliminar</button>
                                 </td>
                             </tr>
@@ -265,7 +269,7 @@
 
             <!-- MODAL: Editar Recompensa -->
             <div class="modal fade" id="editRewardModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content bg-abaloneshell-l0">
                         <div class="modal-header bg-orchid fg-abaloneshell">
                             <h5 class="modal-title">Editar Recompensa</h5>
@@ -285,17 +289,17 @@
             <!-- MODAL: Eliminar Recompensa -->
             <div class="modal fade" id="deleteRewardModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content bg-abaloneshell-l0">
-                        <div class="modal-header bg-orchid">
-                            <h5 class="modal-title fg-abaloneshell">Eliminar Recompensa</h5>
+                    <div class="modal-content bg-abaloneshell">
+                        <div class="modal-header bg-oblivion">
+                            <h5 class="modal-title fg-abaloneshell bold">Eliminar Recompensa</h5>
                             <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body fg-orchid bold">
+                        <div class="modal-body fg-oblivion bold">
                             ¿Estás seguro de que deseas eliminar esta recompensa?
                         </div>
                         <div class="text-center mb-3">
-                            <button type="button" class="btn bg-orchid fg-abaloneshell me-2">Eliminar</button>
-                            <button type="button" class="btn bg-abaloneshell fg-orchid" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn bg-oblivion fg-abaloneshell me-2">Eliminar</button>
+                            <button type="button" class="btn bg-abaloneshell-l0 fg-oblivion" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -303,7 +307,7 @@
 
             <!-- MODAL: Agregar Recompensa -->
             <div class="modal fade" id="addRewardModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content bg-abaloneshell-l0">
                         <div class="modal-header bg-orchid fg-abaloneshell">
                             <h5 class="modal-title">Agregar Nueva Recompensa</h5>
