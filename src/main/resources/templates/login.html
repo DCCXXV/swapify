@@ -12,10 +12,10 @@
         <main class="flex-shrink-0">
             <div class="container">
                 <form class="form-signin" method="post" th:action="@{/login}">
-                    <h2 class="mt-4 form-signin-heading fg-orchid bold">Por favor, inicie sesión</h2>
+                    <h2 class="mt-4 form-signin-heading fg-orchid bold">Por favor, inicie sesión para continuar</h2>
                     <div class="hr-swp mb-3"></div>
-                    <p th:if="${#request.getQueryString() == 'error'}" class="error fg-orchid">
-                        Error en nombre de usuario o contraseña
+                    <p th:if="${#request.getQueryString() == 'error'}" class="error fg-oblivion ps-3">
+                        Error en nombre de usuario o contraseña. Por favor, introduzca sus datos de acceso de nuevo.
                     </p>
                     <p>
                         <label for="username" class="visually-hidden">username</label>
@@ -25,8 +25,10 @@
                         <label for="password" class="visually-hidden">password</label>
                         <input type="password" id="password" name="password" class="form-control bg-abaloneshell-l0 rounded-pill p-3" placeholder="Contraseña" required="required">
                     </p>
-
-                    <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill p-3" type="submit" style="width:200px;">Iniciar sesión</button>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill p-3 me-3" type="submit" style="width:200px;">Iniciar sesión</button>
+                        <button class="btn btn-lg fg-orchid bg-abaloneshell-l0 bold rounded-pill p-3" type="submit" style="width:300px;">No tengo cuenta todavía</button>
+                    </div>
                 </form>
             </div>
         </main>

@@ -1,269 +1,392 @@
 <!-- swapinfo.html -->
-<html>
-    <div class="fg-orchid bold bg-abaloneshell-l0 p-3 rounded overflow-y">
-        <div class="justify-content-between">
-            <div class="flex mb-3">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex">
-                        <h3 class="bold mb-6 me-3">Inglés - Java</h3>
-                        <i class="bi bi-pencil-square fs-4"></i>
-                    </div>
-
-                    <!-- TODO: cambiar a boton con htmx para no recargar la página entera-->
-                    <a href="/swaps" class="fg-orchid">
-                        <i class="bi bi-x-circle-fill fs-3 me-2"></i>
-                    </a>
+<div class="fg-orchid bold bg-abaloneshell-l0 p-3 rounded">
+    <div class="justify-content-between">
+        <div class="flex mb-3">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex">
+                    <h3 class="bold mb-6 me-3">Inglés - Java</h3>
+                    <i class="bi bi-pencil-square fs-4"></i>
                 </div>
-                <div class="hr-swp"></div>
+
+                <!-- TODO: cambiar a boton con htmx para no recargar la página entera-->
+                <a href="/swaps" class="fg-orchid">
+                    <i class="bi bi-x-circle-fill fs-3 me-2"></i>
+                </a>
             </div>
-
-            <h4>Swap</h4>
-            <div class="d-flex justify-content-center my-3" style="height: 200px;">
-
-                <div class="d-grid justify-content-center gap-2 align-items-center text-center">
-                    <img src="img/pfp/JuanAlberto.jpg" class="rounded border border-5 border-secondary mx-auto" style="height: 150px;" alt="...">
-                    <span class="fg-oblivion">Juan Alberto</span>
-                    <span class="badge rounded-pill bg-lushaqua fg-abaloneshell p-2 align-self-center">Inglés</span>
-                </div>
-
-                <div class="d-flex justify-content-center align-self-center" style="width:350px; height: 120px;">
-                    <img src="img/icons/swapicon.svg"/>
-                </div>
-
-                <div class="d-grid justify-content-center gap-2 align-items-center text-center" style="width: 150px;">
-                    <img src="img/default-pfp.png" class="rounded border border-5 border-primary mx-auto" style="height: 150px;" alt="...">
-                    <span class="fg-oblivion">Guest</span>
-                    <span class="badge rounded-pill bg-orchid fg-abaloneshell p-2">Programación con Java</span>
-                </div>
-
-            </div>
-            <h4>Horario</h4>
-            <div class="container">
-                <div class="timetable-img text-center">
-                    <img src="img/content/timetable.png" alt="">
-                </div>
-                <div class="table-responsive rounded">
-                    <table class="table table-striped text-center table-borderless">
-                        <thead>
-                            <tr class="bg-orchid fg-abaloneshell">
-                                <th>Hora
-                                </th>
-                                <th>Lunes</th>
-                                <th>martes</th>
-                                <th>Miércoles</th>
-                                <th>Jueves</th>
-                                <th>Viernes</th>
-                                <th>Sábado</th>
-                                <th>Domingo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">09:00am</td>
-                                <td>
-
-                                </td>
-                                <td class="bg-blendieblue">
-
-                                </td>
-
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">10:00am</td>
-                                <td>
-
-                                </td>
-                                <td class="bg-blendieblue">
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td class="">
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">11:00am</td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">12:00am</td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td class="bg-blendieblue">
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">01:00pm</td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td class="bg-blendieblue">
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">02:00pm</td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">03:00pm</td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-
-                            <tr class="bg-abaloneshell">
-                                <td class="align-middle bg-orchid fg-abaloneshell bold">04:00pm</td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <h4>Notas: </h4>
-            <small class="text-muted">El contenido escrito aquí solo es visible para ti</small>
+            <div class="hr-swp"></div>
         </div>
+
+        <h4>Swap</h4>
+        <div class="d-flex justify-content-center my-3" style="height: 200px;">
+
+            <div class="d-grid justify-content-center gap-2 align-items-center text-center">
+                <img src="img/pfp/JuanAlberto.jpg" class="rounded border border-5 border-secondary mx-auto" style="height: 150px;" alt="...">
+                <span class="fg-oblivion">Juan Alberto</span>
+                <span class="badge rounded-pill bg-lushaqua fg-abaloneshell p-2 align-self-center">Inglés</span>
+            </div>
+
+            <div class="d-flex justify-content-center align-self-center" style="width:350px; height: 120px;">
+                <img src="img/icons/swapicon.svg"/>
+            </div>
+
+            <div class="d-grid justify-content-center gap-2 align-items-center text-center" style="width: 150px;">
+                <img src="img/default-pfp.png" class="rounded border border-5 border-primary mx-auto" style="height: 150px;" alt="...">
+                <span class="fg-oblivion">Guest</span>
+                <span class="badge rounded-pill bg-orchid fg-abaloneshell p-2 align-self-center">Programación con Java</span>
+            </div>
+
+        </div>
+        <h4>Horario</h4>
+        <div class="container mb-3">
+            <div class="timetable-img text-center">
+                <img src="img/content/timetable.png" alt="">
+            </div>
+            <div class="table-responsive rounded overflow-y" style="height: 330px;">
+                <table class="table table-striped text-center table-borderless">
+                    <thead>
+                        <tr class="bg-orchid fg-abaloneshell sticky-top bold">
+                            <th>Hora
+                            </th>
+                            <th>Lunes</th>
+                            <th>martes</th>
+                            <th>Miércoles</th>
+                            <th>Jueves</th>
+                            <th>Viernes</th>
+                            <th>Sábado</th>
+                            <th>Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">09:00am</td>
+                            <td>
+
+                            </td>
+                            <td class="bg-blendieblue">
+
+                            </td>
+
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">10:00am</td>
+                            <td>
+
+                            </td>
+                            <td class="bg-blendieblue">
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td class="">
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">11:00am</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">12:00am</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td class="bg-blendieblue">
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">01:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td class="bg-blendieblue">
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">02:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">03:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">04:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">05:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">06:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">07:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">08:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+
+                        <tr class="bg-abaloneshell">
+                            <td class="align-middle bg-orchid fg-abaloneshell bold">09:00pm</td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h4>Notas: </h4>
+        <small class="text-muted">El contenido escrito aquí solo es visible para ti</small>
     </div>
-</html>
+</div>

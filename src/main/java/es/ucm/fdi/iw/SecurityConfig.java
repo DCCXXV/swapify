@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * https://spring.io/guides/topicals/spring-security-architecture/, it is not
  * a bad idea to also use method security (via @Secured annotations in methods) 
  */
+@SuppressWarnings("deprecation")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -49,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf(csrf -> csrf
 					.ignoringAntMatchers("/api/**"))
 			.authorizeRequests(requests -> requests
-					.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/foryou", "/rewards", "/search", "/swaps", "/swaps/info").permitAll()
+					.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/rewards", "/search", "/swaps", "/swaps/info").permitAll()
 					.antMatchers("/api/**").permitAll()            // <-- public api access
 					.antMatchers("/admin/**").hasRole("ADMIN")	   // <-- administration
 					.antMatchers("/user/**").hasRole("USER")	   // <-- logged-in users
@@ -87,12 +88,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 
 	 * This can be used to auto-login into the site after creating new users, for example.
 	 */
-	 @Bean
-	 @Override
-	 public AuthenticationManager authenticationManagerBean() throws Exception {
-	     return super.authenticationManagerBean();
-	 }
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+	    return super.authenticationManagerBean();
+	}
 	 
-	 @Autowired
-	 private LoginSuccessHandler loginSuccessHandler;
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler;
 }

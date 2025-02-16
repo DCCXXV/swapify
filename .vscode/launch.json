@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "IwApplication",
+            "request": "launch",
+            "mainClass": "es.ucm.fdi.iw.IwApplication",
+            "projectName": "swapify"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-IwApplication<plantilla>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

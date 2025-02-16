@@ -1,21 +1,330 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <th:block th:replace="fragments/head :: header" />
-    <title>IW: Admin</title>
-</head>
+    <head>
+        <th:block th:replace="fragments/head :: header" />
+        <title>Panel de Administración | Swapify</title>
+        <link rel="stylesheet" th:href="@{/css/bootstrap-5.1.3.css}">
+    </head>
 
-<body class="d-flex flex-column h-100">
-    <header th:replace="fragments/nav.html :: nav"></header>
+    <body class="d-flex flex-column h-100 bg-abaloneshell">
+        <header th:replace="fragments/nav.html :: nav"></header>
 
-    <main class="flex-shrink-0">
-        <div class="container">
-            <h1 class="mt-5">Administración</h1>
+        <main class="flex-shrink-0 container mt-4">
+            <h2 class="mb-3 fg-orchid bold">Panel de Administración</h2>
+            <div class="hr-swp my-3"></div>
+
+            <!-- Sección de estadísticas -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-abaloneshell-l0 fg-oblivion">
+                        <div class="card-body">
+                            <h5 class="card-title">Usuarios Totales</h5>
+                            <p class="card-text fs-3 bold">500</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-abaloneshell-l0 fg-oblivion">
+                        <div class="card-body">
+                            <h5 class="card-title">Intercambios Activos</h5>
+                            <p class="card-text fs-3 bold">120</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-abaloneshell-l0 fg-oblivion">
+                        <div class="card-body">
+                            <h5 class="card-title">Reportes Pendientes</h5>
+                            <p class="card-text fs-3 bold">3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de gestión de usuarios -->
+            <div class="card mb-4 bg-abaloneshell-l0">
+                <div class="card-header bg-orchid text-white">Gestión de Usuarios</div>
+                <div class="card-body">
+                    <table class="table table-borderless table-striped table-hover fg-oblivion">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre de perfil</th>
+                                <th>Nombre de cuenta</th>
+                                <th>Email</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Juan Pérez</td>
+                                <td>@Juanperez123</td>
+                                <td>juan@example.com</td>
+                                <td>
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#editUserModal">Editar</button>
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#banUserModal">Vetar usuario</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Maria López</td>
+                                <td>@marlpez7</td>
+                                <td>maria@example.com</td>
+                                <td>
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#editUserModal">Editar</button>
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#banUserModal">Vetar usuario</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- No veo lo de crear usuarios como admin
+                <div class="text-center mt-3">
+                    <button class="btn bg-abaloneshell fg-oblivion bold mt-3" data-bs-toggle="modal" data-bs-target="#addUserModal">Agregar Nuevo Usuario</button>
+                </div>
+                -->
+                </div>
+            </div>
+
+            <!-- MODAL: Agregar Usuario
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-orchid fg-abaloneshell">
+                        <h5 class="modal-title">Agregar Nuevo Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control mb-2" placeholder="Nombre">
+                        <input type="email" class="form-control mb-2" placeholder="Email">
+                        <select class="form-control">
+                            <option>Usuario</option>
+                            <option>Administrador</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-orchid fg-abaloneshell">Guardar</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
+        -->
 
-    <th:block th:replace="fragments/footer.html :: footer" />
-</body>
+            <!-- MODAL: Editar Usuario -->
+            <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bg-abaloneshell-l0">
+                        <div class="modal-header bg-orchid text-white">
+                            <h5 class="modal-title">Vetar Usuario</h5>
+                            <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control bg-abaloneshell mb-2" value="Juan Pérez">
+                            <input type="email" class="form-control bg-abaloneshell mb-2" value="juan@example.com">
+                            <select class="form-control bg-abaloneshell">
+                                <option selected>Usuario</option>
+                                <option>Administrador</option>
+                            </select>
+                        </div>
+                        <div class="text-center m-3">
+                            <button type="button" class="btn bg-orchid fg-abaloneshell px-5">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: Eliminar Usuario -->
+            <div class="modal fade" id="banUserModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content fg-oblivion bg-abaloneshell">
+                        <div class="modal-header bg-oblivion fg-abaloneshell">
+                            <h5 class="modal-title bold">Vetar Usuario</h5>
+                            <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body bold">
+                            ¿Estás seguro de que deseas vetar a este usuario?
+                        </div>
+                        <div class="m-3 px-3 text-center mt-0">
+                            <button type="button" class="btn fg-abaloneshell bg-oblivion me-2">Vetar</button>
+                            <button type="button" class="btn fg-oblivion bg-abaloneshell-l0" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de gestión de reportes -->
+            <div class="card mb-4 bg-abaloneshell-l0">
+                <div class="card-header bg-orchid text-white">Gestión de Reportes</div>
+                <div class="card-body">
+                    <table class="table table-borderless table-striped table-hover fg-oblivion">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre de perfil</th>
+                                <th>Nombre de cuenta</th>
+                                <th>Razón</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Pedro García</td>
+                                <td>@pedrogar</td>
+                                <td>Conducta inapropiada</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
+                                        <i class="bi bi-clipboard2-fill me-1"></i>
+                                        Ver Reporte
+                                    </button>
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#banUserModal">Vetar Usuario</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Ana Torres</td>
+                                <td>@anaa.torres</td>
+                                <td>Spam</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
+                                        <i class="bi bi-clipboard2-fill me-1"></i>
+                                        Ver Reporte
+                                    </button>
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#banUserModal">Vetar Usuario</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Pedro</td>
+                                <td>@pedrito</td>
+                                <td>Spam</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
+                                        <i class="bi bi-clipboard2-fill me-1"></i>
+                                        Ver Reporte
+                                    </button>
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#banUserModal">Vetar Usuario</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sección de gestión de recompensas -->
+            <div class="card mb-4 bg-abaloneshell-l0">
+                <div class="card-header bg-orchid text-white">Gestión de Recompensas</div>
+                <div class="card-body">
+                    <table class="table table-borderless table-striped table-hover fg-oblivion">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Tarjeta de regalo de Apple de 5€</td>
+                                <td class="font-monospace text-end pe-5">1500 Swapicoins</td>
+                                <td>
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#editRewardModal">Editar</button>
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#deleteRewardModal">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>3€ de saldo en Google Play</td>
+                                <td class="font-monospace text-end pe-5">600 Swapicoins</td>
+                                <td>
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#editRewardModal">Editar</button>
+                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                        data-bs-target="#deleteRewardModal">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center mt-3">
+                        <button class="btn bg-abaloneshell fg-oblivion bold" data-bs-toggle="modal" data-bs-target="#addRewardModal">Agregar Nueva
+                            Recompensa</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: Editar Recompensa -->
+            <div class="modal fade" id="editRewardModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bg-abaloneshell-l0">
+                        <div class="modal-header bg-orchid fg-abaloneshell">
+                            <h5 class="modal-title">Editar Recompensa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control bg-abaloneshell mb-2" value="Tarjeta de regalo de Apple">
+                            <input type="number" class="form-control bg-abaloneshell" value="1500">
+                        </div>
+                        <div class="m-3 px-3 text-center">
+                            <button type="button" class="btn bg-orchid text-white">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: Eliminar Recompensa -->
+            <div class="modal fade" id="deleteRewardModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-abaloneshell">
+                        <div class="modal-header bg-oblivion">
+                            <h5 class="modal-title fg-abaloneshell bold">Eliminar Recompensa</h5>
+                            <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body fg-oblivion bold">
+                            ¿Estás seguro de que deseas eliminar esta recompensa?
+                        </div>
+                        <div class="text-center mb-3">
+                            <button type="button" class="btn bg-oblivion fg-abaloneshell me-2">Eliminar</button>
+                            <button type="button" class="btn bg-abaloneshell-l0 fg-oblivion" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: Agregar Recompensa -->
+            <div class="modal fade" id="addRewardModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bg-abaloneshell-l0">
+                        <div class="modal-header bg-orchid fg-abaloneshell">
+                            <h5 class="modal-title">Agregar Nueva Recompensa</h5>
+                            <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mb-2">
+                            <input type="text" class="form-control bg-abaloneshell mb-2" placeholder="Nombre de la recompensa">
+                            <input type="number" class="form-control bg-abaloneshell" placeholder="Precio">
+                        <div class="m-3 px-3 mb-0 text-center">
+                            <button type="button" class="btn bg-orchid text-white">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <th:block th:replace="fragments/footer.html :: footer" />
+    </body>
 
 </html>
