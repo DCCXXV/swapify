@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +53,6 @@ public class User implements Transferable<User.Transfer> {
     @Column(nullable = false)
     private String password;
 
-    @Getter
     private String firstName;
     private String lastName;
 
@@ -69,7 +68,6 @@ public class User implements Transferable<User.Transfer> {
 
     // habilidades actuales (string temporal)
     //@ManyToMany
-    @Getter
     @ElementCollection
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "currentSkills")
@@ -77,7 +75,6 @@ public class User implements Transferable<User.Transfer> {
 
     // y habilidades que el usuario esta buscando adquirir (string temporal)
     //@ManyToMany
-    @Getter
     @ElementCollection
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "desiredSkills")

@@ -9,9 +9,13 @@
                 </div>
 
                 <!-- TODO: cambiar a boton con htmx para no recargar la página entera-->
-                <a href="/swaps" class="fg-orchid">
+                <button
+                    class="btn bg-abaloneshell-l0 fg-orchid p-0 border-0 shadow-none"
+                    hx-get="/swaps"
+                    hx-target="#swapbody"
+                    hx-swap="innerHTML">
                     <i class="bi bi-x-circle-fill fs-3 me-2"></i>
-                </a>
+                </button>
             </div>
             <div class="hr-swp"></div>
         </div>
@@ -45,18 +49,17 @@
                 <table class="table table-striped text-center table-borderless">
                     <thead>
                         <tr class="bg-orchid fg-abaloneshell sticky-top bold">
-                            <th>Hora
-                            </th>
-                            <th>Lunes</th>
-                            <th>martes</th>
-                            <th>Miércoles</th>
-                            <th>Jueves</th>
-                            <th>Viernes</th>
-                            <th>Sábado</th>
-                            <th>Domingo</th>
+                            <th class="bg-orchid fg-abaloneshell">Hora</th>
+                            <th class="bg-orchid fg-abaloneshell">Lunes</th>
+                            <th class="bg-orchid fg-abaloneshell">martes</th>
+                            <th class="bg-orchid fg-abaloneshell">Miércoles</th>
+                            <th class="bg-orchid fg-abaloneshell">Jueves</th>
+                            <th class="bg-orchid fg-abaloneshell">Viernes</th>
+                            <th class="bg-orchid fg-abaloneshell">Sábado</th>
+                            <th class="bg-orchid fg-abaloneshell">Domingo</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-abaloneshell">
                         <tr class="bg-abaloneshell">
                             <td class="align-middle bg-orchid fg-abaloneshell bold">09:00am</td>
                             <td>
