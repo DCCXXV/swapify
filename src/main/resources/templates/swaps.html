@@ -6,7 +6,7 @@
         <title>Intercambios | Swapify</title>
     </head>
 
-    <body class="d-flex flex-column h-100 bg-abaloneshell" style="overflow-x: hidden">
+    <body class="d-flex flex-column h-100 bg-abaloneshell" style="overflow-x: hidden" id="swapbody">
         <header th:replace="fragments/nav.html :: nav"></header>
 
         <main class="container-fluid m-3">
@@ -87,8 +87,8 @@
 										hx-get="/swaps/info"
 										hx-target="#chat-container"
 										hx-swap="innerHTML"
-										class="btn fg-gold bg-orchid p-0 me-2">
-                                        <i class="bi bi-info-circle-fill  fg-gold bg-orchid fs-4"></i>
+										class="btn fg-gold bg-orchid p-0 me-2 border-0 shadow-none">
+                                        <i class="bi bi-info-circle-fill fg-gold bg-orchid fs-4"></i>
                                     </button>
                                 </div>
                             </div>

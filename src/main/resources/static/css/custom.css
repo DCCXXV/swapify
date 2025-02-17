@@ -148,6 +148,11 @@ img.preview {
     /*Empuja el botón hacia abajo*/
 }
 
+td {
+    background-color: #E1DED9 !important;
+    color: #000435 !important;
+}
+
 
 /* MENSAJES */
 .message {
