@@ -1,6 +1,5 @@
 package es.ucm.fdi.iw.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,14 +31,7 @@ public class RootController {
         }
     }
 
-	@GetMapping("/login")
-    public String login(Model model, HttpServletRequest request) {
-        boolean error = request.getQueryString() != null && request.getQueryString().indexOf("error") != -1;
-        model.addAttribute("loginError", error);
-        return "login";
-    }
-
-	@GetMapping("/")
+    @GetMapping("/")
     public String index(Model model) {
         List<User> recusers = UserService.getRecommendedUsers();
         List<User> otherusers = UserService.getPopularUsers();
@@ -54,14 +46,11 @@ public class RootController {
         return "index";
     }
 
-	@GetMapping("/swaps")
-    public String swaps(Model model) {
-        return "swaps";
-    }
-    
-    @GetMapping("/swaps/info")
-    public String swapinfo() {
-        return "swapinfo";
+	@GetMapping("/login")
+    public String login(Model model, HttpServletRequest request) {
+        boolean error = request.getQueryString() != null && request.getQueryString().indexOf("error") != -1;
+        model.addAttribute("loginError", error);
+        return "login";
     }
 
     @GetMapping("/rewards")

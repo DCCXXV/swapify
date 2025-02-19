@@ -34,13 +34,9 @@
                                 <a class="nav-link"
                                     href="/">Inicio</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item ms-2">
                                 <a class="nav-link"
-                                    href="/swaps">Swaps</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="/rewards">Recompensas</a>
+                                    href="/swaps/">Swaps</a>
                             </li>
                         </ul>
                     </div>
@@ -70,7 +66,11 @@
                                 <li class="nav-item mx-3">
                                     <a class="nav-link"
                                         th:if="${session.u.hasRole('ADMIN')}"
-                                        th:href="@{/admin/}">Administrar</a>
+                                        th:href="@{/admin/}">
+                                        <button class="btn bg-gold fg-oblivion rounded-pill bold">
+                                            Administrar
+                                        </button>
+                                    </a>
                                 </li>
 
                                 <li class="nav-item mx-2">
@@ -79,14 +79,16 @@
                                         <img class="iwthumb rounded"
                                             th:src="@{/user/{id}/pic(id=${session.u.id})}">
                                         <span
+                                            class="mx-2"
                                             th:text="${session.u.username}">Pepe</span>
                                     </a>
                                 </li>
                                 <li class="nav-item align-self-center me-4">
                                     <button type="button"
-                                        class="btn btn-outline-primary btn-sm position-relative">
-                                        ✉️ <span id="nav-unread"
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99
+                                        class="btn bg-orchid rounded-circle fg-abaloneshell btn-sm position-relative">
+                                        <i class="bi bi-envelope-fill fs-5"></i>
+                                        <span id="nav-unread"
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">+99
                                             <span class="visually-hidden">unread
                                                 messages</span></span>
                                     </button>
@@ -94,7 +96,7 @@
                                 <li class="nav-item align-self-center">
                                     <form th:action="@{/logout}" method="post">
                                         <button type="submit"
-                                            class="btn btn-outline-secondary btn-sm">logout</button>
+                                            class="btn bg-abaloneshell fg-lushaqua rounded-pill bold btn-sm p-2">logout</button>
                                     </form>
                                 </li>
                             </th:block>

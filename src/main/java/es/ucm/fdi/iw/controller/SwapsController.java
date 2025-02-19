@@ -16,8 +16,8 @@ import jakarta.servlet.http.HttpSession;
  *  Access to this end-point is authenticated - see SecurityConfig
  */
 @Controller
-@RequestMapping("admin")
-public class AdminController {
+@RequestMapping("swaps")
+public class SwapsController {
 
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {        
@@ -26,11 +26,15 @@ public class AdminController {
         }
     }
 
-    private static final Logger log = LogManager.getLogger(AdminController.class);
+    private static final Logger log = LogManager.getLogger(SwapsController.class);
 
 	@GetMapping("/")
     public String index(Model model) {
-        log.info("Admin acaba de entrar");
-        return "admin";
+        return "swaps";
+    }
+
+    @GetMapping("/info")
+    public String info(Model model) {
+        return "swapinfo";
     }
 }
