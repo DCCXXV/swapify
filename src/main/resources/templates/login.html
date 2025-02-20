@@ -2,19 +2,19 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <th:block th:replace="fragments/head :: header" />
+        <th:block th:replace="~{fragments/head :: header}" />
         <title>Iniciar sesión | Swapify</title>
     </head>
 
-    <body class="d-flex flex-column h-100 bg-light">
-        <header th:replace="fragments/nav.html :: nav"></header>
+<body class="d-flex flex-column h-100 bg-abaloneshell">
+    <header th:replace="~{fragments/nav.html :: nav}"></header>
 
         <main class="flex-shrink-0">
             <div class="container">
                 <form class="form-signin" method="post" th:action="@{/login}">
                     <h2 class="mt-4 form-signin-heading fg-orchid bold">Por favor, inicie sesión para continuar</h2>
                     <div class="hr-swp mb-3"></div>
-                    <p th:if="${#request.getQueryString() == 'error'}" class="error fg-oblivion ps-3">
+                    <p th:if="${loginError != false}" class="error fg-oblivion ps-3">
                         Error en nombre de usuario o contraseña. Por favor, introduzca sus datos de acceso de nuevo.
                     </p>
                     <p>

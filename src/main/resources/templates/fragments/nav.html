@@ -75,8 +75,9 @@
 
                                 <li class="nav-item mx-2">
                                     <a class="nav-link"
-                                        th:href="@{/user/{id}(id=${session.u.id})}">
-                                        <img class="iwthumb rounded"
+                                        th:href="@{/user/{id}(id=${session.u.id})}"
+                                        >
+                                        <img class="iwthumb"
                                             th:src="@{/user/{id}/pic(id=${session.u.id})}">
                                         <span
                                             class="mx-2"
@@ -88,7 +89,7 @@
                                         class="btn bg-orchid rounded-circle fg-abaloneshell btn-sm position-relative">
                                         <i class="bi bi-envelope-fill fs-5"></i>
                                         <span id="nav-unread"
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">+99
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">0
                                             <span class="visually-hidden">unread
                                                 messages</span></span>
                                     </button>
@@ -96,14 +97,19 @@
                                 <li class="nav-item align-self-center">
                                     <form th:action="@{/logout}" method="post">
                                         <button type="submit"
-                                            class="btn bg-abaloneshell fg-lushaqua rounded-pill bold btn-sm p-2">logout</button>
+                                            class="btn bg-abaloneshell fg-lushaqua rounded-pill bold p-2">
+                                            Cerrar sesión
+                                        </button>
                                     </form>
                                 </li>
                             </th:block>
                             <th:block th:unless="${session.u}">
                                 <li class="nav-item mx-2">
-                                    <a class="nav-link" th:href="@{/login}"
-                                        href="/login">Login</a>
+                                    <a class="nav-link" th:href="@{/login}" href="/login">
+                                        <button class="btn fg-abaloneshell bg-lushaqua rounded-pill bold p-2">
+                                            Iniciar sesión
+                                        </button>
+                                    </a>
                                 </li>
                                 <!--/*
                                 Esto es un comentario "thymeleaf" - no se verá en el HTML
@@ -120,7 +126,7 @@
                                         <input type="hidden" name="password"
                                             value="aa">
                                         <button type="submit"
-                                            class="btn btn-outline-danger btn-sm">a</button>
+                                            class="btn btn-danger btn-sm me-2">Admin</button>
                                     </form>
                                 </li>
                                 <li class="nav-item debug align-self-center"
@@ -132,7 +138,7 @@
                                         <input type="hidden" name="password"
                                             value="aa">
                                         <button type="submit"
-                                            class="btn btn-outline-danger btn-sm">b</button>
+                                            class="btn btn-danger btn-sm">Juan</button>
                                     </form>
                                 </li>
                             </th:block>
