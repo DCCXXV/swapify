@@ -6,6 +6,10 @@ Proyecto para la asignatura Ingeniería Web, curso 24/25
 
 **Swapify** es una aplicación web de intercambio de habilidades. Los usuarios deben seleccionar las habilidades que poseen (que son las que enseñarán a la hora del intercambio/**swap**) y también las que quieran aprender. Una vez finalizado el **swap** se podrá valorar en una reseña al otro usuario, tanto como profesor de dicha habilidad como de estudiante. Estas reseñas podrán ser vistas por otros usuarios al visitar el perfil de este. Adicionalmente, hemos creado una funcionalidad de _currency_, las **swapicoins**, que podrán conseguirse de diferentes maneras, principalmente cuando un usuario tiene una habilidad que quieres pero no busca una habilidad que puedas ofrecerle. En este caso, se le podrá ofrecer un **swap** a cambio de **swapicoins** en vez de habilidad(es) a enseñar.
 
+## Entidades
+
+![Banner](/src/main/resources/static/img/github/bd.png)
+
 ## Vistas realizadas
 Se han realizado 6 vistas, se listarán con su nombre, lugar de acceso en la navbar y template(s) de Thymeleaf que usen:
 - Vista principal, Inicio (index.html)
