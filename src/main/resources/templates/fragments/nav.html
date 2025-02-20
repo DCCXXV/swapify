@@ -17,7 +17,7 @@
                         <img th:src="@{/img/logo.svg}" src="/img/logo.svg"
                             alt="logo IW" width="38" height="38"
                             class="d-inline-block align-text-to m-1"
-                            style="vertical-align:middle"> Swapify
+                            style="vertical-align:middle"> <b>Swapify</b>
                     </a>
                     <!-- menu hamburguesa si no cabe todo -->
                     <button class="navbar-toggler" type="button"
@@ -34,13 +34,9 @@
                                 <a class="nav-link"
                                     href="/">Inicio</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item ms-2">
                                 <a class="nav-link"
-                                    href="/swaps">Swaps</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="/rewards">Recompensas</a>
+                                    href="/swaps/">Swaps</a>
                             </li>
                         </ul>
                     </div>
@@ -70,23 +66,30 @@
                                 <li class="nav-item mx-3">
                                     <a class="nav-link"
                                         th:if="${session.u.hasRole('ADMIN')}"
-                                        th:href="@{/admin/}">Administrar</a>
+                                        th:href="@{/admin/}">
+                                        <button class="btn bg-gold fg-oblivion rounded-pill bold">
+                                            Administrar
+                                        </button>
+                                    </a>
                                 </li>
 
                                 <li class="nav-item mx-2">
                                     <a class="nav-link"
-                                        th:href="@{/user/{id}(id=${session.u.id})}">
-                                        <img class="iwthumb rounded"
+                                        th:href="@{/user/{id}(id=${session.u.id})}"
+                                        >
+                                        <img class="iwthumb"
                                             th:src="@{/user/{id}/pic(id=${session.u.id})}">
                                         <span
+                                            class="mx-2"
                                             th:text="${session.u.username}">Pepe</span>
                                     </a>
                                 </li>
                                 <li class="nav-item align-self-center me-4">
                                     <button type="button"
-                                        class="btn btn-outline-primary btn-sm position-relative">
-                                        ✉️ <span id="nav-unread"
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99
+                                        class="btn bg-orchid rounded-circle fg-abaloneshell btn-sm position-relative">
+                                        <i class="bi bi-envelope-fill fs-5"></i>
+                                        <span id="nav-unread"
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">0
                                             <span class="visually-hidden">unread
                                                 messages</span></span>
                                     </button>
@@ -94,14 +97,19 @@
                                 <li class="nav-item align-self-center">
                                     <form th:action="@{/logout}" method="post">
                                         <button type="submit"
-                                            class="btn btn-outline-secondary btn-sm">logout</button>
+                                            class="btn bg-abaloneshell fg-lushaqua rounded-pill bold p-2">
+                                            Cerrar sesión
+                                        </button>
                                     </form>
                                 </li>
                             </th:block>
                             <th:block th:unless="${session.u}">
                                 <li class="nav-item mx-2">
-                                    <a class="nav-link" th:href="@{/login}"
-                                        href="/login">Login</a>
+                                    <a class="nav-link" th:href="@{/login}" href="/login">
+                                        <button class="btn fg-abaloneshell bg-lushaqua rounded-pill bold p-2">
+                                            Iniciar sesión
+                                        </button>
+                                    </a>
                                 </li>
                                 <!--/*
                                 Esto es un comentario "thymeleaf" - no se verá en el HTML
@@ -118,7 +126,7 @@
                                         <input type="hidden" name="password"
                                             value="aa">
                                         <button type="submit"
-                                            class="btn btn-outline-danger btn-sm">a</button>
+                                            class="btn btn-danger btn-sm me-2">Admin</button>
                                     </form>
                                 </li>
                                 <li class="nav-item debug align-self-center"
@@ -130,7 +138,7 @@
                                         <input type="hidden" name="password"
                                             value="aa">
                                         <button type="submit"
-                                            class="btn btn-outline-danger btn-sm">b</button>
+                                            class="btn btn-danger btn-sm">Juan</button>
                                     </form>
                                 </li>
                             </th:block>
