@@ -14,15 +14,17 @@ Proyecto para la asignatura Ingeniería Web, curso 24/25
 Se han realizado 6 vistas, se listarán con su nombre, lugar de acceso en la navbar y template(s) de Thymeleaf que usen:
 - Vista principal, Inicio (index.html)
 - Vista de intercambios, Swaps (swap.html y subvista swapinfo.html)
-- Vista de recompensas, Recompensas (rewards.html)
+- ~~Vista de recompensas, Recompensas (rewards.html)~~*
 - Vista de búsqueda, Barra de búsqueda (search.html)
 - Panel de administración, Foto de perfil o nombre de usuario al estar registrado como administrador (admin.html)
 - Perfil de usuario, Foto de perfil o nombre de usuario al estar registrado como usuario normal (user.html)
 
+(*) En el repositorio pero no utilizada.
+
 ## Material no desarrollado por nosotros (fuera de la plantilla)
 ### Librerías añadidas
-  - [Librería de iconos de Bootstrap](https://icons.getbootstrap.com/), sobre todo usada en los botones con iconos
-  - [htmx](https://htmx.org/), usado en /swaps -> /swaps/info para cambiar contenido interno del template sin tener que cambiar la página entera o escribir JavaScript.
+  - [Librería de iconos de Bootstrap](https://icons.getbootstrap.com/) usada en todos los botones con iconos
+  - [htmx](https://htmx.org/)  usado en /swaps -> /swaps/info para cambiar contenido interno del template sin tener que cambiar la página entera o escribir JavaScript.
 
 ### Imágenes
   - Todas las imágenes de personas están generadas usando [Mistral](https://mistral.ai)

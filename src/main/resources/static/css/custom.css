@@ -75,6 +75,19 @@
     font-weight: bold;
 }
 
+.badge:hover {
+    filter: brightness(80%);
+}
+
+.skill-card {
+    transition: all 0.07s ease;
+}
+
+.skill-card:hover {
+    filter: brightness(80%);
+    transform: scale(1.04);
+}
+
 #loading-bar {
     position: fixed;
     top: 0;
