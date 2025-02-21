@@ -51,7 +51,8 @@
                             type="search"
                             name="query"
                             placeholder="Buscar en Swapify"
-                            aria-label="Search">
+                            aria-label="Search"
+                            required>
                         <button
                             class="btn bg-orchid fg-abaloneshell bold rounded-pill p-2"
                             type="submit">
@@ -89,9 +90,11 @@
                                         class="btn bg-orchid rounded-circle fg-abaloneshell btn-sm position-relative">
                                         <i class="bi bi-envelope-fill fs-5"></i>
                                         <span id="nav-unread"
+                                            th:if="false"
                                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">0
                                             <span class="visually-hidden">unread
                                                 messages</span></span>
+                                            <!-- cambiar th:if de false a diferente de 0 cuando las notificaciones funcionen -->
                                     </button>
                                 </li>
                                 <li class="nav-item align-self-center">

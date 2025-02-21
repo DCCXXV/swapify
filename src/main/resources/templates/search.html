@@ -18,7 +18,35 @@
                     <div class="hr-swp mb-3"></div>
                 </form>
 
-                <!-- Nueva barra de búsqueda -->
+                <ul class="nav nav-pills my-3 gap-2" id="myTab" role="tablist">
+                    <li class="nav-item swp-tab" role="presentation">
+                        <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4 active" 
+                           id="all-tab" 
+                           data-bs-toggle="tab" 
+                           data-bs-target="#all" 
+                           role="tab" 
+                           aria-controls="all" 
+                           aria-selected="true">Todo</a>
+                    </li>
+                    <li class="nav-item swp-tab" role="presentation">
+                        <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4" 
+                           id="users-tab" 
+                           data-bs-toggle="tab" 
+                           data-bs-target="#users" 
+                           role="tab" 
+                           aria-controls="users" 
+                           aria-selected="false">Usuarios</a>
+                    </li>
+                    <li class="nav-item swp-tab" role="presentation">
+                        <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4" 
+                           id="skills-tab" 
+                           data-bs-toggle="tab" 
+                           data-bs-target="#skills" 
+                           role="tab" 
+                           aria-controls="skills" 
+                           aria-selected="false">Habilidades</a>
+                    </li>
+                </ul>
 
                 <div class="bg-abaloneshell-l0 rounded p-4">
                     <form class="form-signin" method="get"
@@ -95,18 +123,32 @@
                         </div>
                     </div>
                 </form>
-                <div>
-
-                    <div class="p-3 fg-orchid">
-                        <h3 class="bold">Usuarios</h3>
-                        <div class="hr-swp"></div>
-                        <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                        <div class="p-3 fg-orchid">
+                            <h3 class="bold">Usuarios</h3>
+                            <div class="hr-swp"></div>
+                            <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                        </div>
+                        <div class="p-3 fg-orchid">
+                            <h3 class="bold">Habilidades</h3>
+                            <div class="hr-swp"></div>
+                            <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                        </div>
                     </div>
-
-                    <div class="p-3 fg-orchid">
-                        <h3 class="bold">Habilidades</h3>
-                        <div class="hr-swp"></div>
-                        <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                        <div class="p-3 fg-orchid">
+                            <h3 class="bold">Usuarios</h3>
+                            <div class="hr-swp"></div>
+                            <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
+                        <div class="p-3 fg-orchid">
+                            <h3 class="bold">Habilidades</h3>
+                            <div class="hr-swp"></div>
+                            <span class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
+                        </div>
                     </div>
                 </div>
             </div>

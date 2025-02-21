@@ -224,6 +224,15 @@ td {
     border-bottom-left-radius: 0 !important;
 }
 
+.swp-tab {
+    cursor: pointer;
+}
+
+.swp-tab .active {
+    background-color: #755468 !important;
+    color: #E1DED9 !important;
+}
+
 /*Acentos al interactuar con el raton*/
 .btn:focus {
     border-color: rgb(117, 84, 104);
