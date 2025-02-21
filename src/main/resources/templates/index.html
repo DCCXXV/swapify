@@ -96,11 +96,21 @@
 
 				<h4 class="fg-orchid mb-3 mt-5">Otras habilidades pedidas</h4>
 				<div class="hr-swp-center mb-3"></div>
-				<div class="container text-center">
-					<div class="row gap-3 text-center">
-					  <div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
-						<span th:text="${skill}">Error</span>
-					  </div>
+				<div class="container text-center overflow-hidden">
+					<div class="row gap-3 text-center skills-row">
+					  	<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+							<span th:text="${skill}">Error</span>
+					  	</div>
+					</div>
+					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
+						<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						  	<span th:text="${skill}">Error</span>
+						</div>
+					</div>
+					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
+						<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+							<span th:text="${skill}">Error</span>
+						</div>
 					</div>
 				</div>
 				<div class="hr-swp-center mt-3 mb-5"></div>
@@ -176,16 +186,26 @@
 					</button>
 				</div>
 
-				<h4 class="fg-orchid my-3 mt-5">Otras habilidades comúnes</h4>
+				<h4 class="fg-orchid mb-3 mt-5">Otras habilidades comunes</h4>
 				<div class="hr-swp-center mb-3"></div>
-				<div class="container text-center">
-					<div class="row gap-3 text-center">
-					  <div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
-						<span th:text="${skill}">Error</span>
-					  </div>
+				<div class="container text-center overflow-hidden">
+					<div class="row gap-3 text-center skills-row">
+					  	<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+							<span th:text="${skill}">Error</span>
+					  	</div>
+					</div>
+					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
+						<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						  	<span th:text="${skill}">Error</span>
+						</div>
+					</div>
+					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
+						<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+							<span th:text="${skill}">Error</span>
+						</div>
 					</div>
 				</div>
-				<div class="hr-swp-center my-3"></div>
+				<div class="hr-swp-center mt-3 mb-5"></div>
 
 			</div>
 		</main>

@@ -75,17 +75,37 @@
     font-weight: bold;
 }
 
+.badge {
+    cursor: pointer;
+}
+
 .badge:hover {
-    filter: brightness(80%);
+    filter: brightness(85%);
 }
 
 .skill-card {
     transition: all 0.07s ease;
+    cursor: pointer;
 }
 
 .skill-card:hover {
-    filter: brightness(80%);
+    filter: brightness(90%);
     transform: scale(1.04);
+}
+
+.skills-row {
+    display: flex;
+    animation: slideRow 100s linear infinite;
+    width: max-content;
+  }
+
+@keyframes slideRow {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 #loading-bar {
