@@ -12,20 +12,7 @@
 
         <main class="flex-shrink-0 container mt-4">
             <h2 class="mb-3 fg-orchid bold">Panel de Administración</h2>
-            <div class="hr-swp my-3"></div>
-
-        <!-- Tabs -->
-        <ul class="nav nav-tabs" id="adminTabs" role="tablist">
-            <li class="nav-item bg-abaloneshell-l0 fg-oblivion" role="presentation">
-                <button class="nav-link active bg-orchid text-white" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">Gestión de Usuarios</button>
-            </li>
-            <li class="nav-item bg-abaloneshell-l0 fg-oblivion" role="presentation">
-                <button class="nav-link bg-orchid text-white" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports" type="button" role="tab">Gestión de Reportes</button>
-            </li>
-            <li class="nav-item bg-abaloneshell-l0 fg-oblivion" role="presentation">
-                <button class="nav-link bg-orchid text-white" id="swaps-tab" data-bs-toggle="tab" data-bs-target="#swaps" type="button" role="tab">Gestión de Swaps</button>
-            </li>
-        </ul>                 
+            <div class="hr-swp my-3"></div>           
 
             <!-- Sección de estadísticas -->
             <div class="row mb-4">
@@ -55,7 +42,37 @@
                 </div>
             </div>
 
-            <div class="tab-content mt-4" id="adminTabsContent">
+            <ul class="nav nav-pills gap-2 ms-1" id="adminTabs" role="tablist">
+                <li class="nav-item swp-tab" role="presentation">
+                    <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4 active" 
+                       id="users-tab" 
+                       data-bs-toggle="tab" 
+                       data-bs-target="#users" 
+                       role="tab" 
+                       aria-controls="users" 
+                       aria-selected="true">Usuarios</a>
+                </li>
+                <li class="nav-item swp-tab" role="presentation">
+                    <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" 
+                       id="reports-tab" 
+                       data-bs-toggle="tab" 
+                       data-bs-target="#reports" 
+                       role="tab" 
+                       aria-controls="reports" 
+                       aria-selected="false">Reportes</a>
+                </li>
+                <li class="nav-item swp-tab" role="presentation">
+                    <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" 
+                       id="swaps-tab" 
+                       data-bs-toggle="tab" 
+                       data-bs-target="#swaps" 
+                       role="tab" 
+                       aria-controls="swaps" 
+                       aria-selected="false">Swaps</a>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-2" id="adminTabsContent">
                 <!-- Sección de gestión de usuarios -->
                 <div class="tab-pane fade show active" id="users" role="tabpanel">
                     <div class="card mb-4 bg-abaloneshell-l0">
