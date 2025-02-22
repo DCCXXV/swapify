@@ -83,6 +83,23 @@
     filter: brightness(85%);
 }
 
+.badge-cancel {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.2s ease;
+}
+
+.badge-cancel:hover {
+    transform: rotateZ(180deg);
+    color: #E4B55D;
+}
+
+.badge:has(.badge-cancel:hover) {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    filter: brightness(100%);
+}
+
 .skill-card {
     transition: all 0.07s ease;
     cursor: pointer;
