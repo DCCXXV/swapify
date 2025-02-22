@@ -16,8 +16,8 @@
                     <a class="navbar-brand fg-gold" th:href="@{/}" href="/">
                         <img th:src="@{/img/logo.svg}" src="/img/logo.svg"
                             alt="logo IW" width="38" height="38"
-                            class="d-inline-block align-text-to m-1"
-                            style="vertical-align:middle"> <b>Swapify</b>
+                            class="d-inline-block m-1"> 
+                            <span class="bold">Swapify</span>
                     </a>
                     <!-- menu hamburguesa si no cabe todo -->
                     <button class="navbar-toggler" type="button"
@@ -51,7 +51,8 @@
                             type="search"
                             name="query"
                             placeholder="Buscar en Swapify"
-                            aria-label="Search">
+                            aria-label="Search"
+                            required>
                         <button
                             class="btn bg-orchid fg-abaloneshell bold rounded-pill p-2"
                             type="submit">
@@ -89,9 +90,11 @@
                                         class="btn bg-orchid rounded-circle fg-abaloneshell btn-sm position-relative">
                                         <i class="bi bi-envelope-fill fs-5"></i>
                                         <span id="nav-unread"
+                                            th:if="false"
                                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">0
                                             <span class="visually-hidden">unread
                                                 messages</span></span>
+                                            <!-- cambiar th:if de false a diferente de 0 cuando las notificaciones funcionen -->
                                     </button>
                                 </li>
                                 <li class="nav-item align-self-center">

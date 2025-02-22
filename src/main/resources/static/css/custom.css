@@ -75,6 +75,56 @@
     font-weight: bold;
 }
 
+.badge {
+    cursor: pointer;
+}
+
+.badge:hover {
+    filter: brightness(85%);
+}
+
+.badge-cancel {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.2s ease;
+}
+
+.badge-cancel:hover {
+    transform: rotateZ(180deg);
+    color: #E4B55D;
+}
+
+.badge:has(.badge-cancel:hover) {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    filter: brightness(100%);
+}
+
+.skill-card {
+    transition: all 0.07s ease;
+    cursor: pointer;
+}
+
+.skill-card:hover {
+    filter: brightness(90%);
+    transform: scale(1.04);
+}
+
+.skills-row {
+    display: flex;
+    animation: slideRow 100s linear infinite;
+    width: max-content;
+  }
+
+@keyframes slideRow {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 #loading-bar {
     position: fixed;
     top: 0;
@@ -209,6 +259,15 @@ td {
 .accordion-button.rounded-start {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
+}
+
+.swp-tab {
+    cursor: pointer;
+}
+
+.swp-tab .active {
+    background-color: #755468 !important;
+    color: #E1DED9 !important;
 }
 
 /*Acentos al interactuar con el raton*/

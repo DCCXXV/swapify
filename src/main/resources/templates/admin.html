@@ -12,7 +12,7 @@
 
         <main class="flex-shrink-0 container mt-4">
             <h2 class="mb-3 fg-orchid bold">Panel de Administración</h2>
-            <div class="hr-swp my-3"></div>
+            <div class="hr-swp my-3"></div>           
 
             <!-- Sección de estadísticas -->
             <div class="row mb-4">
@@ -27,65 +27,261 @@
                 <div class="col-md-4">
                     <div class="card bg-abaloneshell-l0 fg-oblivion">
                         <div class="card-body">
-                            <h5 class="card-title">Intercambios Activos</h5>
-                            <p class="card-text fs-3 bold">120</p>
+                            <h5 class="card-title">Reportes Pendientes</h5>
+                            <p class="card-text fs-3 bold">3</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-abaloneshell-l0 fg-oblivion">
                         <div class="card-body">
-                            <h5 class="card-title">Reportes Pendientes</h5>
-                            <p class="card-text fs-3 bold">3</p>
+                            <h5 class="card-title">Swaps Activos</h5>
+                            <p class="card-text fs-3 bold">120</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Sección de gestión de usuarios -->
-            <div class="card mb-4 bg-abaloneshell-l0">
-                <div class="card-header bg-orchid text-white">Gestión de Usuarios</div>
-                <div class="card-body">
-                    <table class="table table-borderless table-striped table-hover fg-oblivion">
-                        <thead>
-                            <tr>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">ID</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de perfil</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de cuenta</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Email</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="bg-abaloneshell-l0">1</td>
-                                <td class="bg-abaloneshell-l0">Juan Pérez</td>
-                                <td class="bg-abaloneshell-l0">@Juanperez123</td>
-                                <td class="bg-abaloneshell-l0">juan@example.com</td>
-                                <td class="bg-abaloneshell-l0">
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#editUserModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="bg-abaloneshell-l0">2</td>
-                                <td class="bg-abaloneshell-l0">Maria López</td>
-                                <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                <td class="bg-abaloneshell-l0">maria@example.com</td>
-                                <td class="bg-abaloneshell-l0">
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#editUserModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <ul class="nav nav-pills gap-2 ms-1" id="adminTabs" role="tablist">
+                <li class="nav-item swp-tab" role="presentation">
+                    <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4 active" 
+                       id="users-tab" 
+                       data-bs-toggle="tab" 
+                       data-bs-target="#users" 
+                       role="tab" 
+                       aria-controls="users" 
+                       aria-selected="true">Usuarios</a>
+                </li>
+                <li class="nav-item swp-tab" role="presentation">
+                    <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" 
+                       id="reports-tab" 
+                       data-bs-toggle="tab" 
+                       data-bs-target="#reports" 
+                       role="tab" 
+                       aria-controls="reports" 
+                       aria-selected="false">Reportes</a>
+                </li>
+                <li class="nav-item swp-tab" role="presentation">
+                    <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" 
+                       id="swaps-tab" 
+                       data-bs-toggle="tab" 
+                       data-bs-target="#swaps" 
+                       role="tab" 
+                       aria-controls="swaps" 
+                       aria-selected="false">Swaps</a>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-2" id="adminTabsContent">
+                <!-- Sección de gestión de usuarios -->
+                <div class="tab-pane fade show active" id="users" role="tabpanel">
+                    <div class="card mb-4 bg-abaloneshell-l0">
+                        <div class="card-header bg-orchid text-white">Gestión de Usuarios</div>
+                        <div class="card-body">
+
+                            <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3 mx-3" placeholder="Buscar usuario">
+                            
+                            <table class="table table-borderless table-striped table-hover fg-oblivion">
+                                <thead>
+                                    <tr>
+                                        <th class="bg-abaloneshell-l0 fg-oblivion bold">ID</th>
+                                        <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de perfil</th>
+                                        <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de cuenta</th>
+                                        <th class="bg-abaloneshell-l0 fg-oblivion bold">Email</th>
+                                        <th class="bg-abaloneshell-l0 fg-oblivion bold">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-abaloneshell-l0">1</td>
+                                        <td class="bg-abaloneshell-l0">Juan Pérez</td>
+                                        <td class="bg-abaloneshell-l0">@Juanperez123</td>
+                                        <td class="bg-abaloneshell-l0">juan@example.com</td>
+                                        <td class="bg-abaloneshell-l0">
+                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#editUserModal">Editar</button>
+                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-abaloneshell-l0">2</td>
+                                        <td class="bg-abaloneshell-l0">Maria López</td>
+                                        <td class="bg-abaloneshell-l0">@marlpez7</td>
+                                        <td class="bg-abaloneshell-l0">maria@example.com</td>
+                                        <td class="bg-abaloneshell-l0">
+                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#editUserModal">Editar</button>
+                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-abaloneshell-l0">2</td>
+                                        <td class="bg-abaloneshell-l0">Maria López</td>
+                                        <td class="bg-abaloneshell-l0">@marlpez7</td>
+                                        <td class="bg-abaloneshell-l0">maria@example.com</td>
+                                        <td class="bg-abaloneshell-l0">
+                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#editUserModal">Editar</button>
+                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-abaloneshell-l0">2</td>
+                                        <td class="bg-abaloneshell-l0">Maria López</td>
+                                        <td class="bg-abaloneshell-l0">@marlpez7</td>
+                                        <td class="bg-abaloneshell-l0">maria@example.com</td>
+                                        <td class="bg-abaloneshell-l0">
+                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#editUserModal">Editar</button>
+                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gestión de Reportes -->
+                <div class="tab-pane fade" id="reports" role="tabpanel">
+                    <div class="card mb-4 bg-abaloneshell-l0">
+                       <div class="card-header bg-orchid text-white">Gestión de Reportes</div>
+                       <div class="card-body">
+                            <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3 mx-3" placeholder="Buscar ID reporte">
+                          <table class="table table-borderless table-striped table-hover fg-oblivion">
+                            <thead>
+                                <tr>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">ID</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de perfil</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de cuenta</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Razón</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="bg-abaloneshell-l0">1</td>
+                                    <td class="bg-abaloneshell-l0">Pedro García</td>
+                                    <td class="bg-abaloneshell-l0">@pedrogar</td>
+                                    <td class="bg-abaloneshell-l0">Conducta inapropiada</td>
+                                    <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
+                                            <i class="bi bi-clipboard2-fill me-1"></i>
+                                            Ver Reporte
+                                        </button>
+                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-abaloneshell-l0">2</td>
+                                    <td class="bg-abaloneshell-l0">Ana Torres</td>
+                                    <td class="bg-abaloneshell-l0">@anaa.torres</td>
+                                    <td class="bg-abaloneshell-l0">Spam</td>
+                                    <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
+                                            <i class="bi bi-clipboard2-fill me-1"></i>
+                                            Ver Reporte
+                                        </button>
+                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-abaloneshell-l0">3</td>
+                                    <td class="bg-abaloneshell-l0">Pedro</td>
+                                    <td class="bg-abaloneshell-l0">@pedrito</td>
+                                    <td class="bg-abaloneshell-l0">Spam</td>
+                                    <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
+                                            <i class="bi bi-clipboard2-fill me-1"></i>
+                                            Ver Reporte
+                                        </button>
+                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
+        
+            <!-- Gestión de Reportes -->
+            <div class="tab-pane fade" id="swaps" role="tabpanel">
+                <div class="card mb-4 bg-abaloneshell-l0">
+                    <div class="card-header bg-orchid text-white">Gestión de Swaps</div>
+                    <div class="card-body">
+                        <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3 mx-3" placeholder="Buscar ID Swap">
+                        <table class="table table-borderless table-striped table-hover fg-oblivion">
+                            <thead>
+                                <tr>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">ID</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Descripción</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Usuario 1</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Usuario 2</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Estado</th>
+                                    <th class="bg-abaloneshell-l0 fg-oblivion bold text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="bg-abaloneshell-l0">1</td>
+                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
+                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
+                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
+                                    <td class="bg-abaloneshell-l0">Activo</td>
+                                    <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#cancelSwapModal">Cancelar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-abaloneshell-l0">1</td>
+                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
+                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
+                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
+                                    <td class="bg-abaloneshell-l0">Activo</td>
+                                    <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#cancelSwapModal">Cancelar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-abaloneshell-l0">1</td>
+                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
+                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
+                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
+                                    <td class="bg-abaloneshell-l0">Activo</td>
+                                    <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#cancelSwapModal">Cancelar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-abaloneshell-l0">1</td>
+                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
+                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
+                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
+                                    <td class="bg-abaloneshell-l0">Activo</td>
+                                    <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                            data-bs-target="#cancelSwapModal">Cancelar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
             <!-- MODAL: Editar Usuario -->
             <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -128,171 +324,25 @@
                 </div>
             </div>
 
-            <!-- Sección de gestión de reportes -->
-            <div class="card mb-4 bg-abaloneshell-l0">
-                <div class="card-header bg-orchid text-white">Gestión de Reportes</div>
-                <div class="card-body">
-                    <table class="table table-borderless table-striped table-hover fg-oblivion">
-                        <thead>
-                            <tr>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">ID</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de perfil</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de cuenta</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Razón</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="bg-abaloneshell-l0">1</td>
-                                <td class="bg-abaloneshell-l0">Pedro García</td>
-                                <td class="bg-abaloneshell-l0">@pedrogar</td>
-                                <td class="bg-abaloneshell-l0">Conducta inapropiada</td>
-                                <td class="bg-abaloneshell-l0 text-center">
-                                    <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
-                                        <i class="bi bi-clipboard2-fill me-1"></i>
-                                        Ver Reporte
-                                    </button>
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="bg-abaloneshell-l0">2</td>
-                                <td class="bg-abaloneshell-l0">Ana Torres</td>
-                                <td class="bg-abaloneshell-l0">@anaa.torres</td>
-                                <td class="bg-abaloneshell-l0">Spam</td>
-                                <td class="bg-abaloneshell-l0 text-center">
-                                    <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
-                                        <i class="bi bi-clipboard2-fill me-1"></i>
-                                        Ver Reporte
-                                    </button>
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="bg-abaloneshell-l0">3</td>
-                                <td class="bg-abaloneshell-l0">Pedro</td>
-                                <td class="bg-abaloneshell-l0">@pedrito</td>
-                                <td class="bg-abaloneshell-l0">Spam</td>
-                                <td class="bg-abaloneshell-l0 text-center">
-                                    <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
-                                        <i class="bi bi-clipboard2-fill me-1"></i>
-                                        Ver Reporte
-                                    </button>
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Sección de gestión de recompensas -->
-            <div class="card mb-4 bg-abaloneshell-l0">
-                <div class="card-header bg-orchid text-white">Gestión de Recompensas</div>
-                <div class="card-body">
-                    <table class="table table-borderless table-striped table-hover fg-oblivion">
-                        <thead>
-                            <tr>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">ID</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Precio</th>
-                                <th class="bg-abaloneshell-l0 fg-oblivion bold">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="bg-abaloneshell-l0">1</td>
-                                <td class="bg-abaloneshell-l0">Tarjeta de regalo de Apple de 5€</td>
-                                <td class="bg-abaloneshell-l0 font-monospace text-end pe-5">1500 Swapicoins</td>
-                                <td class="bg-abaloneshell-l0">
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#editRewardModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#deleteRewardModal">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="bg-abaloneshell-l0">2</td>
-                                <td class="bg-abaloneshell-l0">3€ de saldo en Google Play</td>
-                                <td class="bg-abaloneshell-l0 font-monospace text-end pe-5">600 Swapicoins</td>
-                                <td class="bg-abaloneshell-l0">
-                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#editRewardModal">Editar</button>
-                                    <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                        data-bs-target="#deleteRewardModal">Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="text-center mt-3">
-                        <button class="btn bg-abaloneshell fg-oblivion bold" data-bs-toggle="modal" data-bs-target="#addRewardModal">Agregar Nueva
-                            Recompensa</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MODAL: Editar Recompensa -->
-            <div class="modal fade" id="editRewardModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content bg-abaloneshell-l0">
-                        <div class="modal-header bg-orchid fg-abaloneshell">
-                            <h5 class="modal-title">Editar Recompensa</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="text" class="form-control bg-abaloneshell mb-2" value="Tarjeta de regalo de Apple">
-                            <input type="number" class="form-control bg-abaloneshell" value="1500">
-                        </div>
-                        <div class="m-3 px-3 text-center">
-                            <button type="button" class="btn bg-orchid text-white">Actualizar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MODAL: Eliminar Recompensa -->
-            <div class="modal fade" id="deleteRewardModal" tabindex="-1" aria-hidden="true">
+            <!-- MODAL: Cancelar Swap -->
+            <div class="modal fade" id="cancelSwapModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content bg-abaloneshell">
                         <div class="modal-header bg-oblivion">
-                            <h5 class="modal-title fg-abaloneshell bold">Eliminar Recompensa</h5>
+                            <h5 class="modal-title fg-abaloneshell bold">Cancelar Swap</h5>
                             <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body fg-oblivion bold">
-                            ¿Estás seguro de que deseas eliminar esta recompensa?
+                            ¿Estás seguro de que deseas cancelar este Swap?
                         </div>
                         <div class="text-center mb-3">
-                            <button type="button" class="btn bg-oblivion fg-abaloneshell me-2">Eliminar</button>
-                            <button type="button" class="btn bg-abaloneshell-l0 fg-oblivion" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn bg-oblivion fg-abaloneshell me-2">Cancelar</button>
+                            <button type="button" class="btn bg-abaloneshell-l0 fg-oblivion" data-bs-dismiss="modal">Volver</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MODAL: Agregar Recompensa -->
-            <div class="modal fade" id="addRewardModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content bg-abaloneshell-l0">
-                        <div class="modal-header bg-orchid fg-abaloneshell">
-                            <h5 class="modal-title">Agregar Nueva Recompensa</h5>
-                            <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mb-2">
-                            <input type="text" class="form-control bg-abaloneshell mb-2" placeholder="Nombre de la recompensa">
-                            <input type="number" class="form-control bg-abaloneshell" placeholder="Precio">
-                        <div class="m-3 px-3 mb-0 text-center">
-                            <button type="button" class="btn bg-orchid text-white">Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
 
         <th:block th:replace="fragments/footer.html :: footer" />
