@@ -33,6 +33,8 @@ public class RootController {
 
     @GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("actual", "inicio");
+
         List<User> recusers = UserService.getRecommendedUsers();
         List<User> otherusers = UserService.getPopularUsers();
         List<String> desiredSkills = SkillService.getRequestedSkills();

@@ -30,6 +30,7 @@ public class SwapsController {
 
 	@GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("actual", "swaps");
         return "swaps";
     }
 

@@ -30,6 +30,7 @@ public class AdminController {
 
 	@GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("actual", "profile");
         log.info("Admin acaba de entrar");
         return "admin";
     }

@@ -70,9 +70,12 @@
     font-weight: lighter;
 }
 
-.active {
-    color: #c7c1b8 !important;
-    font-weight: bold;
+/* Un poco sucio ? revisar mas tarde */
+#navbarNav .nav-link:hover, #navbarNav .active, #username:hover, #navuser.active #userlink #username {
+    color: #E4B55D !important;
+    text-underline-offset: 8px;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;  
 }
 
 .badge {
@@ -139,6 +142,7 @@
 .iwthumb {
     height: 32px;
     width: 18px;
+    border-radius: 2px;
 }
 
 .errTable tr>td:first-child {
