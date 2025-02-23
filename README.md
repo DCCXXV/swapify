@@ -4,9 +4,9 @@ Proyecto para la asignatura Ingeniería Web, curso 24/25
 ## Descripción del proyecto
 ![Banner](/src/main/resources/static/img/github/banner.png)
 
-**Swapify** es una aplicación web de intercambio de habilidades. Los usuarios deben seleccionar las habilidades que poseen (que son las que enseñarán a la hora del intercambio/**swap**) y también las que quieran aprender. Una vez finalizado el **swap** se podrá valorar en una reseña al otro usuçario, tanto como profesor de dicha habilidad como de estudiante. Estas reseñas podrán ser vistas por otros usuarios al visitar el perfil de este. Adicionalmente, hemos creado una funcionalidad de _currency_, las **swapicoins**, que podrán conseguirse de diferentes maneras, principalmente cuando un usuario tiene una habilidad que quieres pero no busca una habilidad que puedas ofrecerle. En este caso, se le podrá ofrecer un **swap** a cambio de **swapicoins** en vez de habilidad(es) a enseñar.
+**Swapify** es una aplicación web de intercambio de habilidades. Los usuarios deben seleccionar las habilidades que poseen (que son las que enseñarán a la hora del intercambio/**swap**) y también las que quieran aprender. Una vez finalizado el **swap** se podrá valorar en una reseña al otro usuario, tanto como profesor de dicha habilidad como de estudiante. Estas reseñas podrán ser vistas por otros usuarios al visitar el perfil de este. Adicionalmente, hemos creado una funcionalidad de _currency_, las **swapicoins**, que podrán conseguirse cuando un usuario tiene una habilidad que otro quiere pero no busque una habilidad que pueda ofrecerle. En este caso, se le podrá ofrecer un **swap** a cambio de **swapicoins** en vez de habilidad(es) a enseñar.
 
-## Entidades
+## Tablas en la base de datos
 
 ![Diagrama de la base de datos](/src/main/resources/static/img/github/bd.png)
 
@@ -28,4 +28,3 @@ Se han realizado 6 vistas, se listarán con su nombre, lugar de acceso en la nav
 
 ### Imágenes
   - Todas las imágenes de personas están generadas usando [Mistral](https://mistral.ai)
-  - El resto de imágenes viene o está compuesto por imágenes de [Wikimedia](https://commons.wikimedia.org/)
