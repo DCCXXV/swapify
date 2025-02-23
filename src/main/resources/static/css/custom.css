@@ -242,6 +242,23 @@ td {
     border-color: #004466 !important;
 }
 
+.accordion-item {
+    border: none !important;
+}
+
+.accordion-button:hover {
+    filter: brightness(95%);
+}
+
+.accordion-button {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.swap-accordion-list-item:hover {
+    filter: brightness(95%);
+}
+
 .accordion-button:focus,
 .accordion-button:active {
     outline: none !important;
@@ -265,6 +282,10 @@ td {
     border-bottom-left-radius: 0 !important;
 }
 
+i {
+    cursor: pointer;
+}
+
 .swp-tab {
     cursor: pointer;
 }
@@ -272,6 +293,18 @@ td {
 .swp-tab .active {
     background-color: #755468 !important;
     color: #E1DED9 !important;
+}
+
+#mySwapPanelButton {
+    transition: transform 0.2s ease;
+}
+
+#mySwapPanelButton:hover {
+    transform: scale(1.03);
+}
+
+#swapPanelContainer {
+    height: 85vh;
 }
 
 /*Acentos al interactuar con el raton*/

@@ -22,8 +22,9 @@ Se han realizado 6 vistas, se listarán con su nombre, lugar de acceso en la nav
 (*) En el repositorio pero no utilizada.
 
 ## Material no desarrollado por nosotros (fuera de la plantilla)
-### Librerías añadidas
+### Librerías y estilos añadidos
   - [Librería de iconos de Bootstrap](https://icons.getbootstrap.com/) usada en todos los botones con iconos
+  - [Google fonts](https://fonts.google.com/) usada para la fuente principal [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans/license)
   - [htmx](https://htmx.org/)  usado en /swaps -> /swaps/info para cambiar contenido interno del template sin tener que cambiar la página entera o escribir JavaScript.
 
 ### Imágenes

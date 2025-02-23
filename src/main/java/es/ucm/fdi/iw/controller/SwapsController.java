@@ -38,4 +38,9 @@ public class SwapsController {
     public String info(Model model) {
         return "swapinfo";
     }
+
+    @GetMapping("/panel")
+    public String panel(Model model) {
+        return "swapspanel";
+    }
 }
