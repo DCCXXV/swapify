@@ -132,7 +132,7 @@ public class UserController {
 			@ModelAttribute User edited, 
 			@RequestParam(required=false) String pass2,
 			Model model, HttpSession session) throws IOException {
-
+		
         User requester = (User)session.getAttribute("u");
         User target = null;
         if (id == -1 && requester.hasRole(Role.ADMIN)) {
@@ -148,6 +148,9 @@ public class UserController {
         // retrieve requested user
         target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
+
+		// TODO: Fallo aquí, no funciona el "actual"
+		model.addAttribute("actual", "profile");
 		
 		if (requester.getId() != target.getId() &&
 				! requester.hasRole(Role.ADMIN)) {

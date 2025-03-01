@@ -30,7 +30,7 @@ VALUES (
     2, 
     TRUE, 
     'USER', 
-    'b',
+    'guest',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W',
     'Usuario estándar', 
     4.5, 

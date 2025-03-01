@@ -30,11 +30,17 @@ public class SwapsController {
 
 	@GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("actual", "swaps");
         return "swaps";
     }
 
     @GetMapping("/info")
     public String info(Model model) {
         return "swapinfo";
+    }
+
+    @GetMapping("/panel")
+    public String panel(Model model) {
+        return "swapspanel";
     }
 }

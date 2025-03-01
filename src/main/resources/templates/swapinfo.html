@@ -1,5 +1,5 @@
 <!-- swapinfo.html -->
-<div class="fg-orchid bold bg-abaloneshell-l0 p-3 rounded">
+<div class="fg-orchid bold bg-abaloneshell-l0 p-3 me-2 rounded overflow-hidden">
     <div class="justify-content-between">
         <div class="flex mb-3">
             <div class="d-flex justify-content-between">
@@ -9,13 +9,12 @@
                 </div>
 
                 <!-- TODO: cambiar a boton con htmx para no recargar la página entera-->
-                <button
-                    class="btn bg-abaloneshell-l0 fg-orchid p-0 border-0 shadow-none"
+                <i
                     hx-get="/swaps/"
                     hx-target="#swapbody"
-                    hx-swap="innerHTML">
-                    <i class="bi bi-x-circle-fill fs-3 me-2"></i>
-                </button>
+                    hx-swap="innerHTML"
+                    class="bi bi-x-circle-fill fs-3 me-2">
+                </i>
             </div>
             <div class="hr-swp"></div>
         </div>

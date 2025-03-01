@@ -3,7 +3,7 @@
 
 	<head>
 		<th:block th:replace="fragments/head :: header" />
-		<title>Para ti | Swapify</title>
+		<title>Inicio | Swapify</title>
 	</head>
 
 	<body class="d-flex flex-column h-100 bg-abaloneshell">
@@ -17,7 +17,7 @@
 				<div class="d-flex align-items-center mb-2 bg-abaloneshell-l0 p-2 rounded-pill justify-content-between">
 					<div class="d-flex align-items-center">
 						<span class="fg-oblivion ms-3">Habilidades que buscas: </span>
-						<div class="d-flex align-items-center row-md-8 ms-3 overflow-x">
+						<div class="d-flex align-items-center row-md-8 ms-3 flex-nowrap overflow-auto">
 							<!-- testeando, cuando hagamos esto con th:each ya lo terminaré  -->
 							<span class="badge rounded-pill bg-lushaqua p-2 pe-3 mx-2" id="badge1">
 								<i hx-get="#del" hx-target="#badge1" hx-swap="delete" class="bi bi-x fs-5 badge-cancel"></i>
@@ -36,7 +36,7 @@
 					<form>
 						<input 
 						type="text" 
-						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3"
+						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
 						placeholder="Añadir habilidad"
 						>
 					</form>
@@ -45,7 +45,7 @@
 				<div class="d-flex align-items-center mb-2 bg-abaloneshell-l0 p-2 rounded-pill justify-content-between">
 					<div class="d-flex align-items-center">
 						<span class="fg-oblivion ms-3">Habilidades que puedes ofrecer: </span>
-						<div class="d-flex align-items-center row-md-8 ms-3 overflow-x">
+						<div class="d-flex align-items-center row-md-8 ms-3 flex-nowrap overflow-auto">
 							<span class="badge rounded-pill bg-orchid p-2 pe-3 mx-2">
 								<i class="bi bi-x fs-5 badge-cancel"></i>
 								Programación en Java
@@ -70,7 +70,7 @@
 					<form>
 						<input 
 						type="text" 
-						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3"
+						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
 						placeholder="Añadir habilidad"
 						>
 					</form>
@@ -108,7 +108,7 @@
 
 				<h2 class="mt-5 fg-orchid bold">Habilidades más pedidas</h2>
 				<hr class="hr-swp">
-				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide carousel-fade">
+				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide">
 					<div class="carousel-inner">
 						<div class="carousel-item active bg-orchid" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">
@@ -197,10 +197,9 @@
 					</div>
 				</div>
 
-
 				<h2 class="mt-5 fg-orchid bold">Habilidades más comunes</h2>
 				<hr class="hr-swp">
-				<div id="carouseldHabilidadesComunesCerca" class="carousel slide carousel-fade">
+				<div id="carouseldHabilidadesComunesCerca" class="carousel slide">
 					<div class="carousel-inner">
 						<div class="carousel-item active bg-lushaqua" style="height: 300px;">
 							<div class="d-flex justify-content-center align-items-center h-100">

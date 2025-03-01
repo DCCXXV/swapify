@@ -71,13 +71,13 @@
   --bs-dark-border-subtle: #adb5bd;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-font-sans-serif: "Open Sans", "Nunito Sans", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  --bs-font-sans-serif: "Plus Jakarta Sans", "Poppins", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
   --bs-font-titles: "Quicksand", "SF Pro Display", system-ui, -apple-system, sans-serif;
   --bs-font-monospace: "Source Code Pro", "IBM Plex Mono", Menlo, Consolas, monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
-  --bs-body-font-size: 1rem;
-  --bs-body-font-weight: 400;
+  --bs-body-font-size: 1.05rem;
+  --bs-body-font-weight: 500;
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
   --bs-body-color-rgb: 33, 37, 41;
