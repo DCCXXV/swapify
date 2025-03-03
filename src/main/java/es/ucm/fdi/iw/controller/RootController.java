@@ -55,6 +55,11 @@ public class RootController {
         return "login";
     }
 
+    @GetMapping("/signup")
+    public String signup(Model model, HttpServletRequest request) {
+        return "signup";
+    }
+
     @GetMapping("/rewards")
     public String rewards(Model model) {
         return "rewards";
