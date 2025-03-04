@@ -39,6 +39,16 @@ public class RootController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("actual", "inicio");
+        
+        List<User> recusers = UserService.getRecommendedUsers();
+        List<User> otherusers = UserService.getPopularUsers();
+        List<String> desiredSkills = SkillService.getRequestedSkills();
+        List<String> commonSkills = SkillService.getCommonSkills();
+
+        model.addAttribute("recusers", recusers);
+        model.addAttribute("otherusers", otherusers);
+        model.addAttribute("desiredSkills", desiredSkills);
+        model.addAttribute("commonSkills", commonSkills);
 
 		List<User> users = entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
 		model.addAttribute("users", users);
