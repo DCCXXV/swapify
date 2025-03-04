@@ -1,10 +1,8 @@
 package es.ucm.fdi.iw.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 
 /**
@@ -40,5 +38,12 @@ public class Skill implements Transferable<Skill.Transfer> {
 	public String toString() {
 		return name;
 	}
+
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CurrentSkill> currentUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DesiredSkill> aspirantUsers = new ArrayList<>();
+
 }
 

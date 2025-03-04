@@ -121,5 +121,15 @@ public class User implements Transferable<User.Transfer> {
 	public String toString() {
 		return toTransfer().toString();
 	}
+
+    //
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CurrentSkill> currentSkillss;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DesiredSkill> desireSkills;
+
+
+
 }
 

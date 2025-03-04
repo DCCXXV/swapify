@@ -91,7 +91,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		String nextUrl = u.hasRole(User.Role.ADMIN) ? 
 		"admin/" :
-		"/";
+		"/user/all";
 
 		log.info("LOG IN: {} (id {}) -- session is {}, websocket is {} -- redirected to {}",
 			u.getUsername(), u.getId(), session.getId(), ws, nextUrl);

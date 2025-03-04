@@ -327,5 +327,14 @@ public class UserController {
 
 		messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 		return "{\"result\": \"message sent.\"}";
-	}	
+	}
+	
+	@GetMapping("/all")
+	public String getAllUsers(Model model){
+		List<User> users = entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+		model.addAttribute("users", users);
+    	return "index";  // Renderiza index.html
+	};
+	
+
 }
