@@ -92,13 +92,16 @@ public class User implements Transferable<User.Transfer> {
         private String description;
         private String pic;
 
+        List<CurrentSkill> currentSkills;
+        List<DesiredSkill> desiredSkills;
+
 		private int totalReceived;
 		private int totalSent;
     }
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,	username, firstName, description, pic, lastName, received.size(), sent.size());
+		return new Transfer(id,	username, firstName, description, pic, lastName, currentSkills, desiredSkills, received.size(), sent.size());
 	}
 	
 	@Override

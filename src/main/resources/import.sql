@@ -8,10 +8,11 @@ VALUES (
     'a',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W',
     'Usuario administrador',  
-    '/img/admin.png'
+    'admin.png'
 );
 
 -- TEST
+
 INSERT INTO IWUSER (id, enabled, roles, username, email, password, first_name, last_name, description, pic)
 VALUES (
     2,
@@ -23,7 +24,7 @@ VALUES (
     'John',
     'Doe',
     'Usuario estándar',
-    '/img/user.png'
+    'default-pic.jpg'
 );
 
 -- Insertar habilidades
@@ -37,9 +38,9 @@ INSERT INTO Skill (id, name) VALUES
     (7, 'Japonés');
 
 -- Insertar usuarios
-INSERT INTO IWUser (id, enabled, roles, username, email, password, firstName, lastName, description, pic) VALUES
-    (14, TRUE, 'USER', 'Isabel', 'isabel@example.com', '{bcrypt}$2a$10$fRsN8Yj5Lw2.GqsMnIFy2e/4Twz0JpJGXLc2vjoI2Z8ZcGm75yP2.', 'Isabel', 'Rodriguez', 'Hola, soy Isabel. Soy profesora de matemáticas y me encanta enseñar. También tengo experiencia en programación en Python y hablo inglés.', '/img/IsabelRodriguez.jpg'),
-    (15, TRUE, 'USER', 'Lucia', 'lucia@example.com', '{bcrypt}$2a$10$MZ1e0YvMJZrSxlXEZHKQj.Kcf9RV7WiRQmEHTkW.9YodFoq9/qeJ6', 'Lucía', 'Fernandez', '¡Hola! Soy Lucía, una apasionada de la música y la tecnología. Toco la guitarra y me encanta programar en mis tiempos libres. Hablo alemán y estoy aprendiendo japonés.', '/img/LuciaFernandez.jpg');
+INSERT INTO IWUser (id, enabled, roles, username, email, password, first_Name, last_Name, description, pic) VALUES
+    (14, TRUE, 'USER', 'Isabel', 'isabel@example.com', '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'Isabel', 'Rodriguez', 'Hola, soy Isabel. Soy profesora de matemáticas y me encanta enseñar. También tengo experiencia en programación en Python y hablo inglés.', 'IsabelRodriguez.jpg'),
+    (15, TRUE, 'USER', 'Lucia', 'lucia@example.com', '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'Lucía', 'Fernandez', '¡Hola! Soy Lucía, una apasionada de la música y la tecnología. Toco la guitarra y me encanta programar en mis tiempos libres. Hablo alemán y estoy aprendiendo japonés.', 'LuciaFernandez.jpg');
 
 -- Insertar habilidades actuales de los usuarios
 INSERT INTO currentSkill (id, description, rating, points, user_id, skill_id) VALUES
