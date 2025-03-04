@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
+import es.ucm.fdi.iw.repository.UserRepository;
 
 /**
  * Called when a user is first authenticated (via login).
@@ -36,7 +37,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private HttpSession session;
     
     @Autowired
-    private EntityManager entityManager;    
+    private UserRepository userRepository;    
     
 	private static Logger log = LogManager.getLogger(LoginSuccessHandler.class);
 	
@@ -61,9 +62,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	    
 	    // add a 'u' session variable, accessible from thymeleaf via ${session.u}
 	    log.info("Storing user info for {} in session {}", username, session.getId());
+		/* // Usamos repositories
 		User u = entityManager.createNamedQuery("User.byUsername", User.class)
 		        .setParameter("username", username)
-		        .getSingleResult();		
+		        .getSingleResult();
+		*/
+		User u = userRepository.findByUsername(username);
 		session.setAttribute("u", u);
 
 		// add 'url' and 'ws' session variables

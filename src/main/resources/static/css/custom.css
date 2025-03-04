@@ -223,7 +223,7 @@ td {
 }
 
 /*# es para id, recordar de los selectores de css*/
-#chat-container {
+#chatContainer {
     display: flex;
     flex-direction: column;
     height: 85vh;
