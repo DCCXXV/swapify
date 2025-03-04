@@ -19,15 +19,8 @@ public class CurrentSkill{
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
-    //las columnas son description,rating,points
-
-    @Column(name="description")
     private String description;
-
-    @Column(name="rating")
     private float rating;
-
-    @Column(name="points")
     private float points;
 
     @ManyToOne

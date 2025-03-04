@@ -80,7 +80,7 @@
 					<div th:each="usr : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
 						<div class="row g-0 h-100">
 							<div class="col-md-4 d-flex align-items-center justify-content-center">
-								<img th:src="@{'/img/pfp'+${usr.pfp}}" class="img-fluid rounded" alt="Foto de perfil">
+								<img th:src="@{'/img/pfp'+${usr.pic}}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body p-0" style="height: 255px;">
@@ -93,7 +93,7 @@
 										<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
 										<p class="card-text">
 											<div class="row-md-8 mb-3">
-												<span th:each="skill : ${usr.currentSkillss}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
+												<span th:each="skill : ${usr.currentSkills}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
 											</div>
 											<div class="row-md-8">
 												<span th:each="skill : ${usr.desiredSkills}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>

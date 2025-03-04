@@ -1,9 +1,5 @@
 package es.ucm.fdi.iw.service;
 
-
-
-
-
-public class DesireSkillService {
+public class DesiredSkillService {
     
 }

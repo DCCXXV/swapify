@@ -17,6 +17,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+/* // Usamos repositories no nos hace falta
 @NamedQueries({
         @NamedQuery(name="User.byUsername",
                 query="SELECT u FROM User u "
@@ -25,18 +26,9 @@ import java.util.List;
                 query="SELECT COUNT(u) "
                         + "FROM User u "
                         + "WHERE u.username = :username")
-})
+})*/
 @Table(name="IWUser")
 public class User implements Transferable<User.Transfer> {
-
-    // RECORDAR CAMBIAR SKILLS A SKILL EN VEZ DE STRING 
-    public User(String nombre, String descripcion, String foto, List<String> habilidadesOfrecidas, List<String> habilidadesBuscadas) {
-        this.firstName = nombre;
-        this.description = descripcion;
-        this.pfp = foto;
-        this.currentSkills = habilidadesOfrecidas;
-        this.desiredSkills = habilidadesBuscadas;
-    }
 
     public enum Role {
         USER,			// normal users 
@@ -50,11 +42,18 @@ public class User implements Transferable<User.Transfer> {
 
     @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
+    private String email;
+
     @Column(nullable = false)
     private String password;
 
     private String firstName;
     private String lastName;
+
+    private String description;
+    private String pic;
 
     private boolean enabled;
     private String roles; // split by ',' to separate roles
@@ -64,34 +63,14 @@ public class User implements Transferable<User.Transfer> {
 	private List<Message> sent = new ArrayList<>();
 	@OneToMany
 	@JoinColumn(name = "recipient_id")	
-	private List<Message> received = new ArrayList<>();		
+	private List<Message> received = new ArrayList<>();	
+    
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CurrentSkill> currentSkills;
 
-    // habilidades actuales (string temporal)
-    //@ManyToMany
-    @ElementCollection
-    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "currentSkills")
-    private List<String> currentSkills = new ArrayList<>();
-
-    // y habilidades que el usuario esta buscando adquirir (string temporal)
-    //@ManyToMany
-    @ElementCollection
-    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "desiredSkills")
-    private List<String> desiredSkills = new ArrayList<>();
-
-    // descripción
-    @Getter
-    private String description;
-
-    // valoración
-    @Getter
-    private double rating;
-
-    // foto de perfil
-    @Getter
-    private String pfp;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DesiredSkill> desiredSkills;
 
     /**
      * Checks whether this user has a given role.
@@ -108,28 +87,23 @@ public class User implements Transferable<User.Transfer> {
     public static class Transfer {
 		private long id;
         private String username;
+        private String firstName;
+        private String lastName;
+        private String description;
+        private String pic;
+
 		private int totalReceived;
 		private int totalSent;
     }
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,	username, received.size(), sent.size());
+		return new Transfer(id,	username, firstName, description, pic, lastName, received.size(), sent.size());
 	}
 	
 	@Override
 	public String toString() {
 		return toTransfer().toString();
 	}
-
-    //
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CurrentSkill> currentSkillss;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DesiredSkill> desireSkills;
-
-
-
 }
 

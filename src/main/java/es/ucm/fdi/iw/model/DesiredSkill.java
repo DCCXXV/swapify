@@ -18,7 +18,6 @@ public class DesiredSkill {
 	private long id;
 
 
-    @Column(name="description")
     private String description;
 
     @ManyToOne

@@ -3,13 +3,40 @@ package es.ucm.fdi.iw.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.repository.UserRepository;
 
+@Service
 public class UserService {
 
-    // no deberian ser esticas, arreglar cuando se haya que hacerlo bien
-    public static List<User> getRecommendedUsers() {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User.Transfer registerUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new RuntimeException("Email is already registered");
+        }
+
+        user.setEnabled(true);
+        user.setRoles("USER");
+
+        User registeredUser = userRepository.save(user);
+
+        return registeredUser.toTransfer();
+    }
+
+    public List<User.Transfer> getAllUsers() {
+        return userRepository.findAll().stream()
+            .map(User::toTransfer)
+            .collect(Collectors.toList());
+    }
+
+    /*
+    public List<User> getRecommendedUsers() {
         ArrayList<User> recommendedUsers = new ArrayList<>();
 
         // Crear usuarios ficticios
@@ -54,7 +81,7 @@ public class UserService {
         return recommendedUsers;
     }
 
-    public static List<User> getPopularUsers() {
+    public List<User> getPopularUsers() {
         ArrayList<User> popularUsers = new ArrayList<>();
     
         // Crear usuarios ficticios
@@ -144,4 +171,6 @@ public class UserService {
     
         return popularUsers;
     }
+     */
+
 }

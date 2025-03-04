@@ -311,13 +311,11 @@ i {
 #loginContainer {
     border-radius: 30px !important; 
     width: 750px;
-    height: 400px;
 }
 
 #signupContainer {
     border-radius: 30px !important; 
     width: 750px;
-    height: 670px;
 }
 
 /*Acentos al interactuar con el raton*/
