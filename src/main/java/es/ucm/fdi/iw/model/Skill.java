@@ -41,9 +41,8 @@ public class Skill implements Transferable<Skill.Transfer> {
 
     @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CurrentSkill> currentUsers = new ArrayList<>();
-
+    
     @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DesiredSkill> aspirantUsers = new ArrayList<>();
-
 }
 

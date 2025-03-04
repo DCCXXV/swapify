@@ -12,7 +12,7 @@ VALUES (
 );
 
 -- TEST
-INSERT INTO IWUSER (id, enabled, roles, username, email, password, firs_name, last_name, description, pic)
+INSERT INTO IWUSER (id, enabled, roles, username, email, password, first_name, last_name, description, pic)
 VALUES (
     2,
     TRUE,
