@@ -43,7 +43,7 @@ public class User implements Transferable<User.Transfer> {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -75,7 +75,7 @@ public class User implements Transferable<User.Transfer> {
     /**
      * Checks whether this user has a given role.
      * @param role to check
-     * @return true iff this user has that role.
+     * @return true if this user has that role.
      */
     public boolean hasRole(Role role) {
         String roleName = role.name();

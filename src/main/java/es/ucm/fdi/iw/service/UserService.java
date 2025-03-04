@@ -35,8 +35,9 @@ public class UserService {
          * se realiza una serie de operaciones para obtener una lista de objetos
          * de tipo User.Transfer a partir de los datos almacenados en un repositorio de usuarios.
          *
-         * 1. userRepository.findAll():
-         *    - Este método se utiliza para recuperar todos los usuarios almacenados en el repositorio.
+         * 1. userRepository.findByUsernameNot("a"):
+         *    - Este método se utiliza para recuperar todos los usuarios almacenados en el repositorip
+         *      que no tiene como nombre de usuario a (el admin).
          *    - Devuelve una lista de objetos de tipo User.
          *
          * 2. .stream():
@@ -56,7 +57,7 @@ public class UserService {
          * El resultado final es una lista de objetos User.Transfer que se puede utilizar para
          * transferir datos de usuario en un formato más limpio y flexible.
          */
-        return userRepository.findAll().stream()
+        return userRepository.findByUsernameNot("a").stream()
             .map(User::toTransfer)
             .collect(Collectors.toList());
     }

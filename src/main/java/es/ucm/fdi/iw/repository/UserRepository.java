@@ -35,7 +35,9 @@ import es.ucm.fdi.iw.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
-    List<User> findByUsernameContaining(String partofname);
+    
+    List<User> findByUsernameNot(String usernamet);
+    List<User> findByUsernameContainingIgnoreCase(String partialUsername);
 
     User findByEmail(String email);
     boolean existsByEmail(String email);
