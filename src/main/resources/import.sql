@@ -21,7 +21,7 @@ VALUES (
     'guest',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W',
     'Usuario estándar', 
-    '/img/user.png',
+    '/img/user.png'
 );
 
 -- Iniciar secuencia de IDs
