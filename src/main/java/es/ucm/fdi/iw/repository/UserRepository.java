@@ -39,6 +39,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUsernameNot(String usernamer);
     List<User> findByUsernameContainingIgnoreCase(String partialUsername);
 
+    List<User> findByCurrentSkillsSkillNameIgnoreCase(String skillname);
+    List<User> findByDesiredSkillsSkillNameIgnoreCase(String skillname);
+
     User findByEmail(String email);
     boolean existsByEmail(String email);
 }

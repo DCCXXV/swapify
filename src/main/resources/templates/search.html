@@ -134,7 +134,7 @@
                             <h3 class="bold">Habilidades</h3>
                             <div class="hr-swp"></div>
                             <div th:if="${not listSkill.isEmpty()}" class="row text-center p-3">
-                                <div th:each="skill : ${listSkill}" class="col-md-4">
+                                <div th:each="skill : ${listSkill}" class="col-md-4 px-2">
                                     <div  class="skill-card bg-abaloneshell fg-orchid rounded p-3 my-2">
                                         <span class="bold align-self-center" th:text="${skill.name}"></span>
                                     </div>
@@ -155,7 +155,7 @@
                             <h3 class="bold">Habilidades</h3>
                             <div class="hr-swp"></div>
                             <div th:if="${not listSkill.isEmpty()}" class="row text-center p-3">
-                                <div th:each="skill : ${listSkill}" class="col-md-4">
+                                <div th:each="skill : ${listSkill}" class="col-md-4 px-2">
                                     <div  class="skill-card bg-abaloneshell fg-orchid rounded p-3 my-2">
                                         <span class="bold align-self-center" th:text="${skill.name}"></span>
                                     </div>

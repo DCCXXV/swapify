@@ -104,13 +104,13 @@
 }
 
 .skill-card {
-    transition: all 0.07s ease;
+    transition: all 0.04s ease;
     cursor: pointer;
 }
 
 .skill-card:hover {
-    filter: brightness(90%);
-    transform: scale(1.04);
+    filter: brightness(95%);
+    transform: scale(1.03);
 }
 
 .skills-row {

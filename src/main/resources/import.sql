@@ -22,10 +22,10 @@ VALUES (
     'guest',
     'b@a.a',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W',
-    'John',
-    'Doe',
-    'Usuario estándar',
-    'default-pic.jpg'
+    'Juan',
+    'Pérez',
+    'Soy Juan Pérez, un diseñador gráfico y fotógrafo con más de diez años de experiencia. Mi pasión es transformar ideas en realidades visuales a través del diseño y la fotografía, creando identidades visuales y capturando momentos únicos. Siempre estoy buscando aprender y crecer, especialmente en desarrollo web y marketing digital, y me encantaría mejorar mi inglés para comunicarme con clientes internacionales. En mi tiempo libre, disfruto del arte, la tecnología y la naturaleza. Si te interesa colaborar o intercambiar habilidades, ¡no dudes en contactarme! ',
+    'Juan.jpg'
 );
 -- ========================================================
 -- 1. INSERTAR REGISTROS EN LA TABLA Skill
@@ -52,7 +52,7 @@ INSERT INTO Skill (id, name) VALUES
     (19, 'Marketing digital'),
     (20, 'JavaScript y React'),
     (21, 'Desarrollo de software'),
-    (22, 'Inteligencia artificial y machine learning'),
+    (22, 'Inteligencia artificial'),
     (23, 'Fotografía'),
     (24, 'Senderismo'),
     (25, 'Música y composición'),
@@ -61,7 +61,8 @@ INSERT INTO Skill (id, name) VALUES
     (28, 'Administración de sistemas'),
     (29, 'Ciberseguridad'),
     (30, 'Chino'),
-    (31, 'Programación en Java');
+    (31, 'Programación en Java'),
+    (32, 'Machine learning');
 
 -- ========================================================
 -- 2. INSERTAR REGISTROS EN LA TABLA IWUser (usuarios)
@@ -196,8 +197,8 @@ INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
 
 -- Usuario 22: Pedro
 INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
-    (9, 22, 22, 'Deseo profundizar en inteligencia artificial y machine learning para desarrollar soluciones innovadoras y mantenerme a la vanguardia tecnológica en el desarrollo de software.');
-
+    (9, 22, 22, 'Deseo profundizar en inteligencia artificial para desarrollar soluciones innovadoras y mantenerme a la vanguardia tecnológica en el desarrollo de software.'),
+ (9, 22, 32, 'Deseo profundizar en machine learning para desarrollar soluciones innovadoras y mantenerme a la vanguardia tecnológica en el desarrollo de software.');
 -- Usuario 23: Sofía
 INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
     (10, 23, 5, 'Estoy aprendiendo alemán para poder explorar nuevas culturas y expandir mis horizontes tanto personales como profesionales.');

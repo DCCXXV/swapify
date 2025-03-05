@@ -42,7 +42,7 @@ public class RootController {
     public String index(Model model) {
         model.addAttribute("actual", "inicio");
         
-        List<User.Transfer> users = userService.getAllUsers();
+        List<User.Transfer> otherusers = userService.getAllUsers();
 
         List<String> desiredSkills = SkillService.getRequestedSkills();
         List<String> commonSkills = SkillService.getCommonSkills();
@@ -50,7 +50,7 @@ public class RootController {
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
         
-		model.addAttribute("otherusers", users);
+		model.addAttribute("otherusers", otherusers);
         
         return "index";
     }
