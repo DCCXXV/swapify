@@ -2,9 +2,11 @@ package es.ucm.fdi.iw.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name="desiredSkill")
 public class DesiredSkill {
 
@@ -17,7 +19,7 @@ public class DesiredSkill {
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
-
+    @Lob
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)

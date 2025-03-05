@@ -179,10 +179,10 @@
 											<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
 											<p class="card-text">
 												<div class="row-md-8 mb-3">
-													<span th:each="skill : ${usr.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
+													<span th:each="cs : ${usr.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${cs.skill.name}">Skill</span>
 												</div>
 												<div class="row-md-8">
-													<span th:each="skill : ${usr.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
+													<span th:each="ds : ${usr.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid me-1" th:text="${ds.skill.name}">Skill</span>
 												</div>
 											</p>
 										</div>

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.SkillService;
 import es.ucm.fdi.iw.service.UserService;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 

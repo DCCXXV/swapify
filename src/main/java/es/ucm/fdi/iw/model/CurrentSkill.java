@@ -2,9 +2,11 @@ package es.ucm.fdi.iw.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name="currentSkill")
 public class CurrentSkill{
 
@@ -19,7 +21,9 @@ public class CurrentSkill{
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
+    @Lob
     private String description;
+    
     private float rating;
     private float points;
 
@@ -30,5 +34,4 @@ public class CurrentSkill{
     @ManyToOne
     @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
-
 }
