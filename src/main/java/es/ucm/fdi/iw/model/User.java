@@ -52,7 +52,9 @@ public class User implements Transferable<User.Transfer> {
     private String firstName;
     private String lastName;
 
+    @Lob // indica que este campo puede ser largo
     private String description;
+
     private String pic;
 
     private boolean enabled;
@@ -101,7 +103,7 @@ public class User implements Transferable<User.Transfer> {
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,	username, firstName, description, pic, lastName, currentSkills, desiredSkills, received.size(), sent.size());
+		return new Transfer(id,	username, firstName, lastName, description, pic, currentSkills, desiredSkills, received.size(), sent.size());
 	}
 	
 	@Override
