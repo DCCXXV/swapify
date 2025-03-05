@@ -2,9 +2,27 @@ package es.ucm.fdi.iw.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import es.ucm.fdi.iw.model.Skill;
+import es.ucm.fdi.iw.repository.SkillRepository;
+
+@Service
 public class SkillService {
-
+    
+    @Autowired
+    private SkillRepository skillRepository;
+    
+    public List<Skill.Transfer> getSkill(String keyword) {
+        return skillRepository.findByNameContainingIgnoreCase(keyword)
+            .stream()
+            .map(Skill::toTransfer)
+            .collect(Collectors.toList());
+    }
+    
     // static solo para ahorrar tiempo ahora, luego quitar
     public static List<String> getCommonSkills() {
         return Arrays.asList(

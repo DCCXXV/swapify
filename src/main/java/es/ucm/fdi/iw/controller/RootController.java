@@ -30,7 +30,7 @@ public class RootController {
     private UserService userService;
 
     @Autowired
-	private EntityManager entityManager;
+	private SkillService skillService;
 
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {        
@@ -74,8 +74,10 @@ public class RootController {
     }
 
    @GetMapping("/search")
-    public String search(@RequestParam(name = "query", required = false) String username, Model model) {
-        model.addAttribute("query", username);
+    public String search(@RequestParam(name = "query", required = false) String keyword, Model model) {
+        model.addAttribute("query", keyword);
+        model.addAttribute("listSkill", skillService.getSkill(keyword));
+
         return "search";
     }
 }
