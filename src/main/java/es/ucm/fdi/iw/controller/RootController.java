@@ -51,7 +51,7 @@ public class RootController {
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
         
-		model.addAttribute("users", users);
+		model.addAttribute("otherusers", users);
         
         return "index";
     }

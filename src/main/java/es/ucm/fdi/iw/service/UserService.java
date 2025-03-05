@@ -57,9 +57,12 @@ public class UserService {
          * El resultado final es una lista de objetos User.Transfer que se puede utilizar para
          * transferir datos de usuario en un formato más limpio y flexible.
          */
-        return userRepository.findByUsernameNot("a").stream()
-            .map(User::toTransfer)
-            .collect(Collectors.toList());
+        // separado para debuggear
+        List<User.Transfer> users = userRepository.findByUsernameNot("a").stream()
+        .map(User::toTransfer)
+        .collect(Collectors.toList());
+        
+        return users;
     }
 
     /*

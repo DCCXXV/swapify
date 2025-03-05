@@ -30,13 +30,42 @@ VALUES (
 
 -- Insertar habilidades
 INSERT INTO Skill (id, name) VALUES
-    (1, 'Matemáticas'),
-    (2, 'Programación en Python'),
-    (3, 'Inglés'),
-    (4, 'Música'),
-    (5, 'Guitarra'),
+    (1, 'Inglés'),
+    (2, 'Francés'),
+    (3, 'Programación en Python'),
+    (4, 'Desarrollo web'),
+    (5, 'Programación en Java'),
     (6, 'Alemán'),
-    (7, 'Japonés');
+    (7, 'Edición de fotografía'),
+    (8, 'Guitarra'),
+    (9, 'Diseño gráfico'),
+    (10, 'Italiano'),
+    (11, 'Cocina'),
+    (12, 'Salsa'),
+    (13, 'Bachata'),
+    (14, 'Excel'),
+    (15, 'Fútbol'),
+    (16, 'Entrenamiento personal'),
+    (17, 'Nutrición'),
+    (18, 'Marketing digital'),
+    (19, 'Fotografía'),
+    (20, 'Redes sociales'),
+    (21, 'JavaScript'),
+    (22, 'React'),
+    (23, 'Inteligencia artificial'),
+    (24, 'Machine learning'),
+    (25, 'Senderismo'),
+    (26, 'Ecología'),
+    (27, 'Composición'),
+    (28, 'Producción musical'),
+    (29, 'Cocina mediterránea'),
+    (30, 'Repostería'),
+    (31, 'Cocina asiática'),
+    (32, 'Administración de sistemas'),
+    (33, 'Ciberseguridad'),
+    (34, 'Chino'),
+    (35, 'Ruso');
+
 
 -- Insertar usuarios
 INSERT INTO IWUser (id, enabled, roles, username, email, password, first_Name, last_Name, description, pic) VALUES
@@ -55,21 +84,36 @@ INSERT INTO IWUser (id, enabled, roles, username, email, password, first_Name, l
     (26, TRUE, 'USER', 'Miguel', 'miguel@example.com', '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'Miguel', 'Sánchez', 'Soy Miguel, un entusiasta de la tecnología. Trabajo como administrador de sistemas y me encanta todo lo relacionado con la ciberseguridad. Hablo inglés y estoy aprendiendo chino.', 'MiguelSanchez.jpg');
 
 /*
--- Insertar habilidades actuales de los usuarios
-INSERT INTO currentSkill (id, description, rating, points, user_id, skill_id) VALUES
-    (1, 'Profesora de matemáticas con experiencia.', 9.9, 100, 14, 1),
-    (2, 'Experta en Python, programación avanzada.', 8.7, 95, 14, 2),
-    (3, 'Nivel avanzado de inglés, C1.', 7.5, 90, 14, 3),
-    (4, 'Guitarrista aficionada, autodidacta.', 6.2, 80, 15, 5),
-    (5, 'Programadora en Python nivel intermedio.', 6.0, 85, 15, 2),
-    (6, 'Nivel alto de alemán, B2.', 7.3, 88, 15, 6);
+-- Asignar habilidades actuales (CurrentSkill)
+INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) VALUES
+    (1, 14, 3, 'Programación en Python', 4.5, 100),
+    (2, 14, 1, 'Inglés', 4.0, 80),
+    (3, 15, 8, 'Guitarra', 4.2, 90),
+    (4, 15, 21, 'Programación', 3.8, 75),
+    (5, 15, 6, 'Alemán', 3.5, 60),
+    (6, 16, 1, 'Inglés', 4.8, 120),
+    (7, 16, 2, 'Francés', 4.0, 85),
+    (8, 16, 3, 'Programación en Python', 4.7, 110),
+    (9, 17, 2, 'Francés', 4.5, 95),
+    (10, 17, 7, 'Yoga', 4.8, 125),
+    (11, 17, 8, 'Meditación', 4.2, 90);
 
--- Insertar habilidades deseadas de los usuarios
-INSERT INTO desiredSkill (id, description, user_id, skill_id) VALUES
-    (1, 'Mejorar mi nivel de alemán.', 14, 6),
-    (2, 'Aprender a tocar la guitarra.', 14, 5),
-    (3, 'Aprender japonés desde cero.', 15, 7),
-    (4, 'Mejorar mi nivel de matemáticas aplicadas.', 15, 1);
+-- Asignar habilidades deseadas (DesiredSkill)
+INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
+    (1, 14, 23, 'Inteligencia artificial'),
+    (2, 14, 11, 'Educación'),
+    (3, 15, 28, 'Producción musical'),
+    (4, 15, 35, 'Japonés'),
+    (5, 16, 5, 'Programación en Java'),
+    (6, 16, 6, 'Alemán'),
+    (7, 17, 7, 'Edición de fotografía'),
+    (8, 18, 10, 'Italiano'),
+    (9, 18, 7, 'Edición de fotografía'),
+    (10, 19, 11, 'Cocina'),
+    (11, 20, 34, 'Chino'),
+    (12, 21, 23, 'Inteligencia artificial'),
+    (13, 22, 26, 'Ecología'),
+    (14, 23, 35, 'Ruso');
 */
 
 -- Iniciar secuencia de IDs

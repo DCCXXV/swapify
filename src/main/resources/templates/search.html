@@ -133,9 +133,11 @@
                         <div class="p-3 fg-orchid">
                             <h3 class="bold">Habilidades</h3>
                             <div class="hr-swp"></div>
-                            <div th:if="${not listSkill.isEmpty()}">
-                                <div th:each="skill : ${listSkill}" class="skill-card bg-abaloneshell-l0 fg-orchid p-3 m-2">
-                                    <span th:text="${skill.name}"></span>
+                            <div th:if="${not listSkill.isEmpty()}" class="row text-center p-3">
+                                <div th:each="skill : ${listSkill}" class="col-md-4">
+                                    <div  class="skill-card bg-abaloneshell fg-orchid rounded p-3 my-2">
+                                        <span class="bold align-self-center" th:text="${skill.name}"></span>
+                                    </div>
                                 </div>
                             </div>
                             <span th:if="${listSkill.isEmpty()}" class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
@@ -152,12 +154,14 @@
                         <div class="p-3 fg-orchid">
                             <h3 class="bold">Habilidades</h3>
                             <div class="hr-swp"></div>
-                            <div th:if="${not listSkill.isEmpty()}">
-                                <div th:each="skill : ${listSkill}" class="skill-card bg-abaloneshell-l0 fg-orchid p-3 m-2">
-                                    <span th:text="${skill.name}"></span>
+                            <div th:if="${not listSkill.isEmpty()}" class="row text-center p-3">
+                                <div th:each="skill : ${listSkill}" class="col-md-4">
+                                    <div  class="skill-card bg-abaloneshell fg-orchid rounded p-3 my-2">
+                                        <span class="bold align-self-center" th:text="${skill.name}"></span>
+                                    </div>
                                 </div>
                             </div>
-                            <span th:if="${listSkill.isEmpty()}" class="fg-orchid fs-5 mt-3">No se encontraron resultados</span> 
+                            <span th:if="${listSkill.isEmpty()}" class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
                         </div>
                     </div>
                 </div>
