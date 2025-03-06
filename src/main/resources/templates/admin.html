@@ -20,7 +20,7 @@
                     <div class="card bg-abaloneshell-l0 fg-oblivion">
                         <div class="card-body">
                             <h5 class="card-title">Usuarios Totales</h5>
-                            <p class="card-text fs-3 bold">500</p>
+                            <p class="card-text fs-3 bold" th:text="${totalUser}">0</p>
                         </div>
                     </div>
                 </div>
@@ -92,47 +92,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="bg-abaloneshell-l0">1</td>
-                                        <td class="bg-abaloneshell-l0">Juan Pérez</td>
-                                        <td class="bg-abaloneshell-l0">@Juanperez123</td>
-                                        <td class="bg-abaloneshell-l0">juan@example.com</td>
-                                        <td class="bg-abaloneshell-l0">
-                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
-                                                data-bs-target="#editUserModal">Editar</button>
-                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-abaloneshell-l0">2</td>
-                                        <td class="bg-abaloneshell-l0">Maria López</td>
-                                        <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                        <td class="bg-abaloneshell-l0">maria@example.com</td>
-                                        <td class="bg-abaloneshell-l0">
-                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
-                                                data-bs-target="#editUserModal">Editar</button>
-                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-abaloneshell-l0">2</td>
-                                        <td class="bg-abaloneshell-l0">Maria López</td>
-                                        <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                        <td class="bg-abaloneshell-l0">maria@example.com</td>
-                                        <td class="bg-abaloneshell-l0">
-                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
-                                                data-bs-target="#editUserModal">Editar</button>
-                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-abaloneshell-l0">2</td>
-                                        <td class="bg-abaloneshell-l0">Maria López</td>
-                                        <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                        <td class="bg-abaloneshell-l0">maria@example.com</td>
+
+                                    <tr th:each="user: ${users}">
+                                        <td class="bg-abaloneshell-l0" th:text="${user.id}"></td>
+                                        <td class="bg-abaloneshell-l0" th:text="${user.firstName + ' ' + user.lastName}"></td>
+                                        <td class="bg-abaloneshell-l0" th:text="|@${user.username}|"></td>
+                                        <td class="bg-abaloneshell-l0" th:text="${user.email}"></td>
                                         <td class="bg-abaloneshell-l0">
                                             <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
                                                 data-bs-target="#editUserModal">Editar</button>
