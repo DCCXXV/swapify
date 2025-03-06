@@ -75,8 +75,8 @@ public class RootController {
    @GetMapping("/search")
     public String search(@RequestParam(name = "query", required = false) String keyword, Model model) {
         model.addAttribute("query", keyword);
-        model.addAttribute("listSkill", skillService.getSkill(keyword));
-
+        model.addAttribute("users", userService.getUsersByKeyword(keyword));
+        model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
         return "search";
     }
 }

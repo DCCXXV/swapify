@@ -318,6 +318,10 @@ i {
     width: 750px;
 }
 
+#searchContainer {
+    border-radius: 49px !important; 
+}
+
 /*Acentos al interactuar con el raton*/
 .btn:focus {
     border-color: rgb(117, 84, 104);

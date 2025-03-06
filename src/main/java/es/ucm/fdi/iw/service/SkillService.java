@@ -16,7 +16,7 @@ public class SkillService {
     @Autowired
     private SkillRepository skillRepository;
     
-    public List<Skill.Transfer> getSkill(String keyword) {
+    public List<Skill.Transfer> getSkillsByKeyword(String keyword) {
         return skillRepository.findByNameContainingIgnoreCase(keyword)
             .stream()
             .map(Skill::toTransfer)

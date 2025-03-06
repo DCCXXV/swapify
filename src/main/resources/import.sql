@@ -1,6 +1,6 @@
 -- Insertar administrador (username 'a', password 'aa')
 
-INSERT INTO IWUSER (id, email, enabled, roles, username, password, description, pic)
+INSERT INTO IWUSER (id, email, enabled, roles, username, password, description, pic, first_name)
 VALUES (
     1, 
     'a@a.a',
@@ -9,7 +9,8 @@ VALUES (
     'a',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W',
     'Usuario administrador',  
-    'admin.png'
+    'admin.png',
+    'El admin'
 );
 
 -- TEST
