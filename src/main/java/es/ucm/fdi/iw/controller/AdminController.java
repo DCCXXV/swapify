@@ -8,9 +8,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.http.ResponseEntity;
+
+
 
 /**
  *  Site administration.
@@ -40,6 +52,17 @@ public class AdminController {
         model.addAttribute("totalUser", userService.getAllUsers().size());
         return "admin";
     }
+    
+    @PostMapping("/toggle/{id}")
+    @Transactional
+    @ResponseBody
+    public String toggleUser(@PathVariable long id, Model model) {
+        log.info("Admin cambia estado de " + id);
+        User target = userService.getUsersByID(id);
+        target.setDeleted(!target.isDeleted());
+        return "{\"deleted\":" + target.isDeleted() + "}";
+    }
+    
 
 
 

@@ -20,7 +20,7 @@ public class UserService {
             throw new RuntimeException("Email is already registered");
         }
 
-        user.setEnabled(true);
+        user.setDeleted(false);
         user.setRoles("USER");
 
         User registeredUser = userRepository.save(user);
@@ -68,5 +68,13 @@ public class UserService {
             .stream()
             .map(User::toTransfer)
             .collect(Collectors.toList());
+    }
+
+    public void deleteById(Long id){
+        userRepository.deleteById(id);
+    }
+
+    public User getUsersByID(long id) {
+        return userRepository.findById(id);
     }
 }

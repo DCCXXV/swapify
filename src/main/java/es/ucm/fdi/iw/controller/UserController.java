@@ -139,7 +139,7 @@ public class UserController {
             // create new user with random password
             target = new User();
             target.setPassword(encodePassword(generateRandomBase64Token(12)));
-            target.setEnabled(true);
+            target.setDeleted(false);
             entityManager.persist(target);
             entityManager.flush(); // forces DB to add user & assign valid id
             id = target.getId();   // retrieve assigned id from DB

@@ -99,10 +99,13 @@
                                         <td class="bg-abaloneshell-l0" th:text="|@${user.username}|"></td>
                                         <td class="bg-abaloneshell-l0" th:text="${user.email}"></td>
                                         <td class="bg-abaloneshell-l0">
+                                            
                                             <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" data-bs-toggle="modal"
                                                 data-bs-target="#editUserModal">Editar</button>
-                                            <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
-                                                data-bs-target="#banUserModal">Deshabilitar usuario</button>
+                                            <form th:action="@{'/admin/toggle/' + ${user.id}}" method="post">
+                                                <button class="toggle btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-bs-toggle="modal"
+                                                    data-bs-target="#banUserModal" data-user-id=${user.id}>Deshabilitar usuario</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -178,7 +181,7 @@
                 </div>
             </div>
         
-            <!-- Gestión de Reportes -->
+            <!-- Gestión de Swaps -->
             <div class="tab-pane fade" id="swaps" role="tabpanel">
                 <div class="card mb-4 bg-abaloneshell-l0">
                     <div class="card-header bg-orchid text-white">Gestión de Swaps</div>
@@ -311,6 +314,29 @@
         </main>
 
         <th:block th:replace="fragments/footer.html :: footer" />
+
+        <script>
+            const toggles = document.querySelectorAll('.toggle');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const form = e.target.parentElement;
+                    go(form.action, 'POST').then((d) => {
+                        if (!d.deleted) {
+                            e.target.classList.remove('btn-primary');
+                            e.target.classList.add('btn-danger');
+                            e.target.textContent = 'Deshabilitar usuario';
+                        } else {
+                            e.target.classList.remove('btn-danger');
+                            e.target.classList.add('btn-primary');
+                            e.target.textContent = 'Habilitar';
+                        } 
+                        console.log(d);
+                    });
+                });
+            });
+        </script>
+
     </body>
 
 </html>

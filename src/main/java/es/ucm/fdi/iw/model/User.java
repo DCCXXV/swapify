@@ -57,7 +57,7 @@ public class User implements Transferable<User.Transfer> {
 
     private String pic;
 
-    private boolean enabled;
+    private boolean deleted;
     private String roles; // split by ',' to separate roles
 
 	@OneToMany
