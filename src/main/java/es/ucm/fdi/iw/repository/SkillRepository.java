@@ -9,4 +9,5 @@ import es.ucm.fdi.iw.model.Skill;
 public interface SkillRepository extends JpaRepository<Skill, Long>{
     Skill findByName(String name);
     List<Skill> findByNameContainingIgnoreCase(String partialName);
+    Skill findById(long id);
 } 
