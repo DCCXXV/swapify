@@ -32,16 +32,16 @@
                             <h4 class="fg-oblivion bold my-3">Resumen de habilidades</h4>
 
                             <h5 class="fg-lushaqua my-3">Habilidades actuales (dispuesto a enseñar):</h5>
-
                             <span th:each="currentSkill : ${currentSkills}">
-                                <span class="badge rounded-pill bg-lushaqua mx-1 p-2" th:text="${currentSkill.name}">Por
+                                <span class="badge rounded-pill bg-lushaqua mx-1 p-2"
+                                    th:text="${currentSkill.skill.name}">Por
                                     defecto</span>
                             </span>
 
                             <h5 class="fg-orchid my-3">Habilidades que quiero aprender: </h5>
-
                             <span th:each="desiredSkill : ${desiredSkills}">
-                                <span class="badge rounded-pill bg-lushaqua mx-1 p-2" th:text="${desiredSkill.name}">Por
+                                <span class="badge rounded-pill bg-orchid mx-1 p-2"
+                                    th:text="${desiredSkill.skill.name}">Por
                                     defecto</span>
                             </span>
 
@@ -53,12 +53,11 @@
             <hr class="hr-swp">
 
             <h3 class="fg-lushaqua bold my-4">Habilidades a enseñar</h3>
-            <div class="bg-abaloneshell rounded mb-4 fg-oblivion">
-                <div class="d-flex flex-column p-3">
+            <div class="d-flex flex-column p-3">
 
-                    <div th:each="currentSkill : ${currentSkills}">
-                        <h5 class="fg-lushaqua bold rounded-pill me-3" th:text="${currentSkill.name}">Defecto
-                        </h5>
+                <div th:each="currentSkill : ${currentSkills}">
+                    <div class="bg-abaloneshell rounded p-3 mb-4 fg-oblivion">
+                        <h5 class="fg-lushaqua bold rounded-pill me-3" th:text="${currentSkill.skill.name}">Defecto</h5>
 
                         <p th:text="${currentSkill.description}">Defecto</p>
                         <h5 class="fg-lushaqua bold me-3">Reseñas</h5>
@@ -138,16 +137,21 @@
                     </div>
                 </div>
             </div>
-
-
             <h3 class="fg-orchid bold my-4">Habilidades por aprender</h3>
+            <div class="m-3">
+                <div th:each="desiredSkill : ${desiredSkills}">
+                    <div class="bg-abaloneshell rounded p-3 mb-4 fg-oblivion">
 
-            <div th:each="desiredSkill : ${desiredSkills}">
-                <div class="d-flex flex-column p-3">
-                    <h5 class="fg-orchid bold rounded-pill me-3" th:text="${desiredSkill.name}">Por defecto</h5>
-                    <p th:text="${desiredSkill.description}">Por defecto</p>
+                        <div class="d-flex flex-column p-3">
+                            <h5 class="fg-orchid bold rounded-pill me-3" th:text="${desiredSkill.skill.name}">Por
+                                defecto
+                            </h5>
+                            <p th:text="${desiredSkill.description}">Por defecto</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
 
         </div>
