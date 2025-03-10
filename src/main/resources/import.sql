@@ -51,7 +51,7 @@ INSERT INTO Skill (id, name) VALUES
     (17, 'Entrenamiento personal'),
     (18, 'Portugués'),
     (19, 'Marketing digital'),
-    (20, 'JavaScript y React'),
+    (20, 'JavaScript'),
     (21, 'Desarrollo de software'),
     (22, 'Inteligencia artificial'),
     (23, 'Fotografía'),
@@ -63,7 +63,9 @@ INSERT INTO Skill (id, name) VALUES
     (29, 'Ciberseguridad'),
     (30, 'Chino'),
     (31, 'Programación en Java'),
-    (32, 'Machine learning');
+    (32, 'Machine learning'),
+    (33, 'React Framework'),
+    (34, 'Metodologías Ágiles');
 
 -- ========================================================
 -- 2. INSERTAR REGISTROS EN LA TABLA IWUser (usuarios)
@@ -138,7 +140,9 @@ INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) V
 
 -- Usuario 22: Pedro
 INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) VALUES
-    (25, 22, 20, 'Mi experiencia en JavaScript y React me ha permitido crear aplicaciones web interactivas y escalables, utilizando tecnologías modernas y metodologías ágiles.', 4.7, 110),
+    (25, 22, 20, 'Mi experiencia en JavaScript me ha permitido crear aplicaciones web interactivas y escalables, utilizando tecnologías modernas y metodologías ágiles.', 4.7, 110),
+    (56, 22, 33, 'Mi experiencia React me ha permitido crear aplicaciones web interactivas y escalables, utilizando tecnologías modernas y metodologías ágiles.', 4.7, 110),
+    (55, 22, 34, 'Mi experiencia React me ha permitido crear aplicaciones web interactivas y escalables, utilizando tecnologías modernas y metodologías ágiles.', 4.7, 110),
     (26, 22, 21, 'Como desarrollador de software, he enfrentado y resuelto desafíos complejos, integrando diversas tecnologías para construir soluciones robustas y eficientes.', 4.8, 120);
 
 -- Usuario 23: Sofía
@@ -199,19 +203,18 @@ INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
 -- Usuario 22: Pedro
 INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
     (9, 22, 22, 'Deseo profundizar en inteligencia artificial para desarrollar soluciones innovadoras y mantenerme a la vanguardia tecnológica en el desarrollo de software.'),
- (9, 22, 32, 'Deseo profundizar en machine learning para desarrollar soluciones innovadoras y mantenerme a la vanguardia tecnológica en el desarrollo de software.');
+    (10, 22, 32, 'Deseo profundizar en machine learning para desarrollar soluciones innovadoras y mantenerme a la vanguardia tecnológica en el desarrollo de software.');
 -- Usuario 23: Sofía
 INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
-    (10, 23, 5, 'Estoy aprendiendo alemán para poder explorar nuevas culturas y expandir mis horizontes tanto personales como profesionales.');
+    (11, 23, 5, 'Estoy aprendiendo alemán para poder explorar nuevas culturas y expandir mis horizontes tanto personales como profesionales.');
 
 -- Usuario 24: Diego
 INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
-    (11, 24, 27, 'Estoy aprendiendo ruso para ampliar mis horizontes artísticos y colaborar en proyectos musicales internacionales con nuevas influencias culturales.');
+    (12, 24, 27, 'Estoy aprendiendo ruso para ampliar mis horizontes artísticos y colaborar en proyectos musicales internacionales con nuevas influencias culturales.');
 
 -- Usuario 26: Miguel
 INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
-    (12, 26, 30, 'Quiero aprender chino para participar en proyectos internacionales en el sector tecnológico, aprovechando las oportunidades de un mercado en expansión.');
+    (13, 26, 30, 'Quiero aprender chino para participar en proyectos internacionales en el sector tecnológico, aprovechando las oportunidades de un mercado en expansión.');
 
 -- Iniciar secuencia de IDs
 ALTER SEQUENCE GEN RESTART WITH 1024;
-
