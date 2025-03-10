@@ -2,13 +2,27 @@ package es.ucm.fdi.iw.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.http.ResponseEntity;
+
+
 
 /**
  *  Site administration.
@@ -18,6 +32,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("admin")
 public class AdminController {
+
+    @Autowired
+    private UserService userService;
 
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {        
@@ -31,6 +48,22 @@ public class AdminController {
 	@GetMapping("/")
     public String index(Model model) {
         log.info("Admin acaba de entrar");
+        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("totalUser", userService.getAllUsers().size());
         return "admin";
     }
+    
+    @PostMapping("/toggle/{id}")
+    @Transactional
+    @ResponseBody
+    public String toggleUser(@PathVariable long id, Model model) {
+        log.info("Admin cambia estado de " + id);
+        User target = userService.getUsersByID(id);
+        target.setDeleted(!target.isDeleted());
+        return "{\"deleted\":" + target.isDeleted() + "}";
+    }
+    
+
+
+
 }

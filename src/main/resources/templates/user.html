@@ -1,71 +1,74 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <th:block th:replace="fragments/head :: header" />
-        <title>Perfil de Usuario | Swapify</title>
-    </head>
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Perfil de Usuario | Swapify</title>
+</head>
 
-    <body class="d-flex flex-column h-100 bg-abaloneshell rounded">
-        <header th:replace="fragments/nav.html :: nav"></header>
+<body class="d-flex flex-column h-100 bg-abaloneshell rounded">
+    <header th:replace="fragments/nav.html :: nav"></header>
 
-        <main class="flex-shrink-0">
-            <div class="container bg-abaloneshell-l0 p-4 mt-4 rounded">
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="/img/pfp/Juan.jpg" alt="Foto de perfil de Juan Alberto"
-                            style="height: 500px;" class="rounded border border-secondary border-4">
-                    </div>
+    <main class="flex-shrink-0">
+        <div class="container bg-abaloneshell-l0 p-4 mt-4 rounded">
+            <div class="row">
+                <div class="col-md-3">
+                    <img th:src="'/img/pfp/' + ${user.pic}" alt="Foto de perfil" style="height: 500px;"
+                        class="rounded border border-secondary border-4">
+                </div>
 
-                    <div class="col-md-9 fg-oblivion">
-                        <div class="overflow-auto rounded" style="height: 500px;">
-                            <div class="sticky-top bg-abaloneshell-l0">
-                                <h2 class="fg-oblivion bold mb-1">Juan</h2>
-                                <span class="fg-oblivion fs-6">@juanito23</span>
+                <div class="col-md-9 fg-oblivion">
+                    <div class="overflow-auto rounded" style="height: 500px;">
+                        <div class="sticky-top bg-abaloneshell-l0">
+                            <h2 class="fg-oblivion bold mb-1" th:text="${user.firstName} + ' ' + ${user.lastName}">
+                                Nombre por defecto</h2>
+                            <span class="fg-oblivion fs-6" th:text="|@| + ${user.username}">@Defecto</span>
 
-                                <hr class="hr-swp my-3">
-                            </div>
-                            <div class="bg-abaloneshell rounded p-3">
-                                <h4 class="fg-oblivion bold mb-3">Descripción</h4>
-                                <p class="mb-0">
-                                    Soy Juan Pérez, un diseñador gráfico y fotógrafo con más de diez años de experiencia. Mi pasión es transformar
-                                    ideas en realidades visuales a través del diseño y la fotografía, creando identidades visuales y capturando
-                                    momentos únicos. Siempre estoy buscando aprender y crecer, especialmente en desarrollo web y marketing digital, y
-                                    me encantaría mejorar mi inglés para comunicarme con clientes internacionales. En mi tiempo libre, disfruto del
-                                    arte, la tecnología y la naturaleza. Si te interesa colaborar o intercambiar habilidades, ¡no dudes en
-                                    contactarme!
-                                </p>
-                                <h4 class="fg-oblivion bold my-3">Resumen de habilidades</h4>
+                            <hr class="hr-swp my-3">
+                        </div>
+                        <div class="bg-abaloneshell rounded p-3">
+                            <h4 class="fg-oblivion bold mb-3">Descripción</h4>
+                            <p class="mb-0" th:text="${user.description}">Descrición por defecto</p>
+                            <h4 class="fg-oblivion bold my-3">Resumen de habilidades</h4>
 
-                                <h5 class="fg-lushaqua my-3">Habilidades actuales (dispuesto a enseñar):</h5>
-                                <span class="badge rounded-pill bg-lushaqua mx-1 p-2">Diseño gráfico</span>
-                                <span class="badge rounded-pill bg-lushaqua mx-1 p-2">Fotografía</span>
-                                <h5 class="fg-orchid my-3">Habilidades que quiero aprender: </h5>
-                                <span class="badge rounded-pill bg-orchid mx-1 p-2">Desarrollo web</span>
-                                <span class="badge rounded-pill bg-orchid mx-1 p-2">Marketing digital</span>
-                                <span class="badge rounded-pill bg-orchid mx-1 p-2">Inglés</span>
-                            </div>
+                            <h5 class="fg-lushaqua my-3">Habilidades actuales (dispuesto a enseñar):</h5>
+                            <span th:each="currentSkill : ${currentSkills}">
+                                <span class="badge rounded-pill bg-lushaqua mx-1 p-2"
+                                    th:text="${currentSkill.skill.name}">Por
+                                    defecto</span>
+                            </span>
+
+                            <h5 class="fg-orchid my-3">Habilidades que quiero aprender: </h5>
+                            <span th:each="desiredSkill : ${desiredSkills}">
+                                <span class="badge rounded-pill bg-orchid mx-1 p-2"
+                                    th:text="${desiredSkill.skill.name}">Por
+                                    defecto</span>
+                            </span>
+
                         </div>
                     </div>
                 </div>
-                <h2 class="fg-oblivion bold mt-3">Habilidades</h2>
-                <hr class="hr-swp">
+            </div>
+            <h2 class="fg-oblivion bold mt-3">Habilidades</h2>
+            <hr class="hr-swp">
 
-                <h3 class="fg-lushaqua bold my-4">Habilidades a enseñar</h3>
-                <div class="bg-abaloneshell rounded mb-4 fg-oblivion">
-                    <div class="d-flex flex-column p-3">
-                        <h5 class="fg-lushaqua bold rounded-pill me-3">Diseño gráfico</h5>
-                        <p>
-                            Con más de diez años de experiencia en diseño gráfico, he trabajado en diversos proyectos que me han permitido desarrollar una sólida comprensión de la creación de identidades visuales. Mi pasión por el diseño comenzó desde joven, y he perfeccionado mis habilidades a través de la creación de logotipos, branding y publicaciones para redes sociales. Me encanta transformar ideas en realidades visuales que no solo sean estéticamente atractivas, sino que también comuniquen un mensaje claro y efectivo.
-                        </p>
+            <h3 class="fg-lushaqua bold my-4">Habilidades a enseñar</h3>
+            <div class="d-flex flex-column p-3">
+
+                <div th:each="currentSkill : ${currentSkills}">
+                    <div class="bg-abaloneshell rounded p-3 mb-4 fg-oblivion">
+                        <h5 class="fg-lushaqua bold rounded-pill me-3" th:text="${currentSkill.skill.name}">Defecto</h5>
+
+                        <p th:text="${currentSkill.description}">Defecto</p>
                         <h5 class="fg-lushaqua bold me-3">Reseñas</h5>
                         <div class="mb-4">
                             <span class="fg-oblivion bold">Valoración promedio:</span>
-                            <span class="bg-abaloneshell-l0 fg-oblivion rounded-circle bold ms-3 p-3 fs-6">8.9</span>
+                            <span class="bg-abaloneshell-l0 fg-oblivion rounded-circle bold ms-3 p-3 fs-6"
+                                th:text="${currentSkill.rating}">defecto</span>
                         </div>
+
                         <span>Reseñas recientes:</span>
                         <span class="hr-swp mt-2 mb-3"></span>
-
                         <div class="container text-center">
                             <div class="row gap-3">
                                 <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
@@ -73,16 +76,19 @@
                                         <div>
                                             <h5 class="card-header fg-gold bold">Juan Alberto</h5>
                                             <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño gráfico</span>
+                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño
+                                                    gráfico</span>
                                                 <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
-                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Desarrollo web</span>
+                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Desarrollo
+                                                    web</span>
                                             </div>
                                         </div>
                                         <span class="fg-abaloneshell bold ms-3 p-3 fs-2">9.1</span>
                                     </div>
-                                    
+
                                     <div class="card-body">
-                                        <p class="card-text">Un gran profesor! nuestro intercambio fue muy fructífero. Espero tener el placer de realizar más swaps con el.</p>
+                                        <p class="card-text">Un gran profesor! nuestro intercambio fue muy
+                                            fructífero. Espero tener el placer de realizar más swaps con el.</p>
                                     </div>
                                 </div>
 
@@ -91,146 +97,66 @@
                                         <div>
                                             <h5 class="card-header fg-gold bold">Ana</h5>
                                             <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño gráfico</span>
+                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño
+                                                    gráfico</span>
                                                 <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
                                                 <span class="badge rounded-pill bg-orchid mx-2 p-2">Yoga</span>
                                             </div>
                                         </div>
                                         <span class="fg-abaloneshell bold ms-3 p-3 fs-2">8.9</span>
                                     </div>
-                                    
+
                                     <div class="card-body">
-                                        <p class="card-text">Tiene una gran habilidad con el diseño gráfico. Un profesor muy recomendable.</p>
+                                        <p class="card-text">Tiene una gran habilidad con el diseño gráfico. Un
+                                            profesor muy recomendable.</p>
                                     </div>
                                 </div>
-                                  
+
                                 <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
                                     <div class="d-flex justify-content-between">
                                         <div>
                                             <h5 class="card-header fg-gold bold">Luis</h5>
                                             <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño gráfico</span>
+                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño
+                                                    gráfico</span>
                                                 <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
                                                 <span class="badge rounded-pill bg-orchid mx-2 p-2">Guitarra</span>
                                             </div>
                                         </div>
                                         <span class="fg-abaloneshell bold ms-3 p-3 fs-2">8.7</span>
                                     </div>
-                                    
+
                                     <div class="card-body">
-                                        <p class="card-text">Es un asombroso prfesor de diseño gráfico. Nunca había aprendido tanto.</p>
+                                        <p class="card-text">Es un asombroso prfesor de diseño gráfico. Nunca había
+                                            aprendido tanto.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
-
-                <div class="bg-abaloneshell rounded mb-0 fg-oblivion">
-                    <div class="d-flex flex-column p-3">
-                        <h5 class="fg-lushaqua bold rounded-pill me-3">Fotografía</h5>
-                        <p>
-                            La fotografía ha sido una parte esencial de mi vida creativa. A lo largo de los años, he capturado innumerables momentos únicos a través de sesiones de retratos, fotografía de productos y cobertura de eventos especiales. Mi enfoque detallista y mi deseo de experimentar con diferentes técnicas me han permitido crear imágenes impactantes que cuentan historias. Disfruto encontrando la belleza en cada instante y transformándola en recuerdos duraderos.
-                        </p>
-                        <h5 class="fg-lushaqua bold me-3">Reseñas</h5>
-                        <div class="mb-4">
-                            <span class="fg-oblivion bold">Valoración promedio:</span>
-                            <span class="bg-abaloneshell-l0 fg-oblivion rounded-circle bold ms-3 p-3 fs-6">7.0</span>
-                        </div>
-                        <span>Reseñas recientes:</span>
-                        <span class="hr-swp mt-2 mb-3"></span>
-
-                        <div class="container text-center">
-                            <div class="row gap-3">
-                                <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h5 class="card-header fg-gold bold">María</h5>
-                                            <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Fotografía</span>
-                                                <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
-                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Salsa</span>
-                                            </div>
-                                        </div>
-                                        <span class="fg-abaloneshell bold ms-3 p-3 fs-2">7.5</span>
-                                    </div>
-                                    
-                                    <div class="card-body">
-                                        <p class="card-text">Bastante bien, aunque su estilo de fotografía no era muy profesional.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h5 class="card-header fg-gold bold">Laura</h5>
-                                            <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Fotografía</span>
-                                                <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
-                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Redes sociales</span>
-                                            </div>
-                                        </div>
-                                        <span class="fg-abaloneshell bold ms-3 p-3 fs-2">6.5</span>
-                                    </div>
-                                    
-                                    <div class="card-body">
-                                        <p class="card-text">Podría mejorar como profesor de Fotografía.</p>
-                                    </div>
-                                </div>
-                                  
-                                <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h5 class="card-header fg-gold bold">Pedro</h5>
-                                            <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Fotografía</span>
-                                                <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
-                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Machine learning</span>
-                                            </div>
-                                        </div>
-                                        <span class="fg-abaloneshell bold ms-3 p-3 fs-2">7.0</span>
-                                    </div>
-                                    
-                                    <div class="card-body">
-                                        <p class="card-text">Un profesor normalillo. le faltan conocimientos.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h3 class="fg-orchid bold my-4">Habilidades por aprender</h3>
-
-                <div class="bg-abaloneshell rounded mb-4 fg-oblivion">
-                    <div class="d-flex flex-column p-3">
-                        <h5 class="fg-orchid bold rounded-pill me-3">Desarrollo Web</h5>
-                        <p>
-                            Aunque mi experiencia principal está en el diseño y la fotografía, estoy muy interesado en aprender desarrollo web. He comenzado a explorar HTML, CSS y JavaScript para poder crear sitios web interactivos que complementen mi trabajo visual. Creo que esta habilidad me permitirá ofrecer un servicio más completo a mis clientes y abrir nuevas oportunidades en mi carrera.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="bg-abaloneshell rounded mb-4 fg-oblivion">
-                    <div class="d-flex flex-column p-3">
-                        <h5 class="fg-orchid bold rounded-pill me-3">Marketing Digital</h5>
-                        <p>
-                            El marketing digital es un área en la que estoy empezando a adentrarme. Quiero aprender estrategias efectivas para promocionar mi trabajo en línea y llegar a una audiencia más amplia. Estoy convencido de que entender cómo funciona el marketing digital me ayudará a conectar mejor con mis clientes y a expandir mi presencia en el mundo digital.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="bg-abaloneshell rounded mb-0 fg-oblivion">
-                    <div class="d-flex flex-column p-3">
-                        <h5 class="fg-orchid bold rounded-pill me-3">Inglés</h5>
-                        <p>
-                            Mejorar mi inglés es una de mis metas personales. Creo que dominar este idioma me permitirá comunicarme de manera más efectiva con clientes internacionales y abrirá nuevas puertas en mi carrera. Estoy comprometido a aprender y practicar para alcanzar un nivel avanzado y poder ofrecer mis servicios a un público global.
-                        </p>
-                    </div>
-                </div>
-
             </div>
-        </main>
-        <footer th:replace="fragments/footer.html :: footer">
-    </body>
+            <h3 class="fg-orchid bold my-4">Habilidades por aprender</h3>
+            <div class="m-3">
+                <div th:each="desiredSkill : ${desiredSkills}">
+                    <div class="bg-abaloneshell rounded p-3 mb-4 fg-oblivion">
+
+                        <div class="d-flex flex-column p-3">
+                            <h5 class="fg-orchid bold rounded-pill me-3" th:text="${desiredSkill.skill.name}">Por
+                                defecto
+                            </h5>
+                            <p th:text="${desiredSkill.description}">Por defecto</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+    </main>
+    <footer th:replace="fragments/footer.html :: footer">
+</body>
+
 </html>

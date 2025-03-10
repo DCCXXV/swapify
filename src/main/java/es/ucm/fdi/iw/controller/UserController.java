@@ -5,6 +5,10 @@ import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
+import es.ucm.fdi.iw.repository.SkillRepository;
+import es.ucm.fdi.iw.service.CurrentSkillService;
+import es.ucm.fdi.iw.service.DesiredSkillService;
+import es.ucm.fdi.iw.service.UserService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,6 +62,15 @@ public class UserController {
 
 	@Autowired
 	private EntityManager entityManager;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private CurrentSkillService currentSkillService;
+
+	@Autowired
+	private DesiredSkillService desiredSkillService;
 
 	@Autowired
     private LocalData localData;
@@ -118,7 +131,9 @@ public class UserController {
     public String index(@PathVariable long id, Model model, HttpSession session) {
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
-        return "user";
+		model.addAttribute("currentSkills", currentSkillService.getAllById(id));
+		model.addAttribute("desiredSkills", desiredSkillService.getAllById(id));
+		return "user";
     }
 
     /**
@@ -139,7 +154,7 @@ public class UserController {
             // create new user with random password
             target = new User();
             target.setPassword(encodePassword(generateRandomBase64Token(12)));
-            target.setEnabled(true);
+            target.setDeleted(false);
             entityManager.persist(target);
             entityManager.flush(); // forces DB to add user & assign valid id
             id = target.getId();   // retrieve assigned id from DB
@@ -327,5 +342,6 @@ public class UserController {
 
 		messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 		return "{\"result\": \"message sent.\"}";
-	}	
+	}
+
 }

@@ -77,10 +77,10 @@
 				</div>
 				
 				<div class="row flex-nowrap overflow-auto mt-4">
-					<div th:each="usr : ${recusers}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
+					<div th:each="usr : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
 						<div class="row g-0 h-100">
 							<div class="col-md-4 d-flex align-items-center justify-content-center">
-								<img th:src="@{/img/pfp/{foto}(foto=${usr.pfp})}" class="img-fluid rounded" alt="Foto de perfil">
+								<img th:src="@{'/img/pfp/'+${usr.pic}}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body p-0" style="height: 255px;">
@@ -90,13 +90,13 @@
 										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center">Swap!</button>
 									</div>
 									<div class="fg-abaloneshell overflow-auto px-3">
-										<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
+										<p class="card-text fg-muted" th:text="${usr.description ?: 'Descripción no disponible'}">Description</p>
 										<p class="card-text">
 											<div class="row-md-8 mb-3">
-												<span th:each="skill : ${usr.currentSkills}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
+												<span th:each="skill : ${usr.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
 											</div>
 											<div class="row-md-8">
-												<span th:each="skill : ${usr.desiredSkills}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
+												<span th:each="skill : ${usr.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
 											</div>
 										</p>
 									</div>
@@ -135,10 +135,7 @@
 						<span class="visually-hidden">Next</span>
 					</button>
 				</div>
-
-				<h4 class="fg-orchid mb-3 mt-5">Otras habilidades pedidas</h4>
-				<div class="hr-swp-center mb-3"></div>
-				<div class="container text-center overflow-hidden">
+				<div class="container text-center overflow-hidden mt-5">
 					<div class="row gap-3 text-center skills-row">
 					  	<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
 							<span th:text="${skill}">Error</span>
@@ -154,9 +151,7 @@
 							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
-				</div>
-				<div class="hr-swp-center mt-3 mb-5"></div>
-		  
+				</div>		  
 
 				<h2 class="mt-5 fg-orchid bold">Otros usuarios que te podrian interesar</h2>
 				<hr class="hr-swp">
@@ -166,7 +161,7 @@
 						<div th:each="usr : ${otherusers}" class="card bg-oblivion" style="width: 419px; height: 265px;">
 							<div class="d-flex h-100">
 								<div class="col-md-4 d-flex align-items-center justify-content-center">
-									<img th:src="@{/img/pfp/{foto}(foto=${usr.pfp})}" class="img-fluid rounded" alt="Foto de perfil">
+									<img th:src="@{'/img/pfp/'+${usr.pic}}" class="img-fluid rounded" alt="Foto de perfil">
 								</div>
 								<div class="col-md-8">
 									<div class="card-body p-0" style="height: 245px;">
@@ -179,10 +174,10 @@
 											<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
 											<p class="card-text">
 												<div class="row-md-8 mb-3">
-													<span th:each="skill : ${usr.currentSkills}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
+													<span th:each="cs : ${usr.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${cs.skill.name}">Skill</span>
 												</div>
 												<div class="row-md-8">
-													<span th:each="skill : ${usr.desiredSkills}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
+													<span th:each="ds : ${usr.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid me-1" th:text="${ds.skill.name}">Skill</span>
 												</div>
 											</p>
 										</div>
@@ -227,9 +222,7 @@
 					</button>
 				</div>
 
-				<h4 class="fg-orchid mb-3 mt-5">Otras habilidades comunes</h4>
-				<div class="hr-swp-center mb-3"></div>
-				<div class="container text-center overflow-hidden">
+				<div class="container my-5 text-center overflow-hidden">
 					<div class="row gap-3 text-center skills-row">
 					  	<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
 							<span th:text="${skill}">Error</span>
@@ -246,8 +239,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="hr-swp-center mt-3 mb-5"></div>
-
 			</div>
 		</main>
 

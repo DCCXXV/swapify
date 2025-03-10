@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,12 @@ public class RootController {
 
     private static final Logger log = LogManager.getLogger(RootController.class);
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+	private SkillService skillService;
+
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {        
         for (String name : new String[] {"u", "url", "ws"}) {
@@ -34,17 +41,17 @@ public class RootController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("actual", "inicio");
+        
+        List<User.Transfer> otherusers = userService.getAllUsers();
 
-        List<User> recusers = UserService.getRecommendedUsers();
-        List<User> otherusers = UserService.getPopularUsers();
         List<String> desiredSkills = SkillService.getRequestedSkills();
         List<String> commonSkills = SkillService.getCommonSkills();
 
-        model.addAttribute("recusers", recusers);
-        model.addAttribute("otherusers", otherusers);
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
-
+        
+		model.addAttribute("otherusers", otherusers);
+        
         return "index";
     }
 
@@ -55,14 +62,21 @@ public class RootController {
         return "login";
     }
 
+    @GetMapping("/signup")
+    public String signup(Model model, HttpServletRequest request) {
+        return "signup";
+    }
+
     @GetMapping("/rewards")
     public String rewards(Model model) {
         return "rewards";
     }
 
    @GetMapping("/search")
-    public String search(@RequestParam(name = "query", required = false) String username, Model model) {
-        model.addAttribute("query", username);
+    public String search(@RequestParam(name = "query", required = false) String keyword, Model model) {
+        model.addAttribute("query", keyword);
+        model.addAttribute("users", userService.getUsersByKeyword(keyword));
+        model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
         return "search";
     }
 }
