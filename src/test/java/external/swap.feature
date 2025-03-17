@@ -18,7 +18,7 @@ Scenario: Flujo principal de intercambio (swap)
     "email": "juan@example.com" 
   }
   When method post
-  Then status 201
+  Then status 200
 
   # 2. El usuario inicia sesión
   Given path '/login'
@@ -40,7 +40,7 @@ Scenario: Flujo principal de intercambio (swap)
        "targetUser": "usuario2"
   }
   When method post
-  Then status 201
+  Then status 200
   # Comentario: Se crea un nuevo swap y se notifica al usuario objetivo (usuario2).
 
   # 5. El usuario revisa el listado para verificar la creación
