@@ -98,7 +98,6 @@
                                             </form>
                                             <form th:action="@{'/admin/toggle/' + ${user.id}}" method="post">
                                                 <button class="toggle btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                                    data-bs-toggle="modal" data-bs-target="#banUserModal"
                                                     data-user-id=${user.id}>Deshabilitar usuario</button>
                                             </form>
                                         </div>
@@ -140,8 +139,7 @@
                                             Ver Reporte
                                         </button>
                                         <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                            data-bs-toggle="modal" data-bs-target="#banUserModal">Deshabilitar
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1">Deshabilitar
                                             usuario</button>
                                     </td>
                                 </tr>
@@ -156,8 +154,7 @@
                                             Ver Reporte
                                         </button>
                                         <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                            data-bs-toggle="modal" data-bs-target="#banUserModal">Deshabilitar
+                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1">Deshabilitar
                                             usuario</button>
                                     </td>
                                 </tr>
@@ -279,47 +276,6 @@
             </div>
         </div>
 
-        <!-- MODAL: Eliminar Usuario -->
-        <div class="modal fade" id="banUserModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content fg-oblivion bg-abaloneshell">
-                    <div class="modal-header bg-oblivion fg-abaloneshell">
-                        <h5 class="modal-title bold">Desabilitar usuario</h5>
-                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body bold">
-                        ¿Estás seguro de que deseas deshabilitar a este usuario?
-                    </div>
-                    <div class="m-3 px-3 text-center mt-0">
-                        <button type="button" class="btn fg-abaloneshell bg-oblivion me-2">Deshabilitar usuario</button>
-                        <button type="button" class="btn fg-oblivion bg-abaloneshell-l0"
-                            data-bs-dismiss="modal">Cancelar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL: Cancelar Swap -->
-        <div class="modal fade" id="cancelSwapModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content bg-abaloneshell">
-                    <div class="modal-header bg-oblivion">
-                        <h5 class="modal-title fg-abaloneshell bold">Cancelar Swap</h5>
-                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body fg-oblivion bold">
-                        ¿Estás seguro de que deseas cancelar este Swap?
-                    </div>
-                    <div class="text-center mb-3">
-                        <button type="button" class="btn bg-oblivion fg-abaloneshell me-2">Cancelar</button>
-                        <button type="button" class="btn bg-abaloneshell-l0 fg-oblivion"
-                            data-bs-dismiss="modal">Volver</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </main>
 
@@ -341,7 +297,6 @@
                         e.target.classList.add('btn-primary');
                         e.target.textContent = 'Habilitar';
                     }
-                    console.log(d);
                 });
             });
         });
