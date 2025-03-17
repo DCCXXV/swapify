@@ -4,19 +4,46 @@ Feature: Flujo de un swap
 # del horario, envío de mensajes y valoración final del swap.
 
 Background:
-  # La URL base se obtiene desde karate-config.js (config.baseUrl)
   * url baseUrl
+  # Definición de los payloads para cada paso
+  * def signupPayload =
+    """
+    {
+      "username": "usuario1",
+      "password": "password123",
+      "firstName": "Juan",
+      "lastName": "Rodriguez",
+      "email": "juan@example.com"
+    }
+    """
+  * def newSwapPayload =
+    """
+    {
+      "description": "Intercambio: clases de guitarra por clases de inglés",
+      "schedule": ["Monday", "Wednesday", "Friday"],
+      "targetUser": "usuario2"
+    }
+    """
+  * def modifySwapPayload =
+    """
+    {
+      "swapId": 1,
+      "schedule": ["Tuesday", "Thursday"]
+    }
+    """
+  * def msgPayload =
+    """
+    { "message": "He actualizado el horario, revisa los nuevos días." }
+    """
+  * def completeSwapPayload =
+    """
+    { "rating": 5, "comment": "Excelente intercambio, muy puntual." }
+    """
 
 Scenario: Flujo principal de intercambio (swap)
-  # 1. El usuario crea su perfil y lo que conlleva
+  # 1. El usuario crea su perfil
   Given path '/signup'
-  And request { 
-    "username": "usuario1", 
-    "password": "password123", 
-    "firstName": "Juan", 
-    "lastName": "Rodriguez", 
-    "email": "juan@example.com" 
-  }
+  And request signupPayload
   When method post
   Then status 200
 
@@ -34,14 +61,9 @@ Scenario: Flujo principal de intercambio (swap)
 
   # 4. El usuario inicia un nuevo swap
   Given path '/swaps/new'
-  And request { 
-       "description": "Intercambio: clases de guitarra por clases de inglés",
-       "schedule": ["Monday", "Wednesday", "Friday"],
-       "targetUser": "usuario2"
-  }
+  And request newSwapPayload
   When method post
   Then status 200
-  # Comentario: Se crea un nuevo swap y se notifica al usuario objetivo (usuario2).
 
   # 5. El usuario revisa el listado para verificar la creación
   Given path '/swaps'
@@ -51,22 +73,18 @@ Scenario: Flujo principal de intercambio (swap)
 
   # 6. El usuario modifica el horario del swap
   Given path '/swaps/modify'
-  And request { 
-       "swapId": 1, 
-       "schedule": ["Tuesday", "Thursday"] 
-  }
+  And request modifySwapPayload
   When method put
   Then status 200
 
   # 7. El usuario envía un mensaje para avisar al otro
   Given path '/swaps/1/msg'
-  And request { "message": "He actualizado el horario, revisa los nuevos días." }
+  And request msgPayload
   When method post
   Then status 200
 
   # 8. Swap terminado, valoración del otro
   Given path '/swaps/1/complete'
-  And request { "rating": 5, "comment": "Excelente intercambio, muy puntual." }
+  And request completeSwapPayload
   When method post
   Then status 200
-  # Comentario: Se cierra el swap y se guarda la valoración del otro usuario.
