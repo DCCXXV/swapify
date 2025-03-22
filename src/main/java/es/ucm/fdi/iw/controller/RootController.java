@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.User;
@@ -61,11 +62,29 @@ public class RootController {
         model.addAttribute("loginError", error);
         return "login";
     }
+    
 
     @GetMapping("/signup")
-    public String signup(Model model, HttpServletRequest request) {
+    public String showSignup() {
         return "signup";
     }
+
+    @PostMapping("/signup")
+    public String signup(Model model, HttpServletRequest request) {
+        return "/signupstep2";
+    } 
+
+    @GetMapping("/signupstep2")
+    public String showStep2() {
+        // "signup-step2" es un fragmento Thymeleaf con el segundo formulario
+        return "signupstep2";
+    }
+
+    @PostMapping("/signupstep2")
+    public String signupstep2(Model model, HttpServletRequest request) {
+        return "signupstep2";
+    }
+    
 
     @GetMapping("/rewards")
     public String rewards(Model model) {
