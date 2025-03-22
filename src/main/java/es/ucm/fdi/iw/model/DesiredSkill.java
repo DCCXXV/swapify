@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Table(name="desiredSkill")
 public class DesiredSkill {
 
-    public DesiredSkill(String description){
+    public DesiredSkill(Skill skill, String description){
+        this.skill = skill;
         this.description = description;
     }
 

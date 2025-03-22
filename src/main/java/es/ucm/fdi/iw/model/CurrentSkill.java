@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Table(name="currentSkill")
 public class CurrentSkill{
 
-    public CurrentSkill(String description, float rating, float points){
+    public CurrentSkill(Skill skill, String description, float rating, float points){
+        this.skill = skill;
         this.description = description;
         this.rating = rating;
         this.points = points;
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
