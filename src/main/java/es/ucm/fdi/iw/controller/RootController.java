@@ -23,6 +23,9 @@ import es.ucm.fdi.iw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+
 /**
  * Non-authenticated requests only.
  */
@@ -39,6 +42,7 @@ public class RootController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {
@@ -108,78 +112,30 @@ public class RootController {
     }
 
     @PostMapping("/signupstep2")
-    public String processSignupStep2(HttpServletRequest request, HttpSession session) {
-        // Recuperar los datos generales del usuario almacenados en sesión
-        RegistrationData regData = (RegistrationData) session.getAttribute("regData");
-        if (regData == null) {
-            return "redirect:/signup"; // Si no hay datos, se redirige al paso 1
-        }
+    public String processSignupStep2(
+        @RequestParam String firstName,
+        @RequestParam String lastName,
+        @RequestParam String email,
+        @RequestParam String password,
+        @RequestParam(name = "currentSkillNames[]", required = false) List<String> currentSkillNames,
+        @RequestParam(name = "currentSkillDescriptions[]", required = false) List<String> currentSkillDescriptions,
+        @RequestParam(name = "desiredSkillNames[]", required = false) List<String> desiredSkillNames,
+        @RequestParam(name = "desiredSkillDescriptions[]", required = false) List<String> desiredSkillDescriptions,
+        Model model) {
 
-        // Recuperar las habilidades actuales (se envían como arrays)
-        String[] currentSkills = request.getParameterValues("skillInputId");
-        String[] currentDescriptions = request.getParameterValues("descriptionInputId");
+            User user = new User();
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            user.setUsername(email);
+            user.setPassword(passwordEncoder.encode(password));
+            user.setDeleted(false);
+            user.setRoles("USER");
+            
+            userService.registerUser(user);
 
-        // Recuperar las habilidades deseadas (nombres de parámetros distintos)
-        String[] desiredSkills = request.getParameterValues("desiredSkillInputId");
-        String[] desiredDescriptions = request.getParameterValues("desiredDescriptionInputId");
+            return "redirect:/login";
 
-        // Crear el objeto User y asignar los datos generales
-        User user = new User();
-        user.setFirstName(regData.getFirstName());
-        user.setLastName(regData.getLastName());
-        user.setEmail(regData.getEmail());
-        user.setUsername(regData.getEmail()); // Usar el email como nombre de usuario
-        user.setPassword(passwordEncoder.encode(regData.getPassword()));
-        user.setDeleted(false);
-        user.setRoles("USER");
-
-        // Asignar las habilidades actuales
-        List<CurrentSkill> currSkillList = new ArrayList<>();
-        if (currentSkills != null) {
-            for (int i = 0; i < currentSkills.length; i++) {
-                String skillName = currentSkills[i];
-                String desc = (currentDescriptions != null && currentDescriptions.length > i) ? currentDescriptions[i]
-                        : "";
-                // Obtener o crear la Skill usando el servicio
-                Skill skill = skillService.getOrCreateSkill(skillName); // Método que debes implementar en SkillService
-
-                // Crear la habilidad actual
-                int rating = 0; // Default value
-                int points = 0; // Default value
-                CurrentSkill cs = new CurrentSkill(skill, desc, rating, points);
-                cs.setUser(user);
-                currSkillList.add(cs);
-            }
-        }
-        user.setCurrentSkills(currSkillList);
-
-        // Asignar las habilidades deseadas
-        List<DesiredSkill> desiredSkillList = new ArrayList<>();
-        if (desiredSkills != null) {
-            for (int i = 0; i < desiredSkills.length; i++) {
-                String skillName = desiredSkills[i];
-                String desc = (desiredDescriptions != null && desiredDescriptions.length > i) ? desiredDescriptions[i]
-                        : "";
-                // Obtener o crear la Skill correspondiente
-                Skill skill = skillService.getOrCreateSkill(skillName);
-
-                DesiredSkill ds = new DesiredSkill();
-                ds.setSkill(skill);
-                ds.setDescription(desc);
-                ds.setUser(user);
-                desiredSkillList.add(ds);
-            }
-        }
-        user.setDesiredSkills(desiredSkillList);
-
-        // Registrar el usuario en la base de datos utilizando el servicio
-        userService.registerUser(user);
-
-        // Limpiar los datos de registro de la sesión
-        session.removeAttribute("regData");
-
-        // Redirigir a la página de login o a una página de confirmación
-        return "redirect:/login?signupSuccess=true";
     }
 
     @GetMapping("/rewards")

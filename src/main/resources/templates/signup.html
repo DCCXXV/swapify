@@ -34,7 +34,6 @@
                             placeholder="Introduzca aquí su correo electrónico" required="required"
                             style="width: 680px;">
                     </div>
-
                     <div class="mb-4">
                         <input type="text" id="emailRepInput" name="emailRep"
                             class="form-control bg-abaloneshell rounded-pill p-3"
@@ -53,10 +52,10 @@
                             class="form-control bg-abaloneshell rounded-pill p-3"
                             placeholder="Repita aquí su contraseña" required="required" style="width: 680px;">
                     </div>
-
-                    <div class="text-center mt-4">
-                        <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3"
-                            type="submit">
+                    
+                        <div class="text-center mt-4">
+                            <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3"
+                            hx-get="/signupstep2" hx-target="#formContent" hx-swap="innerHTML" onclick="guardarDatosPaso1()">
                             Siguiente <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
