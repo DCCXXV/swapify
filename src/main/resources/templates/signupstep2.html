@@ -1,6 +1,6 @@
 <div>
-  <form id="signupStep2Form" class="form-signup" th:action="@{/signupstep2}" method="POST"
-    onsubmit="añadirDatosPaso1()">
+  <form id="signupStep2Form" class="form-signup" hx-get="/signupstep3" hx-target="#formContent" hx-swap="innerHTML"
+    onclick="guardarDatosPaso2()">
     <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
 
 
@@ -10,8 +10,16 @@
     <input type="hidden" id="passwordHidden" name="password">
 
     <div class="mx-5 mb-4">
-      <label for="fileUpload" class="custom-file-label bg-lushaqua fg-abaloneshell p-2 px-3 rounded-pill">Subir foto de perfil</label>
-      <input type="file" id="fileUpload" class="inputfile">
+      <label for="fileUpload" class="custom-file-label bg-lushaqua fg-abaloneshell p-3 rounded-pill">
+        Subir foto de perfil
+      </label>
+      <input type="file" id="fileUpload" class="inputfile" accept="image/*">
+
+   </div>
+    <!-- Elemento para la previsualización -->
+    <div class="mx-5 mb-4">
+      <img id="previewImg" src="" alt="" class="text-center align-self-center" style="width: 500px;">
+      <p id="filename" class="fg-oblivion"></p>
     </div>
 
     <div class="mx-5 mb-4">
@@ -23,18 +31,31 @@
 
     <div class="text-center mt-4">
       <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill me-3" type="submit">
-        Siguiente 
+        Siguiente
         <i class="bi bi-caret-right-fill"></i>
       </button>
     </div>
 
   </form>
 </div>
+
 <script>
-  function añadirDatosPaso1() {
-    document.getElementById("firstNameHidden").value = sessionStorage.getItem("firstName");
-    document.getElementById("lastNameHidden").value = sessionStorage.getItem("lastName");
-    document.getElementById("emailHidden").value = sessionStorage.getItem("email");
-    document.getElementById("passwordHidden").value = sessionStorage.getItem("password");
+  function guardarDatosPaso2() {
+    sessionStorage.setItem("photo", document.querySelector('#fileUpload').files[0].name);
+    sessionStorage.setItem('description', document.querySelector('#userDescriptionInput').value);
   }
+</script>
+
+<script>
+  document.getElementById('fileUpload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const previewImg = document.getElementById('previewImg');
+      const filenameElem = document.getElementById('filename');
+
+	  readImageFileData(file, previewImg);
+
+	  filenameElem.textContent = file.name;
+      previewImg.style.display = 'block';
+  });
 </script>

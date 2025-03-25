@@ -1,6 +1,5 @@
 package es.ucm.fdi.iw.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,13 +17,12 @@ import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.DesiredSkill;
 import es.ucm.fdi.iw.model.Skill;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.service.CurrentSkillService;
+import es.ucm.fdi.iw.service.DesiredSkillService;
 import es.ucm.fdi.iw.service.SkillService;
 import es.ucm.fdi.iw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 
 /**
  * Non-authenticated requests only.
@@ -41,8 +39,18 @@ public class RootController {
     private SkillService skillService;
 
     @Autowired
+    private CurrentSkillService currentSkillService;
+    
+    @Autowired
+    private DesiredSkillService desiredSkillService;
+
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    RootController(CurrentSkillService currentSkillService) {
+        this.currentSkillService = currentSkillService;
+    }
 
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {
@@ -76,14 +84,12 @@ public class RootController {
     }
 
     @GetMapping("/signup")
-    public String showSignup() {
+    public String processSignupStep1() {
         return "signup";
     }
 
     @GetMapping("/signupstep2")
-    public String processSignupStep1(HttpServletRequest request, HttpSession session) {
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+    public String processSignupStep2(HttpServletRequest request, HttpSession session) {
         String email = request.getParameter("email");
         String emailRep = request.getParameter("emailRep");
         String password = request.getParameter("password");
@@ -91,47 +97,76 @@ public class RootController {
 
         if (!email.equals(emailRep) || !password.equals(passwordRep)) {
             session.setAttribute("signupError", "Los correos o contraseñas no coinciden");
-            //return "redirect:/signup";
+            return "redirect:/error";
         }
-
-        RegistrationData regData = new RegistrationData(firstName, lastName, email, password);
-        session.setAttribute("regData", regData);
 
         return "signupstep2";
     }
 
-    /*
-    @PostMapping("/signupstep2")
-    public String showStep2() {
-        // "signup-step2" es un fragmento Thymeleaf con el segundo formulario
-        return "signupstep2"; // Vista con el formulario de habilidades
-    }*/
+    @GetMapping("/signupstep3")
+    public String processSignupStep3() {
+        return "signupstep3";
+    }
 
-    @PostMapping("/signupstep3")
-    public String processSignupStep2(
-        @RequestParam String firstName,
-        @RequestParam String lastName,
-        @RequestParam String email,
-        @RequestParam String password,
-        @RequestParam(name = "currentSkillNames[]", required = false) List<String> currentSkillNames,
-        @RequestParam(name = "currentSkillDescriptions[]", required = false) List<String> currentSkillDescriptions,
-        @RequestParam(name = "desiredSkillNames[]", required = false) List<String> desiredSkillNames,
-        @RequestParam(name = "desiredSkillDescriptions[]", required = false) List<String> desiredSkillDescriptions,
-        Model model) {
+    @PostMapping("/finalizarRegistro")
+    public String finalizarRegistro(
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam String description,
+            @RequestParam String photo,
+            @RequestParam(name = "currentSkillNames[]", required = false) List<String> currentSkills,
+            @RequestParam(name = "currentSkillDescriptions[]", required = false) List<String> currentSkillDescriptions,
+            @RequestParam(name = "desiredSkillNames[]", required = false) List<String> desiredSkills,
+            @RequestParam(name = "desiredSkillDescriptions[]", required = false) List<String> desiredSkillDescriptions) {
 
-            User user = new User();
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setEmail(email);
-            user.setUsername(email);
-            user.setPassword(passwordEncoder.encode(password));
-            user.setDeleted(false);
-            user.setRoles("USER");
-            
-            userService.registerUser(user);
+        // usuario nuevo
+        User newUser = new User();
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setEmail(email);
+        newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setDescription(description);
+        newUser.setUsername(email.split("@")[0]);
+        newUser.setPic(photo);
 
-            return "redirect:/login";
+        userService.registerUser(newUser);
 
+        // habilidades actuales
+        if (currentSkills != null) {
+            for (int i = 0; i < currentSkills.size(); i++) {
+                String skillName = currentSkills.get(i);
+                String skillDescription = (currentSkillDescriptions != null && currentSkillDescriptions.size() > i)
+                        ? currentSkillDescriptions.get(i)
+                        : "";
+                Skill skill = skillService.getOrCreateSkill(skillName);
+
+                CurrentSkill cs = new CurrentSkill();
+                cs.setUser(newUser);
+                cs.setSkill(skill);
+                cs.setDescription(skillDescription);
+                currentSkillService.saveCurrentSkill(cs);
+            }
+        }
+
+        // habilidades deseadas
+        if (desiredSkills != null) {
+            for (int i = 0; i < desiredSkills.size(); i++) {
+                String skillName = desiredSkills.get(i);
+                String skillDescription = (desiredSkillDescriptions != null && desiredSkillDescriptions.size() > i)
+                        ? desiredSkillDescriptions.get(i)
+                        : "";
+                Skill skill = skillService.getOrCreateSkill(skillName);
+                DesiredSkill ds = new DesiredSkill();
+                ds.setSkill(skill);
+                ds.setDescription(skillDescription);
+                ds.setUser(newUser);
+                desiredSkillService.saveDesiredSkill(ds);
+            }
+        } 
+
+        return "redirect:/login";
     }
 
     @GetMapping("/rewards")
@@ -145,52 +180,5 @@ public class RootController {
         model.addAttribute("users", userService.getUsersByKeyword(keyword));
         model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
         return "search";
-    }
-
-    // Clase interna para almacenar temporalmente los datos del registro
-    public static class RegistrationData {
-        private String firstName;
-        private String lastName;
-        private String email;
-        private String password;
-
-        public RegistrationData(String firstName, String lastName, String email, String password) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.password = password;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
     }
 }

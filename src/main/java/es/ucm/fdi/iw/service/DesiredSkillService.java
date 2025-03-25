@@ -18,4 +18,8 @@ public class DesiredSkillService {
         return desiredSkillRepository.findAllByUserId(id);
     }
 
+    public void saveDesiredSkill(DesiredSkill ds) {
+        desiredSkillRepository.save(ds);
+    }
+
 }

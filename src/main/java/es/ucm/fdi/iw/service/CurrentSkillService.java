@@ -16,5 +16,9 @@ public class CurrentSkillService {
     public List<CurrentSkill> getAllById(long id){
         return currentSkillRepository.findAllByUserId(id);
     }
+
+    public void saveCurrentSkill(CurrentSkill cs) {
+        currentSkillRepository.save(cs);
+    }
     
 }
