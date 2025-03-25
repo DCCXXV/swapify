@@ -11,7 +11,8 @@
     <main class="mt-4">
         <div class="container bg-abaloneshell-l0 p-4" id="signupContainer">
             <div id="formContent">
-                <form id="signupForm" class="form-signup" th:action="@{/signup}" method="POST" onsubmit="guardarDatosPaso1()">
+                <form id="signupForm" class="form-signup" hx-get="/signupstep2" hx-target="#formContent" hx-swap="innerHTML" onclick="guardarDatosPaso1()">
+                    <input type="hidden" name="_csrf" id="_csrf" value="config.csrf.value">
                     <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
                     <div class="d-flex gap-3 mb-4">
                         <div>
@@ -52,21 +53,20 @@
                             class="form-control bg-abaloneshell rounded-pill p-3"
                             placeholder="Repita aquí su contraseña" required="required" style="width: 680px;">
                     </div>
-                    
+
                         <div class="text-center mt-4">
-                            <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3"
-                            hx-get="/signupstep2" hx-target="#formContent" hx-swap="innerHTML" onclick="guardarDatosPaso1()">
+                            <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3" type="sumbit">
                             Siguiente <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
                 </form>
             </div>
-            <template id="step2">
+            <div id="step2">
 
-            </template>
-            <template id="step3">
+            </div>
+            <div id="step3">
 
-            </template>
+            </div>
         </div>
     </main>
     <th:block th:replace="fragments/footer.html :: footer" />

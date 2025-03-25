@@ -307,7 +307,6 @@ i {
     height: 85vh;
 }
 
-
 #loginContainer {
     border-radius: 30px !important; 
     width: 750px;
@@ -320,6 +319,15 @@ i {
 
 #searchContainer {
     border-radius: 49px !important; 
+}
+
+.inputfile {
+    display: none;
+}
+
+.custom-file-label {
+    display: inline-block;
+    cursor: pointer;
 }
 
 /*Acentos al interactuar con el raton*/

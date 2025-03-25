@@ -75,14 +75,12 @@ public class RootController {
         return "login";
     }
 
-    // Muestra el formulario de registro (datos generales)
     @GetMapping("/signup")
     public String showSignup() {
         return "signup";
     }
 
-    // Procesa el formulario del paso 1
-    @PostMapping("/signup")
+    @GetMapping("/signupstep2")
     public String processSignupStep1(HttpServletRequest request, HttpSession session) {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -91,27 +89,25 @@ public class RootController {
         String password = request.getParameter("password");
         String passwordRep = request.getParameter("passwordRep");
 
-        // Validar que los campos repetidos coincidan
         if (!email.equals(emailRep) || !password.equals(passwordRep)) {
             session.setAttribute("signupError", "Los correos o contraseñas no coinciden");
-            return "signup";
+            //return "redirect:/signup";
         }
 
-        // Crear un objeto para almacenar temporalmente los datos de registro
         RegistrationData regData = new RegistrationData(firstName, lastName, email, password);
         session.setAttribute("regData", regData);
 
-        // Redirigir al paso 2 para recoger las habilidades
-        return "redirect:/signupstep2";
+        return "signupstep2";
     }
 
-    @GetMapping("/signupstep2")
+    /*
+    @PostMapping("/signupstep2")
     public String showStep2() {
         // "signup-step2" es un fragmento Thymeleaf con el segundo formulario
         return "signupstep2"; // Vista con el formulario de habilidades
-    }
+    }*/
 
-    @PostMapping("/signupstep2")
+    @PostMapping("/signupstep3")
     public String processSignupStep2(
         @RequestParam String firstName,
         @RequestParam String lastName,

@@ -1,0 +1,104 @@
+<form id="signupStep2Form" class="form-signup" th:action="@{/signupstep2}" method="POST" onsubmit="añadirDatosPaso1()">
+    <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
+  
+    <!-- Dos inputs: uno para la habilidad y otro para la descripción opcional -->
+    <div class="mb-4">
+      <label for="currentSkillInput" class="ms-3 mb-1 fg-oblivion">Habilidades actuales*</label>
+      <div class="d-flex align-items-stretch mb-2">
+        <input type="text" id="currentSkillInput" class="form-control bg-abaloneshell rounded-pill p-3"
+          placeholder="Escribe una habilidad">
+        <button class="btn bg-orchid fg-abaloneshell bold ms-3 pe-3 ps-3" type="button" onclick="addSkill('currentSkillInput', 'currentSkillDescriptionInput', 'currentSkillList')">
+          <i class="bi bi-plus-square fs-3"></i>
+        </button>
+  
+      </div>
+  
+      <div>
+        <label for="currentSkillDescriptionInput" class="ms-3 mb-1 fg-oblivion">Descripción (opcional)</label>
+        <textarea id="currentSkillDescriptionInput" class="form-control bg-abaloneshell rounded p-3 ms-3"
+          placeholder="Escribe la descripción de la habilidad" style="width: 600px; height: 150px;"></textarea>
+      </div>
+    </div>
+  
+    <!-- Lista de habilidades agregadas dinámicamente -->
+    <ul id="currentSkillList" class="">
+      <!-- Aquí se agregarán los items -->
+    </ul>
+  
+    <div class="mb-4">
+      <label for="desirekillInput" class="ms-3 mb-1 fg-oblivion">Habilidades deseadas*</label>
+      <div class="d-flex align-items-stretch mb-2">
+        <input type="text" id="desireSkillInput" class="form-control bg-abaloneshell rounded-pill p-3"
+          placeholder="Escribe una habilidad">
+        <button class="btn bg-orchid fg-abaloneshell bold ms-3 pe-3 ps-3" type="button" onclick="addSkill('desireSkillInput', 'desireSkillDescriptionInput', 'desiredSkillList')">
+          <i class="bi bi-plus-square fs-3"></i>
+        </button>
+  
+      </div>
+  
+  
+      <div class="mb-4">
+        <label for="desireSkillDescriptionInput" class="ms-3 mb-1 fg-oblivion">Descripción (opcional)</label>
+        <textarea id="desireSkillDescriptionInput" class="form-control bg-abaloneshell rounded p-3 ms-3"
+          placeholder="Escribe la descripción de la habilidad" style="width: 600px; height: 150px;"></textarea>
+      </div>
+    </div>
+  
+    <!-- Lista de habilidades agregadas dinámicamente -->
+    <ul id="desiredSkillList" class="">
+      <!-- Aquí se agregarán los items -->
+    </ul>
+  
+  <input type="hidden" id="firstNameHidden" name="firstName">
+  <input type="hidden" id="lastNameHidden" name="lastName">
+  <input type="hidden" id="emailHidden" name="email">
+  <input type="hidden" id="passwordHidden" name="password">
+  
+    <div class="text-center mt-4">
+      <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill me-3" type="submit">
+        Finalizar <i class="bi bi-caret-right-fill"></i>
+      </button>
+      
+    </div>
+  
+    <script>
+      function addSkill(skilllInputId,descriptionInputId,skillListId) {
+        // Obtener los inputs y la lista
+        let skillInput = document.getElementById(skilllInputId);
+        let descriptionInput = document.getElementById(descriptionInputId);
+        let skillList = document.getElementById(skillListId);
+  
+        let skill = skillInput.value.trim();
+        if (skill === "") return; // No agregar si está vacío
+  
+        let description = descriptionInput.value.trim();
+  
+        // Crear un nuevo elemento de lista que muestre la habilidad y, si se ingresó, su descripción
+        let li = document.createElement("li");
+        li.innerHTML = `
+          <span>${skill}</span>
+          ${description ? `<small class="ms-2 text-muted">(${description})</small>` : ""}
+          <button class="btn btn-sm bg-orchid fg-abaloneshell bold ms-3" type="button" onclick="this.parentElement.remove()">
+            <i class="bi bi-x-square"></i>
+          </button>
+          <input type="hidden" name="${skillListId.includes('current') ? 'currentSkillNames[]' : 'desiredSkillNames[]'}" value="${skill}">
+          <input type="hidden" name="${skillListId.includes('current') ? 'currentSkillDescriptions[]' : 'desiredSkillDescriptions[]'}" value="${description}">
+        `;
+  
+        // Agregar el nuevo item a la lista
+        skillList.appendChild(li);
+  
+        // Limpiar los campos de entrada
+        skillInput.value = "";
+        descriptionInput.value = "";
+      }
+  
+    function añadirDatosPaso1() {
+        document.getElementById("firstNameHidden").value = sessionStorage.getItem("firstName");
+        document.getElementById("lastNameHidden").value = sessionStorage.getItem("lastName");
+        document.getElementById("emailHidden").value = sessionStorage.getItem("email");
+        document.getElementById("passwordHidden").value = sessionStorage.getItem("password");
+    }
+    </script>
+  
+  </form>
