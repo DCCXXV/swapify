@@ -110,7 +110,7 @@ method="POST" onsubmit="añadirDatosPaso1y2()">
         document.getElementById("descriptionHidden").value = sessionStorage.getItem("description");
         document.getElementById("photoHidden").value = sessionStorage.getItem("photo");
         document.getElementById("_csrf").value = config.csrf.value;
-
+        return true;
     }
     </script>
   

@@ -11,7 +11,7 @@
     <main class="mt-4">
         <div class="container bg-abaloneshell-l0 p-4" id="signupContainer">
             <div id="formContent">
-                <form id="signupForm" class="form-signup" hx-get="/signupstep2" hx-target="#formContent" hx-swap="innerHTML" onclick="guardarDatosPaso1()">
+                <form id="signupForm" class="form-signup" hx-get="/signupstep2" hx-target="#formContent" hx-swap="innerHTML" onsubmit="guardarDatosPaso1()">
                     <input type="hidden" name="_csrf" id="_csrf" value="config.csrf.value">
                     <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
                     <div class="d-flex gap-3 mb-4">
@@ -22,8 +22,8 @@
                                 placeholder="Introduzca aquí su nombre" required="required" style="width: 300px;">
                         </div>
                         <div>
-                            <label for="lastNameinput" class="ms-3 mb-1 fg-oblivion">Apellidos*</label>
-                            <input type="text" id="lastNameinput" name="lastName"
+                            <label for="lastNameInput" class="ms-3 mb-1 fg-oblivion">Apellidos*</label>
+                            <input type="text" id="lastNameInput" name="lastName"
                                 class="form-control bg-abaloneshell rounded-pill p-3"
                                 placeholder="Introduzca aquí sus apellidos" required="required" style="width: 365px;">
                         </div>
@@ -81,5 +81,6 @@
         sessionStorage.setItem('lastName', document.querySelector('#lastNameInput').value);
         sessionStorage.setItem('email', document.querySelector('#emailInput').value);
         sessionStorage.setItem('password', document.querySelector('#passwordInput').value)
+        return true;
     }
 </script>

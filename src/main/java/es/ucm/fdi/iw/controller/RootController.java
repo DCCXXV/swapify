@@ -128,7 +128,7 @@ public class RootController {
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setDescription(description);
-        newUser.setUsername(email.split("@")[0]);
+        newUser.setUsername(email.substring(0, email.indexOf("@")));
         newUser.setPic(photo);
 
         userService.registerUser(newUser);

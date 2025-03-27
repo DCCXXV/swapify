@@ -1,6 +1,6 @@
 <div>
   <form id="signupStep2Form" class="form-signup" hx-get="/signupstep3" hx-target="#formContent" hx-swap="innerHTML"
-    onclick="guardarDatosPaso2()">
+  onsubmit="guardarDatosPaso2()">
     <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
 
 
@@ -43,6 +43,7 @@
   function guardarDatosPaso2() {
     sessionStorage.setItem("photo", document.querySelector('#fileUpload').files[0].name);
     sessionStorage.setItem('description', document.querySelector('#userDescriptionInput').value);
+    return true;
   }
 </script>
 
