@@ -20,7 +20,7 @@ public class DesiredSkill {
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
-    @Lob
+    @Column(length = 1000)
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -30,4 +30,9 @@ public class DesiredSkill {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
+
+    @Override
+    public String toString() {
+        return skill.getName();
+    }
 }

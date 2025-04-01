@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.DesiredSkill;
 import es.ucm.fdi.iw.model.Skill;
@@ -60,7 +63,7 @@ public class RootController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) throws JsonProcessingException {
         model.addAttribute("actual", "inicio");
 
         List<User.Transfer> otherusers = userService.getAllUsers();
@@ -71,6 +74,8 @@ public class RootController {
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
 
+		User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
+		model.addAttribute("me", me.toTransfer());
         model.addAttribute("otherusers", otherusers);
 
         return "index";

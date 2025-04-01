@@ -4,6 +4,10 @@
 	<head>
 		<th:block th:replace="fragments/head :: header" />
 		<title>Inicio | Swapify</title>
+		<script th:inline="javascript">
+			const users = [[${otherusers}]];
+			const me = [[${me}]];
+		</script>
 	</head>
 
 	<body class="d-flex flex-column h-100 bg-abaloneshell">
@@ -77,10 +81,10 @@
 				</div>
 				
 				<div class="row flex-nowrap overflow-auto mt-4">
-					<div th:each="usr : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
+					<div th:each="usr,i : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
 						<div class="row g-0 h-100">
 							<div class="col-md-4 d-flex align-items-center justify-content-center">
-								<img th:src="@{'/img/pfp/'+${usr.pic}}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
+								<img th:src="@{'/user/${usr.id}/pic'}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body p-0" style="height: 255px;">
@@ -90,7 +94,7 @@
 										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center" 
 											data-bs-toggle="modal" 
 											data-bs-target="#swapModal" 
-											th:attr="data-user-id=${usr.id}, data-user-name=${usr.firstName}, data-user-pic=${usr.pic}, data-user-skill=${#lists.isEmpty(usr.desiredSkills) ? 'N/A' : usr.desiredSkills.get(0).skill.name}, data-user-desc=${#lists.isEmpty(usr.desiredSkills) ? 'No description available' : usr.desiredSkills.get(0).description}">
+											th:attr="data-user-idx=${i}">
 											Swap!
 										</button>
 									</div>
@@ -163,10 +167,10 @@
 
 				<div class="container mt-3 p-0">
 					<div class="row row-cols-3 gap-3">
-						<div th:each="usr : ${otherusers}" class="card bg-oblivion" style="width: 419px; height: 265px;">
+						<div th:each="usr,i : ${otherusers}" class="card bg-oblivion" style="width: 419px; height: 265px;">
 							<div class="d-flex h-100">
 								<div class="col-md-4 d-flex align-items-center justify-content-center">
-									<img th:src="@{'/img/pfp/'+${usr.pic}}" class="img-fluid rounded" alt="Foto de perfil">
+									<img th:src="@{/user/{id}/pic(id=${usr.id})}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
 								</div>
 								<div class="col-md-8">
 									<div class="card-body p-0" style="height: 245px;">
@@ -176,7 +180,7 @@
 											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center" 
 												data-bs-toggle="modal" 
 												data-bs-target="#swapModal" 
-												th:attr="data-user-id=${usr.id}, data-user-name=${usr.firstName}, data-user-pic=${usr.pic}, data-user-skill=${#lists.isEmpty(usr.desiredSkills) ? 'N/A' : usr.desiredSkills.get(0).skill.name}, data-user-desc=${#lists.isEmpty(usr.desiredSkills) ? 'No description available' : usr.desiredSkills.get(0).description}">
+												th:attr="data-user-idx=${i.index}">
 												Swap!
 											</button>
 										</div>
@@ -184,10 +188,10 @@
 											<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
 											<p class="card-text">
 												<div class="row-md-8 mb-3">
-													<span th:each="cs : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${cs.skill.name}">Skill</span>
+													<span th:each="cs : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${cs}">Skill</span>
 												</div>
 												<div class="row-md-8">
-													<span th:each="ds : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1" th:text="${ds.skill.name}">Skill</span>
+													<span th:each="ds : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1" th:text="${ds}">Skill</span>
 												</div>
 											</p>
 										</div>
@@ -296,16 +300,13 @@
 
 				swapModal.addEventListener("show.bs.modal", (event) => {
 					const button = event.relatedTarget;
-					const userId = button.getAttribute("data-user-id");
-					const userName = button.getAttribute("data-user-name");
-					const userPic = button.getAttribute("data-user-pic");
-					const userSkill = button.getAttribute("data-user-skill");
-					const userDesc = button.getAttribute("data-user-desc");
+					const user = users[button.dataset.userIdx];
+					console.log(button, user)
 
-					document.getElementById("swapUserPic").src = `/img/pfp/${userPic}`;
-					document.getElementById("swapUserName").textContent = userName;
-					document.getElementById("swapUserSkill").textContent = userSkill;
-					document.getElementById("swapUserDesc").textContent = userDesc;
+					document.getElementById("swapUserPic").src = `/img/pfp/${user.id}`;
+					document.getElementById("swapUserName").textContent = user.name;
+					document.getElementById("swapUserSkill").textContent = user.skill;
+					document.getElementById("swapUserDesc").textContent = user.skill;
 
 						// Fetch dinamicamente el skill y description del usuario
 						fetch(`/users/${config.userId}/skills`)
@@ -320,14 +321,11 @@
 								document.getElementById("yourSkillDesc").textContent = "Error al cargar descripción";
 							});
 
-					confirmSwapButton.setAttribute("data-user-id", userId);
-					confirmSwapButton.setAttribute("data-user-skill-id", button.getAttribute("data-user-skill-id"));
+					confirmSwapButton.setAttribute("data-user-id", user.id);
+					// confirmSwapButton.setAttribute("data-user-skill-id", button.getAttribute("data-user-skill-id"));
 				});
 
 				confirmSwapButton.addEventListener("click", () => {
-					const userId = confirmSwapButton.getAttribute("data-user-id");
-					const userSkillId = confirmSwapButton.getAttribute("data-user-skill-id");
-					const swapDate = document.getElementById("swapDate").value;
 
 					if (!swapDate) {
 						alert("Por favor, selecciona una fecha.");
@@ -344,10 +342,10 @@
 						},
 						body: JSON.stringify({
 							userA: config.userId,
-							userB: userId,
+							userB: user.id,
 							skillA: loggedInUserSkillId,
 							skillB: userSkillId,
-							swapDate: swapDate
+							swapDate: new Date().now(),
 						})
 					})
 					.then(response => {
