@@ -5,7 +5,6 @@ import lombok.*;
 import java.sql.Date;
 import java.util.List;
 import jakarta.persistence.*;
-import jakarta.websocket.OnOpen;
 
 /**
  * An authorized user of the system.
@@ -44,6 +43,7 @@ public class Swap implements Transferable<Swap.Transfer> {
     @Getter
     @AllArgsConstructor
     public static class Transfer {
+        private Long id;
         private User userA;
         private User userB;
         private Skill skillA;
@@ -53,7 +53,7 @@ public class Swap implements Transferable<Swap.Transfer> {
     
 	@Override
     public Swap.Transfer toTransfer() {
-		return new Transfer(userA, userB, skillA, skillB, schedule);
+		return new Transfer(id, userA, userB, skillA, skillB, schedule);
 	}
 }
 

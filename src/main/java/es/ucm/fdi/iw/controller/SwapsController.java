@@ -6,21 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.ArrayList;
 import java.util.List;
+
 import es.ucm.fdi.iw.model.Swap;
-import es.ucm.fdi.iw.model.User;
-import es.ucm.fdi.iw.model.Skill;
+import es.ucm.fdi.iw.service.SwapService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,15 +37,56 @@ public class SwapsController {
         }
     }
 
+    private final SwapService swapService;
+
+    public SwapsController(SwapService swapService) {
+        this.swapService = swapService;
+    }
+
     private static final Logger log = LogManager.getLogger(SwapsController.class);
 
-    @Autowired
-    private EntityManager entityManager;
-
-	@GetMapping("/")
+    @GetMapping
     public String index(Model model) {
-        model.addAttribute("actual", "swaps");
+        log.debug("Loading initial swaps page");
+        model.addAttribute("actual", "swaps"); 
+
+        List<Swap.Transfer> allSwaps = swapService.getAll();
+        model.addAttribute("swaps", allSwaps);
+
+        Swap.Transfer selectedSwap = null;
+        if (!allSwaps.isEmpty()) {
+            selectedSwap = swapService.getById(allSwaps.get(0).getId());
+        }
+        
+        model.addAttribute("selectedSwap", selectedSwap);
+
         return "swaps";
+    }
+
+    @GetMapping("/{id}")
+    public String swapChat(@PathVariable Long id, Model model) {
+        log.debug("intentando sacar información del chat con id: {}", id);
+        Swap.Transfer swap = swapService.getById(id);
+        model.addAttribute("chosenSwap", swap);
+        return "swaps :: chatFragment";
+    }
+
+    @PostMapping("/create")
+    @Transactional
+    @ResponseBody
+    public String createSwap(@RequestBody SwapRequest swapRequest) {
+        Swap swap = new Swap();
+        // TODO: usar service no el em
+        /*
+        swap.setUserA(entityManager.find(User.class, swapRequest.getUserA()));
+        swap.setUserB(entityManager.find(User.class, swapRequest.getUserB()));
+        swap.setSkillA(entityManager.find(Skill.class, swapRequest.getSkillA()));
+        swap.setSkillB(entityManager.find(Skill.class, swapRequest.getSkillB()));
+        swap.setSchedule(List.of(java.sql.Date.valueOf(swapRequest.getSwapDate())));
+        entityManager.persist(swap);
+        return "{\"status\":\"Swap creado con éxito\"}";
+        */
+        return "swap/";
     }
 
     @GetMapping("/info")
@@ -59,20 +97,6 @@ public class SwapsController {
     @GetMapping("/panel")
     public String panel(Model model) {
         return "swapspanel";
-    }
-
-    @PostMapping("/create")
-    @Transactional
-    @ResponseBody
-    public String createSwap(@RequestBody SwapRequest swapRequest) {
-        Swap swap = new Swap();
-        swap.setUserA(entityManager.find(User.class, swapRequest.getUserA()));
-        swap.setUserB(entityManager.find(User.class, swapRequest.getUserB()));
-        swap.setSkillA(entityManager.find(Skill.class, swapRequest.getSkillA()));
-        swap.setSkillB(entityManager.find(Skill.class, swapRequest.getSkillB()));
-        swap.setSchedule(List.of(java.sql.Date.valueOf(swapRequest.getSwapDate())));
-        entityManager.persist(swap);
-        return "{\"status\":\"Swap creado con éxito\"}";
     }
 
     @Getter @Setter
