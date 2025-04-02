@@ -51,7 +51,7 @@ public class SwapsController {
     private static final Logger log = LogManager.getLogger(SwapsController.class);
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
         log.debug("Loading initial swaps page");
         model.addAttribute("actual", "swaps"); 
 
@@ -65,18 +65,22 @@ public class SwapsController {
         
         model.addAttribute("selectedSwap", selectedSwap);
 
+        User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
+        model.addAttribute("currentUser", me);
+
         return "swaps";
     }
 
     @GetMapping("/{id}")
     public String swapChat(@PathVariable Long id, Model model, HttpSession session) {
         log.debug("intentando sacar información del chat con id: {}", id);
-        
+
         Swap.Transfer swap = swapService.getById(id);
         User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
 
         model.addAttribute("selectedSwap", swap);
         model.addAttribute("currentUser", me);
+
         return "swaps :: chatFragment";
     }
 

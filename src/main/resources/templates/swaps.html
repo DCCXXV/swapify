@@ -31,15 +31,13 @@
 
                                                 <th:block th:each="swap : ${swaps}">
                                                     <a href="#"
-                                                       class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l0 fg-lushaqua swap-accordion-list-item"
-                                                       th:classappend="${selectedSwap != null and swap.id == selectedSwap.id} ? 'active' : ''"
+                                                       class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l1 border-0 fg-lushaqua swap-accordion-list-item"
                                                        th:hx-get="@{/swaps/{id}(id=${swap.id})}"
                                                        hx-target="#chatContainer"
                                                        hx-swap="innerHTML"
                                                        >
                                                         <div class="d-flex w-100 align-items-center justify-content-between mb-2">
                                                             <strong class="mb-1" th:text="${'Swap de &quot' + swap.skillB.name + '&quot con ' + swap.userB.username}">Skill A - Skill B</strong>
-
                                                         </div>
                                                         <span class="badge rounded-pill bg-lushaqua p-2 me-2" th:text="${swap.skillA.name}">Skill A</span>
                                                         <span class="badge rounded-pill bg-orchid p-2 me-2" th:text="${swap.skillB.name}">Skill B</span>
@@ -97,6 +95,7 @@
                                         <span class="badge rounded-pill bg-abaloneshell fg-lushaqua p-2 me-2" th:text="${selectedSwap.skillB.name}">Skill B</span>
                                     </div>
                                     <div>
+                                        <!--
                                         <button
                                             th:hx-get="@{/swaps/info/{id}(id=${selectedSwap.id})}"
                                             hx-target="#chatContainer"
@@ -104,6 +103,7 @@
                                             class="btn fg-oblivion bg-gold p-2 bold rounded-pill">
                                             Detalles
                                         </button>
+                                        -->
                                     </div>
                                 </div>
                                 <h5 class="mb-1 mt-2 fg-abaloneshell"
