@@ -11,7 +11,6 @@
 
         <main class="container-fluid m-3">
             <div class="row me-3">
-                <!-- sidebar -->
                 <div class="col-3 p-0 bg-abaloneshell-l0 rounded" id="barraMensajes">
                     <div class="flex-shrink-0">
                         <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-abaloneshell-l0 rounded">
@@ -29,25 +28,26 @@
                                     <div id="collapseActives" class="accordion-collapse collapse show" data-bs-parent="#accordionSwaps">
                                         <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
                                             <div th:if="${not #lists.isEmpty(swaps)}" class="list-group list-group-flush scrollarea overflow-y">
-                                                <th:block th:each="swap : ${swaps}" th:if="${swap.status == 'ACTIVE'}"> <!-- Adjust status check as needed -->
+
+                                                <th:block th:each="swap : ${swaps}">
                                                     <a href="#"
-                                                       class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l0 swap-accordion-list-item"
+                                                       class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l0 fg-lushaqua swap-accordion-list-item"
                                                        th:classappend="${selectedSwap != null and swap.id == selectedSwap.id} ? 'active' : ''"
                                                        th:hx-get="@{/swaps/{id}(id=${swap.id})}"
                                                        hx-target="#chatContainer"
                                                        hx-swap="innerHTML"
                                                        >
                                                         <div class="d-flex w-100 align-items-center justify-content-between mb-2">
-                                                            <strong class="mb-1" th:text="${swap.title}">Swap Title</strong>
-                                                            <small th:text="${#temporals.format(swap.lastMessageDate, 'dd/MM')}">Date</small> <!-- Example formatting -->
+                                                            <strong class="mb-1" th:text="${'Swap de &quot' + swap.skillB.name + '&quot con ' + swap.userB.username}">Skill A - Skill B</strong>
+
                                                         </div>
-                                                        <span class="badge rounded-pill bg-lushaqua p-2 me-2" th:text="${swap.skillOffered.name}">Skill 1</span>
-                                                        <span class="badge rounded-pill bg-orchid p-2 me-2" th:text="${swap.skillDemanded.name}">Skill 2</span>
+                                                        <span class="badge rounded-pill bg-lushaqua p-2 me-2" th:text="${swap.skillA.name}">Skill A</span>
+                                                        <span class="badge rounded-pill bg-orchid p-2 me-2" th:text="${swap.skillB.name}">Skill B</span>
                                                     </a>
                                                 </th:block>
                                             </div>
-                                            <div th:unless="${swaps.?[status == 'ACTIVE'].size() > 0}" class="p-3 text-center text-muted"> <!-- Adjust status check -->
-                                                No hay swaps activos.
+                                            <div th:if="${#lists.isEmpty(swaps)}" class="p-3 text-center text-muted">
+                                                No hay swaps disponibles.
                                             </div>
                                         </div>
                                     </div>
@@ -60,7 +60,7 @@
                                     </h2>
                                     <div id="collapseFinished" class="accordion-collapse collapse" data-bs-parent="#accordionSwaps">
                                         <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
-                                             <div class="p-3 text-center text-muted">Lista de swaps terminados...</div>
+                                             <div class="p-3 text-center text-muted">por hacer</div>
                                         </div>
                                     </div>
 
@@ -72,7 +72,7 @@
                                     </h2>
                                      <div id="collapsePending" class="accordion-collapse collapse" data-bs-parent="#accordionSwaps">
                                         <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
-                                             <div class="p-3 text-center text-muted">Lista de swaps pendientes...</div>
+                                             <div class="p-3 text-center text-muted">por hacer</div>
                                         </div>
                                     </div>
                                 </div>
@@ -81,17 +81,20 @@
                     </div>
                 </div>
 
-                <!-- chat-->
                 <div class="col-9 pe-0">
-                    <div class="container bg-abaloneshell pe-0" id="chatContainer" th:fragment="chatFragment">
 
-                        <div th:if="${selectedSwap != null}">
-                            <div class="fg-gold bold bg-orchid p-3 me-2 rounded">
+                    <div class="container bg-abaloneshell pe-0 d-flex flex-column" 
+                         id="chatContainer" 
+                         th:fragment="chatFragment" 
+                         style="height: calc(100vh - 150px);"> 
+
+                        <div th:if="${selectedSwap != null and currentUser != null}" class="d-flex flex-column flex-grow-1">
+                            <div class="fg-gold bold bg-orchid p-3 me-2 rounded flex-shrink-0">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex align-items-center">
-                                        <h4 class="mb-0 bold me-3" th:text="${selectedSwap.title}">Swap Title</h4>
-                                        <span class="badge rounded-pill bg-abaloneshell fg-orchid p-2 me-2" th:text="${selectedSwap.skillOffered.name}">Skill 1</span>
-                                        <span class="badge rounded-pill bg-abaloneshell fg-lushaqua p-2 me-2" th:text="${selectedSwap.skillDemanded.name}">Skill 2</span>
+                                        <h4 class="mb-0 bold me-3" th:text="${'Swap de &quot' + selectedSwap.skillB.name + '&quot '}">Skill A - Skill B</h4>
+                                        <span class="badge rounded-pill bg-abaloneshell fg-orchid p-2 me-2" th:text="${selectedSwap.skillA.name}">Skill A</span>
+                                        <span class="badge rounded-pill bg-abaloneshell fg-lushaqua p-2 me-2" th:text="${selectedSwap.skillB.name}">Skill B</span>
                                     </div>
                                     <div>
                                         <button
@@ -103,11 +106,14 @@
                                         </button>
                                     </div>
                                 </div>
-                                <h5 class="mb-1 mt-2 fg-abaloneshell" th:text="'con ' + ${selectedSwap.otherUser.name}">con Usuario</h5>
-                                <small class="fg-abaloneshell" th:text="'Última vez activo: ' + ${#temporals.format(selectedSwap.otherUser.lastActivity, 'dd/MM/yyyy HH:mm')}">Última vez activo: Time</small> <!-- Example formatting -->
+                                <h5 class="mb-1 mt-2 fg-abaloneshell"
+                                    th:with="otherUser=(${selectedSwap.userA.id == currentUser.id} ? ${selectedSwap.userB} : ${selectedSwap.userA})"
+                                    th:text="'con @' + ${otherUser.username}">
+                                    con Otro Usuario
+                                </h5>
                             </div>
 
-                            <div id="message-box" style="height: 50vh; overflow-y: auto;" class="my-3 p-2">
+                            <div id="message-box" style="overflow-y: auto;" class="my-3 p-2 flex-grow-1">
                                 <div class="hr-swp my-4 fg-orchid">11/02/2025</div>
                                 <div class="text-end bg-blendieblue fg-lushaqua p-3 rounded message message-sent me-3 mb-2">
                                     <div><p class="mb-0">¡Hola! ¿Cómo estás?</p></div>
@@ -121,11 +127,11 @@
                                     <div><p class="mb-0">Nos vemos el próximo martes entonces.</p></div>
                                     <small class="text-muted">10:37</small>
                                 </div>
-                               
+
                             </div>
 
-                            <div>
-                                <form class="d-flex pb-2" th:action="@{/swaps/{id}/message(id=${selectedSwap.id})}" method="post">
+                            <div class="p-2 border-top flex-shrink-0"> <!-- Added padding and border -->
+                                <form class="d-flex" th:action="@{/swaps/{id}/message(id=${selectedSwap.id})}" method="post">
                                     <input type="text" name="messageContent" class="form-control bg-abaloneshell-l0 rounded-pill m-2 p-3" placeholder="Escribe un mensaje...">
                                     <button type="submit" class="btn d-flex bg-orchid fg-abaloneshell rounded-pill m-2 p-3 bold">
                                         <i class="bi bi-send-fill me-2"></i> Enviar
@@ -134,13 +140,13 @@
                             </div>
                         </div>
 
-                        <!-- placeholder  -->
-                        <div th:if="${selectedSwap == null}" class="d-flex justify-content-center align-items-center h-100 p-5">
-                            <h4 class="text-muted">Selecciona un swap para ver la conversación.</h4>
+                        <div th:if="${selectedSwap == null or currentUser == null}" class="d-flex justify-content-center align-items-center flex-grow-1 h-100 p-5">
+                            <h4 class="text-muted" th:text="${selectedSwap == null} ? 'Selecciona un swap para ver la conversación.' : 'Error: Usuario no identificado.'">Selecciona un swap.</h4>
                         </div>
 
                     </div>
                 </div>
+
             </div>
         </main>
 

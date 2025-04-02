@@ -17,7 +17,9 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 import es.ucm.fdi.iw.model.Swap;
+import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.SwapService;
+import es.ucm.fdi.iw.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,9 +40,12 @@ public class SwapsController {
     }
 
     private final SwapService swapService;
+    private final UserService userService;
 
-    public SwapsController(SwapService swapService) {
+
+    public SwapsController(SwapService swapService, UserService userService) {
         this.swapService = swapService;
+        this.userService = userService;
     }
 
     private static final Logger log = LogManager.getLogger(SwapsController.class);
@@ -64,10 +69,14 @@ public class SwapsController {
     }
 
     @GetMapping("/{id}")
-    public String swapChat(@PathVariable Long id, Model model) {
+    public String swapChat(@PathVariable Long id, Model model, HttpSession session) {
         log.debug("intentando sacar información del chat con id: {}", id);
+        
         Swap.Transfer swap = swapService.getById(id);
-        model.addAttribute("chosenSwap", swap);
+        User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
+
+        model.addAttribute("selectedSwap", swap);
+        model.addAttribute("currentUser", me);
         return "swaps :: chatFragment";
     }
 

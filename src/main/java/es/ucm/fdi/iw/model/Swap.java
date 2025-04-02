@@ -15,30 +15,44 @@ import jakarta.persistence.*;
 @Table(name="Swap")
 public class Swap implements Transferable<Swap.Transfer> {
 
+    public enum Status {
+        PENDING,  // Swap propuesto, a falta de aceptar por userB
+        ACTIVE,   // Swap accepted, en curso
+        FINISHED, // Swap completao
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_a_id", nullable = false)
     private User userA;
 
     @ManyToOne
+    @JoinColumn(name = "user_b_id", nullable = false)
     private User userB;
 
     @ManyToOne
+    @JoinColumn(name = "skill_a_id", nullable = false)
     private Skill skillA;
     
     @ManyToOne
+    @JoinColumn(name = "skill_b_id", nullable = false)
     private Skill skillB;
 
     @OneToOne
+    @JoinColumn(name = "review_a_id", nullable = true)
     private Review reviewA;
 
     @OneToOne
+    @JoinColumn(name = "review_b_id", nullable = true)
     private Review reviewB;
 
-    List<Date> schedule;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false) 
+    private Status status = Status.PENDING;
 
     @Getter
     @AllArgsConstructor
@@ -48,12 +62,12 @@ public class Swap implements Transferable<Swap.Transfer> {
         private User userB;
         private Skill skillA;
         private Skill skillB;
-        private List<Date> schedule;
+        private String status;
     }
     
 	@Override
     public Swap.Transfer toTransfer() {
-		return new Transfer(id, userA, userB, skillA, skillB, schedule);
+		return new Transfer(id, userA, userB, skillA, skillB, status.toString());
 	}
 }
 
