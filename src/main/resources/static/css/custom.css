@@ -279,6 +279,16 @@ td {
     color: var(--color-oblivion) !important;
 }
 
+.username:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--color-gold);
+}
+
+.load-more-line {
+    border-top: 1px solid var(--color-oblivion);
+}
+
 /* MENSAJES */
 .message {
     margin-bottom: var(--spacing-md);
@@ -375,6 +385,10 @@ i {
 
 #mySwapPanelButton:hover {
     transform: scale(var(--scale-hover-sm));
+}
+
+.sidebarElement {
+    border-color: var(--color-abaloneshell-l0);
 }
 
 /* CONTENEDORES */

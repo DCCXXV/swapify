@@ -31,7 +31,7 @@
 
                                                 <th:block th:each="swap : ${swaps}">
                                                     <a href="#"
-                                                       class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l1 border-0 fg-lushaqua swap-accordion-list-item"
+                                                       class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l1 sidebarElement fg-lushaqua swap-accordion-list-item"
                                                        th:hx-get="@{/swaps/{id}(id=${swap.id})}"
                                                        hx-target="#chatContainer"
                                                        hx-swap="innerHTML"
@@ -81,7 +81,7 @@
 
                 <div class="col-9 pe-0">
 
-                    <div class="container bg-abaloneshell pe-0 d-flex flex-column" 
+                    <div class="container bg-abaloneshell pe-0 ps-0 d-flex flex-column" 
                          id="chatContainer" 
                          th:fragment="chatFragment" 
                          style="height: calc(100vh - 150px);"> 
@@ -130,9 +130,9 @@
 
                             </div>
 
-                            <div class="p-2 border-top flex-shrink-0"> <!-- Added padding and border -->
+                            <div class="p-2 border-top flex-shrink-0 rounded bg-abaloneshell-l0">
                                 <form class="d-flex" th:action="@{/swaps/{id}/message(id=${selectedSwap.id})}" method="post">
-                                    <input type="text" name="messageContent" class="form-control bg-abaloneshell-l0 rounded-pill m-2 p-3" placeholder="Escribe un mensaje...">
+                                    <input type="text" name="messageContent" class="form-control bg-abaloneshell-l1 border-0 rounded-pill m-2 p-3" placeholder="Escribe un mensaje...">
                                     <button type="submit" class="btn d-flex bg-orchid fg-abaloneshell rounded-pill m-2 p-3 bold">
                                         <i class="bi bi-send-fill me-2"></i> Enviar
                                     </button>

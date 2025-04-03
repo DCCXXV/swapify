@@ -14,6 +14,7 @@
 		<header th:replace="fragments/nav.html :: nav"></header>
 		<main class="flex-shrink-0">
 			<div class="container">
+				<!--
 				<h2 class="mt-4 fg-orchid bold">Usuarios recomendados</h2>
 				<hr class="hr-swp">
 
@@ -22,27 +23,22 @@
 					<div class="d-flex align-items-center">
 						<span class="fg-oblivion ms-3">Habilidades que buscas: </span>
 						<div class="d-flex align-items-center row-md-8 ms-3 flex-nowrap overflow-auto">
-							<!-- testeando, cuando hagamos esto con th:each ya lo terminaré  -->
 							<span class="badge rounded-pill bg-lushaqua p-2 pe-3 mx-2" id="badge1">
 								<i hx-get="#del" hx-target="#badge1" hx-swap="delete" class="bi bi-x fs-5 badge-cancel"></i>
 								Inglés
 							</span>
-							
+
 							<span class="badge rounded-pill bg-lushaqua p-2 pe-3 mx-2">
 								<i class="bi bi-x fs-5 badge-cancel"></i>
 								Francés
 							</span>
 						</div>
 					</div>
-					<!--
-					<button class="btn bg-abaloneshell fg-oblivion bold ms-auto rounded-pill">Editar</button>
-					-->
 					<form>
-						<input 
-						type="text" 
-						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
-						placeholder="Añadir habilidad"
-						>
+						<input
+							type="text"
+							class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
+							placeholder="Añadir habilidad">
 					</form>
 				</div>
 
@@ -68,18 +64,15 @@
 							</span>
 						</div>
 					</div>
-					<!--
-					<button class="btn bg-abaloneshell fg-oblivion bold ms-auto rounded-pill">Editar</button>
-					-->
+
 					<form>
-						<input 
-						type="text" 
-						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
-						placeholder="Añadir habilidad"
-						>
+						<input
+							type="text"
+							class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
+							placeholder="Añadir habilidad">
 					</form>
 				</div>
-				
+
 				<div class="row flex-nowrap overflow-auto mt-4">
 					<div th:each="usr,i : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
 						<div class="row g-0 h-100">
@@ -89,11 +82,10 @@
 							<div class="col-md-8">
 								<div class="card-body p-0" style="height: 255px;">
 									<div class="d-flex justify-content-between oblivion py-3 px-1">
-										<!--TODO: al clicar en el nombre llevarte a su perfil -->
 										<span class="card-title fg-gold bold ps-3 fs-5" th:text="${usr.firstName}">Name</span>
-										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center" 
-											data-bs-toggle="modal" 
-											data-bs-target="#swapModal" 
+										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center"
+											data-bs-toggle="modal"
+											data-bs-target="#swapModal"
 											th:attr="data-user-idx=${i}">
 											Swap!
 										</button>
@@ -102,10 +94,12 @@
 										<p class="card-text fg-muted" th:text="${usr.description ?: 'Descripción no disponible'}">Description</p>
 										<p class="card-text">
 											<div class="row-md-8 mb-3">
-												<span th:each="skill : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
+												<span th:each="skill : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1"
+													th:text="${skill}">Skill</span>
 											</div>
 											<div class="row-md-8">
-												<span th:each="skill : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
+												<span th:each="skill : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1"
+													th:text="${skill}">Skill</span>
 											</div>
 										</p>
 									</div>
@@ -114,7 +108,7 @@
 						</div>
 					</div>
 				</div>
-
+				-->
 				<h2 class="mt-5 fg-orchid bold">Habilidades más pedidas</h2>
 				<hr class="hr-swp">
 				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide" data-bs-ride="carousel">
@@ -146,40 +140,54 @@
 				</div>
 				<div class="container text-center overflow-hidden mt-5">
 					<div class="row gap-3 text-center skills-row">
-					  	<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${desiredSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
-					  	</div>
+						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
-						<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
-						  	<span th:text="${skill}">Error</span>
+						<div th:each="skill : ${desiredSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
-						<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${desiredSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
-				</div>		  
+				</div>
 
-				<h2 class="mt-5 fg-orchid bold">Otros usuarios que te podrian interesar</h2>
+				<h2 class="mt-5 fg-orchid bold">Usuarios que te podrian interesar</h2>
 				<hr class="hr-swp">
 
 				<div class="container mt-3 p-0">
 					<div class="row row-cols-3 gap-3">
-						<div th:each="usr,i : ${otherusers}" class="card bg-oblivion" style="width: 419px; height: 265px;">
+						<div th:each="usr,i : ${otherusers}" th:if="${i.index < 9}" class="card bg-oblivion" style="width: 419px; height: 265px;">
 							<div class="d-flex h-100">
-								<div class="col-md-4 d-flex align-items-center justify-content-center">
-									<img th:src="@{/user/{id}/pic(id=${usr.id})}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
+								<div class="col-md-4 d-flex align-items-center justify-content-center mb-3">
+									<a th:href="@{/user/{userId}(userId=${usr.id})}">
+										<img th:src="@{/user/{id}/pic(id=${usr.id})}" class="img-fluid rounded fg-abaloneshell" th:alt="${'Foto de perfil de' + usr.username}">
+									</a>
 								</div>
 								<div class="col-md-8">
 									<div class="card-body p-0" style="height: 245px;">
 										<div class="d-flex justify-content-between oblivion py-3 px-1">
-											<!--TODO: al clicar en el nombre llevarte a su perfil -->
-											<span class="card-title fg-gold bold ps-3 fs-5" th:text="${usr.firstName}">Name</span>
-											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center" 
-												data-bs-toggle="modal" 
-												data-bs-target="#swapModal" 
+											<div class="d-flex flex-column">
+												<a th:href="@{/user/{userId}(userId=${usr.id})}" class="text-decoration-none">
+													<span class="card-title fg-gold bold ps-3 fs-5 username" th:text="${usr.firstName}">Name</span>
+												</a>
+												<a th:href="@{/user/{userId}(userId=${usr.id})}" class="text-decoration-none">
+													<span class="card-title fg-muted ps-3 fs-6" th:text="${'@' + usr.username}">Name</span>
+												</a>
+											</div>
+											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 px-2 ms-2 text-center"
+												data-bs-toggle="modal"
+												data-bs-target="#swapModal"
 												th:attr="data-user-idx=${i.index}">
 												Swap!
 											</button>
@@ -188,10 +196,12 @@
 											<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
 											<p class="card-text">
 												<div class="row-md-8 mb-3">
-													<span th:each="cs : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${cs}">Skill</span>
+													<span th:each="cs : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1"
+														th:text="${cs}">Skill</span>
 												</div>
 												<div class="row-md-8">
-													<span th:each="ds : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1" th:text="${ds}">Skill</span>
+													<span th:each="ds : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1"
+														th:text="${ds}">Skill</span>
 												</div>
 											</p>
 										</div>
@@ -201,9 +211,16 @@
 						</div>
 					</div>
 
-					<div class="d-flex align-items-center text-center">
-
-					</div>
+					<th:block th:if="${#lists.size(otherusers) > 9}">
+						<div class="d-flex align-items-center my-4">
+							<div class="flex-grow-1 load-more-line"></div>
+							<button id="loadMoreUsersBtn" class="btn bg-abaloneshell-l1 fg-oblivion bold mx-3">
+								Cargar más
+							</button>
+							<div class="flex-grow-1 load-more-line"></div>
+						</div>
+					</th:block>
+					
 				</div>
 
 				<h2 class="mt-5 fg-orchid bold">Habilidades más comunes</h2>
@@ -238,17 +255,23 @@
 
 				<div class="container my-5 text-center overflow-hidden">
 					<div class="row gap-3 text-center skills-row">
-					  	<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${commonSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
-					  	</div>
+						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
-						<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
-						  	<span th:text="${skill}">Error</span>
+						<div th:each="skill : ${commonSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
-						<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${commonSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
 						</div>
 					</div>

@@ -75,6 +75,7 @@ public class RootController {
         model.addAttribute("commonSkills", commonSkills);
 
 		User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
+        
 		model.addAttribute("me", me.toTransfer());
         model.addAttribute("otherusers", otherusers);
 

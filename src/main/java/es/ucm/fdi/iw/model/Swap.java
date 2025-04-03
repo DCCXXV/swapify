@@ -2,8 +2,6 @@ package es.ucm.fdi.iw.model;
 
 import lombok.*;
 
-import java.sql.Date;
-import java.util.List;
 import jakarta.persistence.*;
 
 /**
