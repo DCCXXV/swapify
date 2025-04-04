@@ -324,9 +324,9 @@
 				swapModal.addEventListener("show.bs.modal", (event) => {
 					const button = event.relatedTarget;
 					const user = users[button.dataset.userIdx];
-					console.log(button, user)
+					console.log(button, user);
 
-					document.getElementById("swapUserPic").src = `/img/pfp/${user.id}`;
+					document.getElementById("swapUserPic").src = "/user/" + user.id + "/pic";
 					document.getElementById("swapUserName").textContent = user.name;
 					document.getElementById("swapUserSkill").textContent = user.skill;
 					document.getElementById("swapUserDesc").textContent = user.skill;
