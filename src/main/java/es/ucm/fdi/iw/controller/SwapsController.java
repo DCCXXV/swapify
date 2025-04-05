@@ -2,6 +2,12 @@ package es.ucm.fdi.iw.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +22,15 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.util.List;
 
+import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Swap;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.service.MessageService;
 import es.ucm.fdi.iw.service.SwapService;
 import es.ucm.fdi.iw.service.UserService;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -39,13 +49,24 @@ public class SwapsController {
         }
     }
 
+    @Data
+    @NoArgsConstructor
+    public static class TChatMessage {
+        private String text;
+    }
+
     private final SwapService swapService;
     private final UserService userService;
+    private final MessageService messageService;
+
+    private final SimpMessagingTemplate messagingTemplate;
 
 
-    public SwapsController(SwapService swapService, UserService userService) {
+    public SwapsController(SwapService swapService, UserService userService, MessageService messageService, SimpMessagingTemplate messagingTemplate) {
         this.swapService = swapService;
         this.userService = userService;
+        this.messageService = messageService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     private static final Logger log = LogManager.getLogger(SwapsController.class);
@@ -55,33 +76,66 @@ public class SwapsController {
         log.debug("Loading initial swaps page");
         model.addAttribute("actual", "swaps"); 
 
-        List<Swap.Transfer> allSwaps = swapService.getAll();
+        User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
+        model.addAttribute("currentUser", me);
+
+        List<Swap.Transfer> allSwaps = swapService.getAllByUsername(me.getUsername());
         model.addAttribute("swaps", allSwaps);
 
+        /*
         Swap.Transfer selectedSwap = null;
         if (!allSwaps.isEmpty()) {
             selectedSwap = swapService.getById(allSwaps.get(0).getId());
         }
         
         model.addAttribute("selectedSwap", selectedSwap);
-
-        User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
-        model.addAttribute("currentUser", me);
+        */
 
         return "swaps";
     }
 
+    @Value("${app.websocket.endpoint:/ws}")
+    private String webSocketEndpointUrl;
     @GetMapping("/{id}")
     public String swapChat(@PathVariable Long id, Model model, HttpSession session) {
         log.debug("intentando sacar información del chat con id: {}", id);
 
         Swap.Transfer swap = swapService.getById(id);
-        User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
+        User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
+        List<Message.Transfer> messages = messageService.findMessagesForSwap(id);
 
         model.addAttribute("selectedSwap", swap);
         model.addAttribute("currentUser", me);
+        model.addAttribute("messages", messages);
+        model.addAttribute("ws", webSocketEndpointUrl);
 
         return "swaps :: chatFragment";
+    }
+
+    @MessageMapping("/swap/{swapId}/sendMessage")
+    public void handleSendMessage(@DestinationVariable String swapId,
+                                  @Payload TChatMessage tChatMessage,
+                                  Authentication authentication) {
+
+        try {
+            long swapIdLong = Long.parseLong(swapId);
+            String username = authentication.getName();
+
+            Message savedMessage = messageService.saveNewMessage(
+                tChatMessage.getText(), username, swapIdLong);
+
+            if (savedMessage != null) {
+                messagingTemplate.convertAndSend("/topic/swap/" + swapId, savedMessage.toTransfer());
+                System.out.println("Mensaje guardado y enviado a swap " + swapId + " por " + username);
+            } else {
+                 System.err.println("Error al guardar mensaje para swap " + swapId);
+            }
+        } catch (NumberFormatException e) {
+             System.err.println("Swap ID inválido recibido en WebSocket: " + swapId);
+        } catch (Exception e) {
+             System.err.println("Error procesando mensaje WebSocket para swap " + swapId + ": " + e.getMessage());
+             e.printStackTrace();
+        }
     }
 
     @PostMapping("/create")

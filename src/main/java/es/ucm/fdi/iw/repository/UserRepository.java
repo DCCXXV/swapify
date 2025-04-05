@@ -1,6 +1,8 @@
 package es.ucm.fdi.iw.repository;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import es.ucm.fdi.iw.model.User;
@@ -34,12 +36,11 @@ import es.ucm.fdi.iw.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
-
 
     User findById(long id);
-
-    List<User> findByUsernameNot(String usernamer);
+    User findByUsername(String username);
+    
+    List<User> findByUsernameNot(String username);
     List<User> findByUsernameContainingIgnoreCase(String partialUsername);
 
     List<User> findByCurrentSkillsSkillNameIgnoreCase(String skillname);

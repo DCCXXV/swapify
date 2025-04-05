@@ -1,42 +1,40 @@
 <div>
-  <form id="signupStep2Form" class="form-signup" hx-get="/signupstep3" hx-target="#formContent" hx-swap="innerHTML"
-  onsubmit="guardarDatosPaso2()">
-    <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
+	<form id="signupStep2Form" class="form-signup" hx-get="/signupstep3" hx-target="#formContent" hx-swap="innerHTML"
+		onsubmit="guardarDatosPaso2()">
+		<h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
 
+		<input type="hidden" id="firstNameHidden" name="firstName">
+		<input type="hidden" id="lastNameHidden" name="lastName">
+		<input type="hidden" id="emailHidden" name="email">
+		<input type="hidden" id="passwordHidden" name="password">
 
-    <input type="hidden" id="firstNameHidden" name="firstName">
-    <input type="hidden" id="lastNameHidden" name="lastName">
-    <input type="hidden" id="emailHidden" name="email">
-    <input type="hidden" id="passwordHidden" name="password">
+		<div class="mx-5 mb-4">
+			<label for="fileUpload" class="custom-file-label bg-lushaqua fg-abaloneshell p-3 rounded-pill">
+				Subir foto de perfil
+			</label>
+			<input type="file" id="fileUpload" class="inputfile" accept="image/*">
 
-    <div class="mx-5 mb-4">
-      <label for="fileUpload" class="custom-file-label bg-lushaqua fg-abaloneshell p-3 rounded-pill">
-        Subir foto de perfil
-      </label>
-      <input type="file" id="fileUpload" class="inputfile" accept="image/*">
+		</div>
+		<!-- Elemento para la previsualización -->
+		<div class="mx-5 mb-4">
+			<img id="previewImg" src alt class="text-center align-self-center" style="width: 500px;">
+			<p id="filename" class="fg-oblivion"></p>
+		</div>
 
-   </div>
-    <!-- Elemento para la previsualización -->
-    <div class="mx-5 mb-4">
-      <img id="previewImg" src="" alt="" class="text-center align-self-center" style="width: 500px;">
-      <p id="filename" class="fg-oblivion"></p>
-    </div>
+		<div class="mx-5 mb-4">
+			<label for="userDescriptionInput" class="fg-oblivion">Descripción</label>
+			<textarea id="userDescriptionInput" class="form-control bg-abaloneshell rounded p-3"
+				placeholder="Escribe una descripción sobre ti mismo" style="height: 150px;"></textarea>
+		</div>
 
-    <div class="mx-5 mb-4">
-      <label for="userDescriptionInput" class="fg-oblivion">Descripción</label>
-      <textarea id="userDescriptionInput" class="form-control bg-abaloneshell rounded p-3"
-        placeholder="Escribe una descripción sobre ti mismo" style="height: 150px;"></textarea>
-    </div>
+		<div class="text-center mt-4">
+			<button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill me-3" type="submit">
+				Siguiente
+				<i class="bi bi-caret-right-fill"></i>
+			</button>
+		</div>
 
-
-    <div class="text-center mt-4">
-      <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill me-3" type="submit">
-        Siguiente
-        <i class="bi bi-caret-right-fill"></i>
-      </button>
-    </div>
-
-  </form>
+	</form>
 </div>
 
 <script>

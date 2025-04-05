@@ -22,6 +22,13 @@ public class SwapService {
         return swapRepository.save(swap).toTransfer();
     }
 
+    public List<Swap.Transfer> getAllByUsername(String username) {
+        return swapRepository.findByUserA_UsernameOrUserB_Username(username, username)
+            .stream()
+            .map(Swap::toTransfer)
+            .toList();
+    }
+
     public Swap.Transfer getById(Long id) {
         return swapRepository.findById(id)
             .map(Swap::toTransfer)

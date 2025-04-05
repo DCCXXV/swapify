@@ -1,155 +1,302 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <th:block th:replace="fragments/head :: header" />
-        <title>Intercambios | Swapify</title>
-    </head>
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Intercambios | Swapify</title>
+</head>
 
-    <body class="d-flex flex-column h-100 bg-abaloneshell" style="overflow-x: hidden" id="swapbody">
-        <header th:replace="fragments/nav.html :: nav"></header>
+<body class="d-flex flex-column h-100 bg-abaloneshell" style="overflow-x: hidden" id="swapbody">
+    <header th:replace="fragments/nav.html :: nav"></header>
 
-        <main class="container-fluid m-3">
-            <div class="row me-3">
-                <div class="col-3 p-0 bg-abaloneshell-l0 rounded" id="barraMensajes">
-                    <div class="flex-shrink-0">
-                        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-abaloneshell-l0 rounded">
-
-                            <h2 class="bold fg-oblivion p-3 text-center"><em>Swaps</em></h2>
-
-                            <div class="accordion accordion-flush bg-abaloneshell-l0" id="accordionSwaps">
-                                <div class="accordion-item bg-abaloneshell fg-orchid">
-                                    <h2 class="accordion-header bg-abaloneshell">
-                                        <button class="accordion-button bg-abaloneshell-l0 fg-oblivion bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseActives"
-                                            aria-expanded="true" aria-controls="collapseActives">
-                                            Activos
-                                        </button>
-                                    </h2>
-                                    <div id="collapseActives" class="accordion-collapse collapse show" data-bs-parent="#accordionSwaps">
-                                        <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
-                                            <div th:if="${not #lists.isEmpty(swaps)}" class="list-group list-group-flush scrollarea overflow-y">
-
-                                                <th:block th:each="swap : ${swaps}">
-                                                    <a href="#"
-                                                       class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l1 sidebarElement fg-lushaqua swap-accordion-list-item"
-                                                       th:hx-get="@{/swaps/{id}(id=${swap.id})}"
-                                                       hx-target="#chatContainer"
-                                                       hx-swap="innerHTML"
-                                                       >
-                                                        <div class="d-flex w-100 align-items-center justify-content-between mb-2">
-                                                            <strong class="mb-1" th:text="${'Swap de &quot' + swap.skillB.name + '&quot con ' + swap.userB.username}">Skill A - Skill B</strong>
-                                                        </div>
-                                                        <span class="badge rounded-pill bg-lushaqua p-2 me-2" th:text="${swap.skillA.name}">Skill A</span>
-                                                        <span class="badge rounded-pill bg-orchid p-2 me-2" th:text="${swap.skillB.name}">Skill B</span>
-                                                    </a>
-                                                </th:block>
-                                            </div>
-                                            <div th:if="${#lists.isEmpty(swaps)}" class="p-3 text-center text-muted">
-                                                No hay swaps disponibles.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <h2 class="accordion-header bg-abaloneshell">
-                                        <button class="accordion-button collapsed bg-abaloneshell-l0 fg-oblivion bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFinished"
-                                            aria-expanded="false" aria-controls="collapseFinished">
-                                            Terminados
-                                        </button>
-                                    </h2>
-                                    <div id="collapseFinished" class="accordion-collapse collapse" data-bs-parent="#accordionSwaps">
-                                        <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
-                                             <div class="p-3 text-center text-muted">por hacer</div>
-                                        </div>
-                                    </div>
-
-                                    <h2 class="accordion-header bg-abaloneshell">
-                                        <button class="accordion-button collapsed bg-abaloneshell-l0 fg-oblivion bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePending"
-                                            aria-expanded="false" aria-controls="collapsePending">
-                                            Pendientes
-                                        </button>
-                                    </h2>
-                                     <div id="collapsePending" class="accordion-collapse collapse" data-bs-parent="#accordionSwaps">
-                                        <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
-                                             <div class="p-3 text-center text-muted">por hacer</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-9 pe-0">
-
-                    <div class="container bg-abaloneshell pe-0 ps-0 d-flex flex-column" 
-                         id="chatContainer" 
-                         th:fragment="chatFragment" 
-                         style="height: calc(100vh - 150px);"> 
-
-                        <div th:if="${selectedSwap != null and currentUser != null}" class="d-flex flex-column flex-grow-1">
-                            <div class="fg-gold bold bg-orchid p-3 me-2 rounded flex-shrink-0">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <h4 class="mb-0 bold me-3" th:text="${'Swap de &quot' + selectedSwap.skillB.name + '&quot '}">Skill A - Skill B</h4>
-                                        <span class="badge rounded-pill bg-abaloneshell fg-orchid p-2 me-2" th:text="${selectedSwap.skillA.name}">Skill A</span>
-                                        <span class="badge rounded-pill bg-abaloneshell fg-lushaqua p-2 me-2" th:text="${selectedSwap.skillB.name}">Skill B</span>
-                                    </div>
-                                    <div>
-                                        <!--
-                                        <button
-                                            th:hx-get="@{/swaps/info/{id}(id=${selectedSwap.id})}"
-                                            hx-target="#chatContainer"
-                                            hx-swap="innerHTML"
-                                            class="btn fg-oblivion bg-gold p-2 bold rounded-pill">
-                                            Detalles
-                                        </button>
-                                        -->
-                                    </div>
-                                </div>
-                                <h5 class="mb-1 mt-2 fg-abaloneshell"
-                                    th:with="otherUser=(${selectedSwap.userA.id == currentUser.id} ? ${selectedSwap.userB} : ${selectedSwap.userA})"
-                                    th:text="'con @' + ${otherUser.username}">
-                                    con Otro Usuario
-                                </h5>
-                            </div>
-
-                            <div id="message-box" style="overflow-y: auto;" class="my-3 p-2 flex-grow-1">
-                                <div class="hr-swp my-4 fg-orchid">11/02/2025</div>
-                                <div class="text-end bg-blendieblue fg-lushaqua p-3 rounded message message-sent me-3 mb-2">
-                                    <div><p class="mb-0">¡Hola! ¿Cómo estás?</p></div>
-                                    <small class="text-muted">10:30</small>
-                                </div>
-                                <div class="fg-lushaqua bg-abaloneshell-l0 p-3 rounded message message-recieved ms-3 mb-2">
-                                    <div><p class="mb-0">¡Muy bien! ¿Y tú? ¿Listo para la clase de mañana?</p></div>
-                                    <small class="text-muted">10:32</small>
-                                </div>
-                                <div class="text-end bg-blendieblue fg-lushaqua p-3 rounded message message-sent me-3 mb-2">
-                                    <div><p class="mb-0">Nos vemos el próximo martes entonces.</p></div>
-                                    <small class="text-muted">10:37</small>
-                                </div>
-
-                            </div>
-
-                            <div class="p-2 border-top flex-shrink-0 rounded bg-abaloneshell-l0">
-                                <form class="d-flex" th:action="@{/swaps/{id}/message(id=${selectedSwap.id})}" method="post">
-                                    <input type="text" name="messageContent" class="form-control bg-abaloneshell-l1 border-0 rounded-pill m-2 p-3" placeholder="Escribe un mensaje...">
-                                    <button type="submit" class="btn d-flex bg-orchid fg-abaloneshell rounded-pill m-2 p-3 bold">
-                                        <i class="bi bi-send-fill me-2"></i> Enviar
+    <main class="container-fluid m-3 flex-grow-1">
+        <div class="row me-3 h-100">
+            <div class="col-3 p-0 bg-abaloneshell-l0 rounded h-100" id="barraMensajes">
+                <div class="flex-shrink-0">
+                    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-abaloneshell-l0 rounded">
+                        <h2 class="bold fg-oblivion p-3 text-center"><em>Swaps</em></h2>
+                        <div class="accordion accordion-flush bg-abaloneshell-l0" id="accordionSwaps">
+                            <div class="accordion-item bg-abaloneshell fg-orchid">
+                                <h2 class="accordion-header bg-abaloneshell">
+                                    <button class="accordion-button bg-abaloneshell-l0 fg-oblivion bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseActives" aria-expanded="true" aria-controls="collapseActives">
+                                        Activos
                                     </button>
-                                </form>
+                                </h2>
+                                <div id="collapseActives" class="accordion-collapse collapse show" data-bs-parent="#accordionSwaps">
+                                    <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
+                                        <div th:if="${not #lists.isEmpty(swaps)}" class="list-group list-group-flush scrollarea overflow-y">
+                                            <th:block th:each="swap : ${swaps}">
+                                                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm bg-abaloneshell-l1 sidebarElement fg-lushaqua swap-accordion-list-item"
+                                                   th:hx-get="@{/swaps/{id}(id=${swap.id})}" hx-target="#chatContainer" hx-swap="innerHTML">
+                                                    <div class="d-flex w-100 align-items-center justify-content-between mb-2">
+                                                        <th:block th:with="otherUser=(${swap.userA.id == currentUser.id} ? ${swap.userB} : ${swap.userA}), offeredSkill=(${swap.userA.id == currentUser.id} ? ${swap.skillA} : ${swap.skillB}), requestedSkill=(${swap.userA.id == currentUser.id} ? ${swap.skillB} : ${swap.skillA})">
+                                                            <strong class="mb-1" th:text="${'Swap de &quot;' + requestedSkill.name + '&quot; con ' + otherUser.username}">Swap Details</strong>
+                                                        </th:block>
+                                                    </div>
+                                                    <span class="badge rounded-pill bg-lushaqua p-2 me-2" th:text="${swap.skillA.name}">Skill A</span>
+                                                    <span class="badge rounded-pill bg-orchid p-2 me-2" th:text="${swap.skillB.name}">Skill B</span>
+                                                </a>
+                                            </th:block>
+                                        </div>
+                                        
+                                        <div th:if="${#lists.isEmpty(swaps)}" class="p-3 text-center text-muted">
+                                            No tienes swaps activos.
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 class="accordion-header bg-abaloneshell">
+                                    <button class="accordion-button collapsed bg-abaloneshell-l0 fg-oblivion bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFinished" aria-expanded="false" aria-controls="collapseFinished">
+                                        Terminados
+                                    </button>
+                                </h2>
+                                <div id="collapseFinished" class="accordion-collapse collapse" data-bs-parent="#accordionSwaps">
+                                    <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
+                                        <div class="p-3 text-center text-muted">Próximamente...</div>
+                                    </div>
+                                </div>
+                                <h2 class="accordion-header bg-abaloneshell">
+                                    <button class="accordion-button collapsed bg-abaloneshell-l0 fg-oblivion bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePending" aria-expanded="false" aria-controls="collapsePending">
+                                        Pendientes
+                                    </button>
+                                </h2>
+                                <div id="collapsePending" class="accordion-collapse collapse" data-bs-parent="#accordionSwaps">
+                                    <div class="accordion-body p-0 m-0 bg-abaloneshell-l0">
+                                        <div class="p-3 text-center text-muted">Próximamente...</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div th:if="${selectedSwap == null or currentUser == null}" class="d-flex justify-content-center align-items-center flex-grow-1 h-100 p-5">
-                            <h4 class="text-muted" th:text="${selectedSwap == null} ? 'Selecciona un swap para ver la conversación.' : 'Error: Usuario no identificado.'">Selecciona un swap.</h4>
-                        </div>
-
                     </div>
                 </div>
-
             </div>
-        </main>
 
-        <th:block th:replace="fragments/footer.html :: footer" />
-    </body>
+            <div class="col-9 pe-0 position-relative" style="height: calc(100vh - 150px);">
+                <div id="chatContainer" th:fragment="chatFragment" class="bg-abaloneshell h-100 d-flex flex-column">
+
+                    <div th:if="${selectedSwap != null and currentUser != null}" class="d-flex flex-column flex-grow-1">
+                        <div class="fg-gold bold bg-orchid p-3 me-2 rounded flex-shrink-0">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <th:block th:with="offeredSkill=(${selectedSwap.userA.id == currentUser.id} ? ${selectedSwap.skillA} : ${selectedSwap.skillB}), requestedSkill=(${selectedSwap.userA.id == currentUser.id} ? ${selectedSwap.skillB} : ${selectedSwap.skillA})">
+                                        <h4 class="mb-0 bold me-3" th:text="${'Swap de &quot;' + requestedSkill.name + '&quot;'}">Swap Skill</h4>
+                                        <span class="badge rounded-pill bg-abaloneshell fg-orchid p-2 me-2" th:text="${offeredSkill.name}">Offered Skill</span>
+                                        <span class="badge rounded-pill bg-abaloneshell fg-lushaqua p-2 me-2" th:text="${requestedSkill.name}">Requested Skill</span>
+                                    </th:block>
+                                </div>
+                            </div>
+                            <h5 class="mb-1 mt-2 fg-abaloneshell" th:with="otherUser=(${selectedSwap.userA.id == currentUser.id} ? ${selectedSwap.userB} : ${selectedSwap.userA})" th:text="'con @' + ${otherUser.username}">
+                                con Otro Usuario
+                            </h5>
+                        </div>
+                        <div id="message-box" class="my-3 p-2" style="height: 400px; overflow-y: auto; max-height: 64vh;">
+                            <!-- Tus mensajes th:each van aquí dentro -->
+                            <th:block th:if="${messages != null and not #lists.isEmpty(messages)}" th:each="message : ${messages}">
+                                <th:block th:with="isSentByMe=(${message.from == currentUser.username})">
+                                    <div th:classappend="${isSentByMe} ? 'text-end bg-blendieblue message-sent me-3' : 'bg-abaloneshell-l0 message-recieved ms-3'" class="fg-lushaqua p-3 rounded mb-2 message">
+                                        <div>
+                                            <p class="mb-0" th:text="${message.text}">Message content here</p>
+                                        </div>
+                                        <small class="text-muted"
+                                            th:title="${message.sent != null ? #temporals.format(message.sent, 'yyyy-MM-dd HH:mm:ss') : ''}"
+                                            th:text="${message.sent != null ? #temporals.format(message.sent, 'HH:mm') : '??:??'}">
+                                            --:--
+                                        </small>
+                                    </div>
+                                </th:block>
+                            </th:block>
+                            <div th:if="${messages == null or #lists.isEmpty(messages)}" class="text-center text-muted p-4 no-messages-placeholder">
+                                No hay mensajes en este swap todavía. ¡Sé el primero en enviar uno!
+                            </div>
+                        </div>                        
+
+                        <div class="p-2 border-top flex-shrink-0 rounded bg-abaloneshell-l0">
+                            <form id="chat-form" class="d-flex" th:if="${selectedSwap}" th:data-swap-id="${selectedSwap.id}">
+                                <input id="chat-message-input" type="text" name="messageContent" class="form-control bg-abaloneshell-l1 border-0 rounded-pill m-2 p-3" placeholder="Escribe un mensaje..." autocomplete="off">
+                                <button type="submit" class="btn d-flex bg-orchid fg-abaloneshell rounded-pill m-2 p-3 bold">
+                                    <i class="bi bi-send-fill me-2"></i> Enviar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div th:if="${selectedSwap == null}" class="d-flex justify-content-center align-items-center flex-grow-1 h-100 p-5">
+                        <h4 class="text-muted">Selecciona un swap de la lista para ver la conversación.</h4>
+                    </div>
+                    
+                     <div th:if="${selectedSwap != null and currentUser == null}" class="d-flex justify-content-center align-items-center flex-grow-1 h-100 p-5">
+                        <h4 class="text-danger">Error: No se pudo identificar al usuario actual.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+
+    <!-- ===================================================================== -->
+    <!-- JAVASCRIPT para Swaps - Usa el ws y ws.stompClient de iw.js           -->
+    <!-- ===================================================================== -->
+    <script>
+        let currentChatSubscription = null;
+        let currentChatSubscribedSwapId = null;
+
+        function subscribeToSwap(swapId) {
+            if (!ws || !ws.stompClient || !ws.connected) {
+                console.warn(`SWAPS: Intento de suscribir a ${swapId}, pero WS no está conectado.`);
+                disableChatInput();
+                return;
+            }
+            if (currentChatSubscription && currentChatSubscribedSwapId === swapId) {
+                enableChatInput();
+                return;
+            }
+
+            unsubscribeFromCurrentSwap();
+
+            const topic = `/topic/swap/${swapId}`;
+            console.log("SWAPS: Suscribiéndose DIRECTAMENTE a:", topic);
+            try {
+                currentChatSubscription = ws.stompClient.subscribe(topic, (message) => {
+                    console.log("SWAPS: Mensaje de CHAT recibido:", message.body);
+                    try {
+                        const messageData = JSON.parse(message.body);
+                        displayChatMessage(messageData);
+                    } catch (e) { console.error("SWAPS: Fallo al parsear mensaje de CHAT:", e); }
+                });
+                currentChatSubscribedSwapId = swapId;
+                console.log("SWAPS: Suscripción DIRECTA exitosa para swap:", swapId);
+                enableChatInput();
+            } catch (e) {
+                console.error("SWAPS: Error durante suscripción DIRECTA a", topic, e);
+                disableChatInput();
+            }
+        }
+
+        function unsubscribeFromCurrentSwap() {
+            if (currentChatSubscription) {
+                try {
+                    currentChatSubscription.unsubscribe();
+                    console.log("SWAPS: Desuscrito (directo) del swap:", currentChatSubscribedSwapId);
+                } catch (e) { console.error("SWAPS: Error al desuscribir (directo):", e); }
+                currentChatSubscription = null;
+                currentChatSubscribedSwapId = null;
+            }
+        }
+
+        function setupChatFormListener() {
+            const chatForm = document.getElementById("chat-form");
+            const messageInput = document.getElementById("chat-message-input");
+            if (!chatForm || !messageInput) { disableChatInput(); return; }
+
+            chatForm.removeEventListener("submit", handleFormSubmit);
+            chatForm.addEventListener("submit", handleFormSubmit);
+            console.log("SWAPS: Listener del formulario añadido.");
+            if (ws && ws.connected) enableChatInput(); else disableChatInput();
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById("chat-message-input");
+            const chatForm = document.getElementById("chat-form");
+            if (!messageInput || !chatForm) return;
+            const messageText = messageInput.value.trim();
+            const currentSwapId = chatForm.dataset.swapId;
+
+            if (messageText && currentSwapId && ws && ws.stompClient && ws.connected) {
+                const chatMessage = { text: messageText };
+                const destination = `/app/swap/${currentSwapId}/sendMessage`;
+                try {
+                    ws.stompClient.send(destination, {}, JSON.stringify(chatMessage));
+                    messageInput.value = "";
+                    console.log("SWAPS: Mensaje enviado (directo) a:", destination);
+                } catch (e) { console.error("SWAPS: Error enviando mensaje (directo):", e); }
+            } else {
+                console.error("SWAPS: No se puede enviar. ¿Texto vacío, falta swapId o WS no conectado?");
+            }
+        }
+
+        function displayChatMessage(messageData) {
+            const chatMessagesDiv = document.getElementById("message-box");
+            if (!chatMessagesDiv || typeof config.username === 'undefined') { return; }
+            const placeholder = chatMessagesDiv.querySelector('.no-messages-placeholder');
+            if (placeholder) placeholder.remove();
+
+            const messageElement = document.createElement("div");
+            const isSentByMe = (messageData.from === config.username);
+            messageElement.classList.add("p-3", "rounded", "mb-2", "message", "fg-lushaqua");
+            messageElement.classList.add(isSentByMe ? "text-end" : "ms-3");
+            messageElement.classList.add(isSentByMe ? "bg-blendieblue" : "bg-abaloneshell-l0");
+            messageElement.classList.add(isSentByMe ? "message-sent" : "message-recieved");
+            messageElement.classList.add(isSentByMe ? "me-3" : "ms-3");
+
+            let formattedTime = '??:??';
+            try {
+                const date = new Date(messageData.sent);
+                if (!isNaN(date)) {
+                    formattedTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                }
+            } catch (e) {
+
+            }
+
+            messageElement.innerHTML = `
+                <div><p class="mb-0">${escapeHtml(messageData.text)}</p></div>
+                <small class="text-muted" title="${escapeHtml(messageData.sent)}">${formattedTime}</small>
+            `;
+            chatMessagesDiv.appendChild(messageElement);
+            setTimeout(() => scrollToBottom(chatMessagesDiv), 0);
+        }
+
+        function scrollToBottom(el) { if (el) el.scrollTop = el.scrollHeight; }
+        function enableChatInput() {
+            const i = document.getElementById("chat-message-input"), b = document.querySelector("#chat-form button[type='submit']");
+            if (i) i.disabled = false; if (b) b.disabled = false;
+        }
+        function disableChatInput() {
+            const i = document.getElementById("chat-message-input"), b = document.querySelector("#chat-form button[type='submit']");
+            if (i) i.disabled = true; if (b) b.disabled = true;
+        }
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') return unsafe;
+            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            if (event.detail.target.id === 'chatContainer') {
+                console.log("SWAPS: HTMX intercambió #chatContainer");
+                const chatForm = document.getElementById("chat-form");
+                const messageBox = document.getElementById("message-box");
+
+                unsubscribeFromCurrentSwap();
+                disableChatInput();
+
+                if (chatForm && chatForm.dataset.swapId) {
+                    const newSwapId = chatForm.dataset.swapId;
+                    console.log("SWAPS: Nuevo swap cargado:", newSwapId);
+                    setupChatFormListener();
+                    setTimeout(() => scrollToBottom(messageBox), 0);
+                    subscribeToSwap(newSwapId);
+                } else {
+                    console.log("SWAPS: Fragmento cargado sin formulario de chat.");
+                }
+            }
+        });
+
+        console.log("SWAPS: Script inicializado. Input deshabilitado.");
+        disableChatInput();
+
+        const initialChatForm = document.getElementById("chat-form");
+        if (initialChatForm && initialChatForm.dataset.swapId && ws && ws.connected) {
+            const initialSwapId = initialChatForm.dataset.swapId;
+            console.log("SWAPS: Configurando chat inicial (WS ya conectado).");
+            subscribeToSwap(initialSwapId);
+            setupChatFormListener();
+            setTimeout(() => scrollToBottom(document.getElementById("message-box")), 0);
+        } else if (initialChatForm) {
+            console.log("SWAPS: Chat inicial detectado, pero WS no conectado aún.");
+        }
+
+    </script>
+
+</body>
 </html>
