@@ -33,28 +33,38 @@
 				<i class="bi bi-caret-right-fill"></i>
 			</button>
 		</div>
-
-	</form>
+  </form>
 </div>
 
 <script>
+  // Al seleccionar una imagen
+  document.getElementById('fileUpload').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Previsualizar en el navegador
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      // ev.target.result -> base64
+      document.getElementById('previewImg').src = ev.target.result;
+      document.getElementById('previewImg').style.display = 'block';
+      document.getElementById('filename').textContent = file.name;
+
+      // Guardar en sessionStorage (fotoBase64)
+      sessionStorage.setItem("photoBase64", ev.target.result);
+      sessionStorage.setItem("photoName", file.name);
+    };
+    reader.readAsDataURL(file);
+  });
+
   function guardarDatosPaso2() {
-    sessionStorage.setItem("photo", document.querySelector('#fileUpload').files[0].name);
-    sessionStorage.setItem('description', document.querySelector('#userDescriptionInput').value);
+    // Guardamos descripción
+    const description = document.getElementById('userDescriptionInput').value;
+    sessionStorage.setItem('description', description);
+
+    // Devolvemos true para permitir hx-get="/signupstep3"
     return true;
   }
 </script>
 
-<script>
-  document.getElementById('fileUpload').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const previewImg = document.getElementById('previewImg');
-      const filenameElem = document.getElementById('filename');
 
-	  readImageFileData(file, previewImg);
-
-	  filenameElem.textContent = file.name;
-      previewImg.style.display = 'block';
-  });
-</script>

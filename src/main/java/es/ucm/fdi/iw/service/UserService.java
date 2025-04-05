@@ -76,4 +76,13 @@ public class UserService {
     public User getUsersByID(long id) {
         return userRepository.findById(id);
     }
+
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return user;
+        } else {
+            return null;
+        }
+    }
 }

@@ -104,8 +104,10 @@ public class User implements Transferable<User.Transfer> {
 
     private static List<String> skillsToList(List<?> skills) {
         List<String> result = new ArrayList<>();
-        for (Object os : skills) {
-            result.add(os.toString());
+        if(skills != null){
+            for (Object os : skills) {
+                result.add(os.toString());
+            }
         }
         return result;
     }

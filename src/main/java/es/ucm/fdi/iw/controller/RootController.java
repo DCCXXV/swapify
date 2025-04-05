@@ -1,6 +1,11 @@
 package es.ucm.fdi.iw.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,13 +17,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.DesiredSkill;
 import es.ucm.fdi.iw.model.Skill;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.User.Transfer;
 import es.ucm.fdi.iw.service.CurrentSkillService;
 import es.ucm.fdi.iw.service.DesiredSkillService;
 import es.ucm.fdi.iw.service.SkillService;
@@ -42,13 +52,15 @@ public class RootController {
 
     @Autowired
     private CurrentSkillService currentSkillService;
-    
+
     @Autowired
     private DesiredSkillService desiredSkillService;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private LocalData localData;
 
     RootController(CurrentSkillService currentSkillService) {
         this.currentSkillService = currentSkillService;
@@ -73,8 +85,9 @@ public class RootController {
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
 
-		User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
-		model.addAttribute("me", me.toTransfer());
+        User me = userService.getUsersByID(((User) session.getAttribute("u")).getId());
+
+        model.addAttribute("me", me.toTransfer());
         model.addAttribute("otherusers", otherusers);
 
         return "index";
@@ -119,11 +132,12 @@ public class RootController {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String description,
-            @RequestParam String photo,
+            @RequestParam(name = "photoBase64", required = false) String photoBase64,
             @RequestParam(name = "currentSkillNames[]", required = false) List<String> currentSkills,
             @RequestParam(name = "currentSkillDescriptions[]", required = false) List<String> currentSkillDescriptions,
             @RequestParam(name = "desiredSkillNames[]", required = false) List<String> desiredSkills,
-            @RequestParam(name = "desiredSkillDescriptions[]", required = false) List<String> desiredSkillDescriptions) {
+            @RequestParam(name = "desiredSkillDescriptions[]", required = false) List<String> desiredSkillDescriptions)
+            throws IOException {
 
         // usuario nuevo
         User newUser = new User();
@@ -133,9 +147,22 @@ public class RootController {
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setDescription(description);
         newUser.setUsername(email.substring(0, email.indexOf("@")));
-        newUser.setPic(photo);
-
         userService.registerUser(newUser);
+        
+        if (photoBase64 != null && !photoBase64.isBlank()) {
+            // Suele venir "data:image/png;base64,iVBORw0KGgoAAA..."
+            // Quitamos la parte "data:image/...;base64,"
+            String base64Data = photoBase64.substring(photoBase64.indexOf(",") + 1);
+            byte[] fileBytes = Base64.getDecoder().decode(base64Data);
+
+            // Prepara la carpeta y el nombre (p.ej. userId.jpg)
+            File finalFile = localData.getFile("user", newUser.getId() + ".jpg");
+            Files.write(finalFile.toPath(), fileBytes);
+
+            // setPic si quieres que en la BD aparezca "42.jpg"
+            newUser.setPic(newUser.getId() + ".jpg");
+
+        }
 
         // habilidades actuales
         if (currentSkills != null) {
@@ -168,7 +195,7 @@ public class RootController {
                 ds.setUser(newUser);
                 desiredSkillService.saveDesiredSkill(ds);
             }
-        } 
+        }
 
         return "redirect:/login";
     }
