@@ -52,10 +52,6 @@ public class Swap implements Transferable<Swap.Transfer> {
     @Column(nullable = false) 
     private Status swapStatus = Status.PENDING;
 
-    public void setStatus(Status status) {
-        this.swapStatus = status;
-    }
-
     @Getter
     @AllArgsConstructor
     public static class Transfer {
