@@ -23,6 +23,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 import es.ucm.fdi.iw.model.Message;
+import es.ucm.fdi.iw.model.Skill;
 import es.ucm.fdi.iw.model.Swap;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.MessageService;
@@ -142,18 +143,47 @@ public class SwapsController {
     @Transactional
     @ResponseBody
     public String createSwap(@RequestBody SwapRequest swapRequest) {
-        Swap swap = new Swap();
-        // TODO: usar service no el em
-        /*
-        swap.setUserA(entityManager.find(User.class, swapRequest.getUserA()));
-        swap.setUserB(entityManager.find(User.class, swapRequest.getUserB()));
-        swap.setSkillA(entityManager.find(Skill.class, swapRequest.getSkillA()));
-        swap.setSkillB(entityManager.find(Skill.class, swapRequest.getSkillB()));
-        swap.setSchedule(List.of(java.sql.Date.valueOf(swapRequest.getSwapDate())));
-        entityManager.persist(swap);
-        return "{\"status\":\"Swap creado con éxito\"}";
-        */
-        return "swap/";
+        log.info("Creando swap entre users {} y {}", swapRequest.getUserA(), swapRequest.getUserB());
+        
+        try {
+            if (swapRequest.getUserA() <= 0 || swapRequest.getUserB() <= 0 ||
+                swapRequest.getSkillA() == null || swapRequest.getSkillB() == null) {
+                return "{\"status\":\"error\",\"message\":\"IDs inválidos proporcionados\"}";
+            }
+
+            Swap swap = new Swap();
+            
+            User userA = userService.getUsersByID(swapRequest.getUserA());
+            User userB = userService.getUsersByID(swapRequest.getUserB());
+            
+            if (userA == null || userB == null) {
+                log.error("Fallo al crear swap: usuario no encontrado");
+                return "{\"status\":\"error\",\"message\":\"Usuario no encontrado\"}";
+            }
+            
+            swap.setUserA(userA);
+            swap.setUserB(userB);
+            
+            Skill skillA = swapService.getSkillByName(swapRequest.getSkillA());
+            Skill skillB = swapService.getSkillByName(swapRequest.getSkillB());
+            
+            if (skillA == null || skillB == null) {
+                log.error("Fallo al crear swap: skill no encontrada");
+                return "{\"status\":\"error\",\"message\":\"Habilidad no encontrada\"}";
+            }
+            
+            swap.setSkillA(skillA);
+            swap.setSkillB(skillB);
+            swap.setStatus(Swap.Status.ACTIVE);
+            
+            Swap.Transfer savedSwap = swapService.saveSwap(swap);
+            log.info("Creado el swap con ID: {}", savedSwap.getId());
+            
+            return "{\"status\":\"success\",\"message\":\"Swap creado con éxito\",\"id\":" + savedSwap.getId() + "}";
+        } catch (Exception e) {
+            log.error("Error al crear swap", e);
+            return "{\"status\":\"error\",\"message\":\"Error al crear el swap: " + e.getMessage() + "\"}";
+        }
     }
 
     @GetMapping("/info")
@@ -168,10 +198,10 @@ public class SwapsController {
 
     @Getter @Setter
     public static class SwapRequest {
-        private long userA;
-        private long userB;
-        private long skillA;
-        private long skillB;
+        private Long userA;
+        private Long userB;
+        private String skillA;
+        private String skillB;
         private String swapDate;
     }
 }

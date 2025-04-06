@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.ucm.fdi.iw.model.Swap;
+import es.ucm.fdi.iw.model.Skill;
 import es.ucm.fdi.iw.repository.SwapRepository;
+import es.ucm.fdi.iw.repository.SkillRepository;
 
 @Service
 public class SwapService {
 
     private final SwapRepository swapRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
     public SwapService(SwapRepository swapRepository) {
         this.swapRepository = swapRepository;
@@ -42,5 +47,13 @@ public class SwapService {
             .stream()
             .map(Swap::toTransfer)
             .toList();
+    }
+
+    public Skill getSkillById(long skillId) {
+        return skillRepository.findById(skillId);
+    }
+    
+    public Skill getSkillByName(String skillName) {
+        return skillRepository.findByName(skillName);
     }
 }
