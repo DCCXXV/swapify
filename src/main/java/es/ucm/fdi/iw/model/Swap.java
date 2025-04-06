@@ -16,7 +16,7 @@ public class Swap implements Transferable<Swap.Transfer> {
     public enum Status {
         PENDING,  // Swap propuesto, a falta de aceptar por userB
         ACTIVE,   // Swap accepted, en curso
-        FINISHED, // Swap completao
+        FINISHED // Swap completao
     }
 
     @Id
@@ -51,6 +51,10 @@ public class Swap implements Transferable<Swap.Transfer> {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false) 
     private Status swapStatus = Status.PENDING;
+
+    public void setStatus(Status status) {
+        this.swapStatus = status;
+    }
 
     @Getter
     @AllArgsConstructor
