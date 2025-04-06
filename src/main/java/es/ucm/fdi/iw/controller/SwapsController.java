@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Skill;
@@ -80,17 +83,14 @@ public class SwapsController {
         User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
         model.addAttribute("currentUser", me);
 
-        List<Swap.Transfer> allSwaps = swapService.getAllByUsername(me.getUsername());
-        model.addAttribute("swaps", allSwaps);
+        List<Swap.Transfer> activeSwaps = swapService.getActiveByUsername(me.getUsername());
+        model.addAttribute("activeSwaps", activeSwaps);
 
-        /*
-        Swap.Transfer selectedSwap = null;
-        if (!allSwaps.isEmpty()) {
-            selectedSwap = swapService.getById(allSwaps.get(0).getId());
-        }
-        
-        model.addAttribute("selectedSwap", selectedSwap);
-        */
+        List<Swap.Transfer> finishedSwaps = swapService.getFinishedByUsername(me.getUsername());
+        model.addAttribute("finishedSwaps", finishedSwaps);
+
+        List<Swap.Transfer> pendingSwaps = swapService.getPendingByUsername(me.getUsername());
+        model.addAttribute("pendingSwaps", pendingSwaps);
 
         return "swaps";
     }
@@ -112,6 +112,27 @@ public class SwapsController {
 
         return "swaps :: chatFragment";
     }
+
+    @GetMapping("/{id}/terminate")
+    @ResponseBody
+    public Map<String, Object> terminateSwap(@PathVariable Long id, Model model, HttpSession session) {
+        log.debug("intentando terminar el chat con id: {}", id);
+
+        Swap.Transfer swap = swapService.getById(id);
+        User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
+        List<Message.Transfer> messages = messageService.findMessagesForSwap(id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("selectedSwap", swap);
+        response.put("currentUser", me);
+        response.put("messages", messages);
+        response.put("ws", webSocketEndpointUrl);
+        log.debug("Añadiendo al modelo - archived: {}", response.get("archived"));
+        model.addAttribute("archived", true);
+
+        return response;
+    }
+
 
     @MessageMapping("/swap/{swapId}/sendMessage")
     public void handleSendMessage(@DestinationVariable String swapId,

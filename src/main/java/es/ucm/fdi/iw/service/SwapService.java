@@ -42,10 +42,27 @@ public class SwapService {
             ));
     }
 
-    public List<Swap.Transfer> getAll() {
-        return swapRepository.findAll()
+    public List<Swap.Transfer> getActiveByUsername(String username) {
+        return swapRepository.findByUserA_UsernameOrUserB_Username(username, username)
             .stream()
             .map(Swap::toTransfer)
+            .filter(swap -> swap.getSwapStatus().equals("ACTIVE"))
+            .toList();
+    }
+
+    public List<Swap.Transfer> getFinishedByUsername(String username) {
+        return swapRepository.findByUserA_UsernameOrUserB_Username(username, username)
+            .stream()
+            .map(Swap::toTransfer)
+            .filter(swap -> swap.getSwapStatus().equals("FINISHED"))
+            .toList();
+    }
+
+    public List<Swap.Transfer> getPendingByUsername(String username) {
+        return swapRepository.findByUserA_UsernameOrUserB_Username(username, username)
+            .stream()
+            .map(Swap::toTransfer)
+            .filter(swap -> swap.getSwapStatus().equals("PENDING"))
             .toList();
     }
 
