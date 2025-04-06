@@ -224,11 +224,17 @@ INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
     (13, 26, 30, 'Quiero aprender chino para participar en proyectos internacionales en el sector tecnológico, aprovechando las oportunidades de un mercado en expansión.');
 
 
-INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, status) VALUES 
-    (1, 2, 14, 3, 1,'ACTIVE');
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (1, 2, 14, 3, 1, 'ACTIVE');
 
-INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, status) VALUES 
-    (2, 2, 26, 3, 23,'ACTIVE');
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (2, 2, 26, 3, 23, 'ACTIVE');
+
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (3, 2, 14, 3, 1, 'FINISHED');
+
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (4, 2, 26, 3, 23, 'PENDING');
 
 -- Iniciar secuencia de IDs
 ALTER SEQUENCE GEN RESTART WITH 1024;

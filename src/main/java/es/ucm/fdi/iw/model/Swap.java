@@ -50,7 +50,7 @@ public class Swap implements Transferable<Swap.Transfer> {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false) 
-    private Status status = Status.PENDING;
+    private Status swapStatus = Status.PENDING;
 
     @Getter
     @AllArgsConstructor
@@ -60,12 +60,12 @@ public class Swap implements Transferable<Swap.Transfer> {
         private User userB;
         private Skill skillA;
         private Skill skillB;
-        private String status;
+        private String swapStatus;
     }
     
 	@Override
     public Swap.Transfer toTransfer() {
-		return new Transfer(id, userA, userB, skillA, skillB, status.toString());
+		return new Transfer(id, userA, userB, skillA, skillB, swapStatus.toString());
 	}
 }
 
