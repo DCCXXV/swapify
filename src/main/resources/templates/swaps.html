@@ -148,12 +148,17 @@
                             </div>
                         </div>
 
-                        <div th:if="${selectedSwap.swapStatus=='FINISHED'}" class="flex-shrink-0 p-3 mb-2 rounded bg-gold fg-oblivion">
-                            <div class="d-flex justify-content-center">
+                        <div th:if="${selectedSwap.swapStatus=='FINISHED'}" class="flex-shrink-0 p-3 mb-2 rounded bg-gold fg-oblivion" id="finishedSwapDiv">
+                            <div th:if="${reviewSubmitted == null || !reviewSubmitted}" class="d-flex justify-content-center">
                                 <h3><i class="bi bi-archive-fill me-2"></i>Archivado</h3>
-                                <button class="btn ms-auto bg-abaloneshell fg-oblivion bold">Escribir Reseña</button>
+                                <p>No podrás escribir más mensajes, pero mantendrás el Swap para su lectura.</p>
+                                <button class="btn ms-auto bg-abaloneshell fg-oblivion bold" data-bs-toggle="modal" data-bs-target="#reviewModal" th:data-swap-id="${selectedSwap.id}">Escribir Reseña</button>
+                                
                             </div>
-                            <p>No podrás escribir más mensajes, pero mantendrás el Swap para su lectura.</p>
+                            <div th:if="${reviewSubmitted != null && reviewSubmitted}" class="text-center">
+                                <h3><i class="bi bi-check-circle-fill me-2"></i>¡Swap terminado con éxito!</h3>
+                                <p>Gracias por enviar tu reseña.</p>
+                            </div>
                         </div>
                         <div th:if="${selectedSwap.swapStatus=='PENDING'}" class="flex-shrink-0 p-3 mb-2 rounded bg-orchid fg-abaloneshell">
                             <div th:if="${selectedSwap.userA.id == currentUser.id}" class="d-flex align-items-center">
@@ -201,6 +206,29 @@
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+
+    <!-- Modal para la Reseña -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Escribir Reseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="reviewRating" class="form-label">Calificación (0.0 - 10.0)</label>
+                    <input id="reviewRating" type="number" class="form-control mb-3" step="0.1" min="0" max="10" placeholder="Ingresa una calificación (0.0 - 10.0)">
+                    
+                    <label for="reviewText" class="form-label">Reseña</label>
+                    <textarea id="reviewText" class="form-control" rows="4" placeholder="Escribe tu reseña aquí..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="submitReview">Enviar Reseña</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ===================================================================== -->
     <!-- JAVASCRIPT para Swaps - Usa el ws y ws.stompClient de iw.js           -->
@@ -327,7 +355,7 @@
         }
         function escapeHtml(unsafe) {
             if (typeof unsafe !== 'string') return unsafe;
-            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            return unsafe.replace(/&/g, "&amp;").replace(/<//g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
 
         document.body.addEventListener('htmx:afterSwap', function(event) {
@@ -345,6 +373,12 @@
                     setupChatFormListener();
                     setTimeout(() => scrollToBottom(messageBox), 0);
                     subscribeToSwap(newSwapId);
+
+                    // Actualizar swap ID
+                    const submitReviewButton = document.getElementById("submitReview");
+                    if (submitReviewButton) {
+                        submitReviewButton.setAttribute("data-swap-id", newSwapId);
+                    }
                 } else {
                     console.log("SWAPS: Fragmento cargado sin formulario de chat.");
                 }
@@ -400,6 +434,79 @@
                     disableChatInput();
                 }
             }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const reviewModal = document.getElementById("reviewModal");
+            const submitReviewButton = document.getElementById("submitReview");
+
+            reviewModal.addEventListener("show.bs.modal", (event) => {
+                reviewModal.removeAttribute("inert"); // Permitir interacción
+                
+                const triggerButton = event.relatedTarget;
+                if (triggerButton && triggerButton.hasAttribute("data-swap-id")) {
+                    const swapId = triggerButton.getAttribute("data-swap-id");
+                    submitReviewButton.setAttribute("data-swap-id", swapId);
+                    console.log("SWAPS: Modal abierto para swap ID:", swapId);
+                }
+            });
+
+            reviewModal.addEventListener("hide.bs.modal", () => {
+                reviewModal.setAttribute("inert", ""); // Deshabilitar interacción
+            });
+
+            submitReviewButton.addEventListener("click", () => {
+                const rating = parseFloat(document.getElementById("reviewRating").value);
+                const reviewText = document.getElementById("reviewText").value.trim();
+                const swapId = submitReviewButton.getAttribute("data-swap-id");
+
+                if (!swapId) {
+                    alert("Error: No se pudo identificar el swap actual. Por favor, selecciona un swap antes de enviar una reseña.");
+                    return;
+                }
+
+                if (isNaN(rating) || rating < 0 || rating > 10) {
+                    alert("Por favor, ingresa una calificación válida entre 0.0 y 10.0.");
+                    return;
+                }
+
+                if (!reviewText) {
+                    alert("Por favor, escribe una reseña antes de enviar.");
+                    return;
+                }
+
+                fetch(`/swaps/${swapId}/submitReview`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": config.csrf.value
+                    },
+                    body: JSON.stringify({ rating, text: reviewText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        alert(data.message);
+                        document.getElementById("finishedSwapDiv").innerHTML = `
+                            <div class="text-center">
+                                <h3><i class="bi bi-check-circle-fill me-2"></i>¡Swap terminado con éxito!</h3>
+                                <p>Gracias por enviar tu reseña.</p>
+                            </div>
+                        `;
+                        // Cierra el modal
+                        const reviewModal = bootstrap.Modal.getInstance(document.getElementById("reviewModal"));
+                        if (reviewModal) {
+                            reviewModal.hide();
+                        }
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error("Error al enviar la reseña:", err);
+                    alert("Error al enviar la reseña.");
+                });
+            });
         });
     </script>
 </body>

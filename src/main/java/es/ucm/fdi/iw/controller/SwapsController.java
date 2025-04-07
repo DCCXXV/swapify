@@ -26,12 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 import es.ucm.fdi.iw.model.Message;
+import es.ucm.fdi.iw.model.Review;
 import es.ucm.fdi.iw.model.Skill;
 import es.ucm.fdi.iw.model.Swap;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.MessageService;
 import es.ucm.fdi.iw.service.SwapService;
 import es.ucm.fdi.iw.service.UserService;
+import es.ucm.fdi.iw.service.ReviewService;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,14 +64,15 @@ public class SwapsController {
     private final SwapService swapService;
     private final UserService userService;
     private final MessageService messageService;
-
+    private final ReviewService reviewService;
     private final SimpMessagingTemplate messagingTemplate;
 
-
-    public SwapsController(SwapService swapService, UserService userService, MessageService messageService, SimpMessagingTemplate messagingTemplate) {
+    public SwapsController(SwapService swapService, UserService userService, MessageService messageService, 
+                          ReviewService reviewService, SimpMessagingTemplate messagingTemplate) {
         this.swapService = swapService;
         this.userService = userService;
         this.messageService = messageService;
+        this.reviewService = reviewService;
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -104,6 +107,9 @@ public class SwapsController {
         Swap.Transfer swap = swapService.getById(id);
         User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
         List<Message.Transfer> messages = messageService.findMessagesForSwap(id);
+
+        boolean reviewSubmitted = swapService.isReviewSubmitted(id, me.getId());
+        model.addAttribute("reviewSubmitted", reviewSubmitted);
 
         model.addAttribute("selectedSwap", swap);
         model.addAttribute("currentUser", me);
@@ -206,6 +212,61 @@ public class SwapsController {
         }
     }
 
+    @PostMapping("/{id}/submitReview")
+    @Transactional
+    @ResponseBody
+    public String submitReview(@PathVariable Long id, @RequestBody ReviewRequest reviewRequest, HttpSession session) {
+        try {
+            User currentUser = (User)session.getAttribute("u");
+            if (currentUser == null) {
+                return "{\"status\":\"error\",\"message\":\"Usuario no autenticado\"}";
+            }
+
+            Swap.Transfer transfer = swapService.getById(id);
+            Swap swap = new Swap();
+            swap.setId(transfer.getId());
+            swap.setUserA(transfer.getUserA());
+            swap.setUserB(transfer.getUserB());
+            swap.setSkillA(transfer.getSkillA());
+            swap.setSkillB(transfer.getSkillB());
+            swap.setSwapStatus(Swap.Status.valueOf(transfer.getSwapStatus()));
+
+            if (swap == null || swap.getSwapStatus() != Swap.Status.FINISHED) {
+                return "{\"status\":\"error\",\"message\":\"No se puede escribir una reseña para un swap que no está finalizado\"}";
+            }
+
+            boolean isUserA = swap.getUserA().getId() == currentUser.getId();
+            boolean isUserB = swap.getUserB().getId() == currentUser.getId();
+
+            if (!isUserA && !isUserB) {
+                return "{\"status\":\"error\",\"message\":\"No puedes escribir una reseña para un swap en el que no participaste\"}";
+            }
+
+            if ((isUserA && swap.getReviewA() != null) || (isUserB && swap.getReviewB() != null)) {
+                return "{\"status\":\"error\",\"message\":\"Ya has enviado una reseña para este swap\"}";
+            }
+
+            Review review = new Review();
+            review.setText(reviewRequest.getText());
+            review.setRating(reviewRequest.getRating());
+            review.setSwapId(id);
+
+            reviewService.saveReview(review);
+
+            if (isUserA) {
+                swap.setReviewA(review);
+            } else {
+                swap.setReviewB(review);
+            }
+
+            swapService.saveSwap(swap);
+
+            return "{\"status\":\"success\",\"message\":\"Reseña enviada con éxito\"}";
+        } catch (Exception e) {
+            return "{\"status\":\"error\",\"message\":\"Error al enviar la reseña: " + e.getMessage() + "\"}";
+        }
+    }
+
     @GetMapping("/info")
     public String info(Model model) {
         return "swapinfo";
@@ -223,5 +284,11 @@ public class SwapsController {
         private String skillA;
         private String skillB;
         private String swapDate;
+    }
+
+    @Getter @Setter
+    public static class ReviewRequest {
+        private String text;
+        private double rating;
     }
 }

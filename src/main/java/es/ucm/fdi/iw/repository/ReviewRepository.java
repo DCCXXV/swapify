@@ -7,5 +7,4 @@ import es.ucm.fdi.iw.model.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    
 }

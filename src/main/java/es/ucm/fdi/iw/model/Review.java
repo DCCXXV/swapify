@@ -23,6 +23,9 @@ public class Review implements Transferable<Review.Transfer> {
     @Column(nullable = false)
     private double rating;
 
+    @Column(nullable = false)
+    private long swapId;
+
     @Getter
     @AllArgsConstructor
     public static class Transfer {

@@ -2,6 +2,7 @@ package es.ucm.fdi.iw.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,5 +73,23 @@ public class SwapService {
     
     public Skill getSkillByName(String skillName) {
         return skillRepository.findByName(skillName);
+    }
+
+    public boolean isReviewSubmitted(Long swapId, long userId) {
+        Swap swap = swapRepository.findById(swapId).orElse(null);
+        if (swap == null) {
+            return false;
+        }
+
+        // Si user es userA y ha hecho una review
+        if (swap.getUserA() != null && swap.getUserA().getId() == userId) {
+            return swap.getReviewA() != null;
+        }
+
+        // Si user es userB y ha hecho una review
+        if (swap.getUserB() != null && swap.getUserB().getId() == userId) {
+            return swap.getReviewB() != null;
+        }
+        return false;
     }
 }
