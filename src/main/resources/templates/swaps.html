@@ -156,12 +156,14 @@
                             <p>No podrás escribir más mensajes, pero mantendrás el Swap para su lectura.</p>
                         </div>
                         <div th:if="${selectedSwap.swapStatus=='PENDING'}" class="flex-shrink-0 p-3 mb-2 rounded bg-orchid fg-abaloneshell">
-                            <div class="d-flex align-items-center">
+                            <div th:if="${selectedSwap.userA.id == currentUser.id}" class="d-flex align-items-center">
+                                <h3><i class="bi bi-arrow-left-right me-2"></i>¿Esprando a que el usuario lo acepte?</h3>
+                            </div>
+                            <div th:if="${selectedSwap.userB.id == currentUser.id}" class="d-flex align-items-center">
                                 <h3><i class="bi bi-arrow-left-right me-2"></i>¿Desea aceptar este Swap?</h3>
                                 <button class="btn ms-auto bg-abaloneshell fg-oblivion bold">Rechazar</button>
                                 <button class="btn ms-2 bg-gold fg-oblivion bold">Aceptar</button>
                             </div>
-                            <p>Recuerde que puede terminar el Swap en cualquier momento.</p>
                         </div>
                         
                         <th:block th:if="${selectedSwap.swapStatus=='ACTIVE'}">

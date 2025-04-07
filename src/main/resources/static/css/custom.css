@@ -441,3 +441,7 @@ i {
     background-color: rgba(var(--color-blendieblue-rgb), var(--selection-opacity));
     color: var(--color-oblivion);
 }
+
+.selected-badge {
+    border: 2px solid #00ff22;
+}

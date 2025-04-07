@@ -314,6 +314,11 @@
 						<input type="hidden" id="selectedUserSkill" value="">
 						<input type="hidden" id="selectedYourSkill" value="">
 					</div>
+					<div class="px-3">
+						<label for="messageInput" class="mb-1 fg-oblivion">Mensaje</label>
+      					<textarea id="messageInputInput" class="form-control bg-abaloneshell rounded p-3 me-4"
+        				placeholder="Envia un mensaje a usuario"></textarea>
+					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
 						<button type="button" class="btn btn-primary" id="confirmSwap">Confirmar</button>
@@ -356,9 +361,12 @@
 							badge.dataset.skillName = skillName;
 							
 							badge.addEventListener("click", function() {
-								userSkillsContainer.querySelectorAll(".skill-badge").forEach(b => 
-									b.removeAttribute("data-selected"));
+								userSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
+									b.classList.remove("selected-badge");
+									b.removeAttribute("data-selected");
+								});
 								this.setAttribute("data-selected", "true");
+								this.classList.add("selected-badge"); 
 								document.getElementById("selectedUserSkill").value = this.dataset.skill;
 								
 								document.getElementById("swapUserSkillDesc").textContent = 
@@ -384,9 +392,12 @@
 							badge.dataset.skillName = skillName;
 							
 							badge.addEventListener("click", function() {
-								yourSkillsContainer.querySelectorAll(".skill-badge").forEach(b => 
-									b.removeAttribute("data-selected"));
+								yourSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
+									b.classList.remove("selected-badge"); 
+									b.removeAttribute("data-selected");
+								});
 								this.setAttribute("data-selected", "true");
+								this.classList.add("selected-badge");
 								document.getElementById("selectedYourSkill").value = this.dataset.skill;
 								
 								document.getElementById("yourSkillDesc").textContent = 
