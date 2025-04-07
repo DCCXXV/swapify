@@ -195,7 +195,6 @@ public class SwapsController {
             
             swap.setSkillA(skillA);
             swap.setSkillB(skillB);
-            swap.setSwapStatus(Swap.Status.ACTIVE);
             
             Swap.Transfer savedSwap = swapService.saveSwap(swap);
             log.info("Creado el swap con ID: {}", savedSwap.getId());
