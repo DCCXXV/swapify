@@ -15,6 +15,16 @@ public class SkillService {
     
     @Autowired
     private SkillRepository skillRepository;
+
+    public Skill getOrCreateSkill(String name) {
+        Skill skill = skillRepository.findByName(name);
+        if (skill == null) {
+            skill = new Skill();
+            skill.setName(name);
+            skill = skillRepository.save(skill);
+        }
+        return skill;
+    }
     
     public List<Skill.Transfer> getSkillsByKeyword(String keyword) {
         return skillRepository.findByNameContainingIgnoreCase(keyword)

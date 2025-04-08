@@ -1,68 +1,86 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <th:block th:replace="~{fragments/head :: header}" />
-        <title>Iniciar sesión | Swapify</title>
-    </head>
+<head>
+    <th:block th:replace="~{fragments/head :: header}" />
+    <title>Iniciar sesión | Swapify</title>
+</head>
 
-    <body class="d-flex flex-column h-100 bg-abaloneshell">
-        <header th:replace="~{fragments/nav.html :: nav}"></header>
-        <main class="mt-4">
-            <div class="container bg-abaloneshell-l0 p-4" id="signupContainer">
-                <div id="step1">
-                    <form class="form-signup" method="post" th:action="@{/signup}">
-                        <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
-                        <div class="d-flex gap-3 mb-4">
-                            <div>
-                                <label for="firstNameInput" class="ms-3 mb-1 fg-oblivion">Nombre*</label>
-                                <input type="text" id="firstNameInput" name="firstName" class="form-control bg-abaloneshell rounded-pill p-3"
-                                    placeholder="Introduzca aquí su nombre" required="required" style="width: 300px;">
-                            </div>
-                            <div>
-                                <label for="lastNameinput" class="ms-3 mb-1 fg-oblivion">Apellidos*</label>
-                                <input type="text" id="lastNameinput" name="lastName" class="form-control bg-abaloneshell rounded-pill p-3"
-                                    placeholder="Introduzca aquí sus apellidos" required="required" style="width: 385px;">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="emailInput" class="ms-3 mb-1 fg-oblivion">Correo electrónico*</label>
-                            <input type="text" id="emailInput" name="email" class="form-control bg-abaloneshell rounded-pill p-3"
-                                placeholder="Introduzca aquí su correo electrónico" required="required" style="width: 700px;">
-                        </div>
-
-                        <div class="d-flex gap-3 mb-4">
-                            <input type="text" id="emailRepInput" name="emailRep" class="form-control bg-abaloneshell rounded-pill p-3"
-                                placeholder="Repita aquí su correo electrónico" required="required" style="width: 700px;">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="emailInput" class="ms-3 mb-1 fg-oblivion">Contraseña*</label>
-                            <input type="password" id="passwordInput" name="password" class="form-control bg-abaloneshell rounded-pill p-3"
-                                placeholder="Introduzca aquí su contraseña" required="required" style="width: 700px;">
-                        </div>
-
+<body class="d-flex flex-column h-100 bg-abaloneshell">
+    <header th:replace="~{fragments/nav.html :: nav}"></header>
+    <main class="mt-4">
+        <div class="container bg-abaloneshell-l0 p-4" id="signupContainer">
+            <div id="formContent">
+                <form id="signupForm" class="form-signup" hx-get="/signupstep2" hx-target="#formContent" hx-swap="innerHTML" onsubmit="guardarDatosPaso1()">
+                    <input type="hidden" name="_csrf" id="_csrf" value="config.csrf.value">
+                    <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
+                    <div class="d-flex gap-3 mb-4">
                         <div>
-                            <input type="password" id="passwordRepInput" name="passwordRep" class="form-control bg-abaloneshell rounded-pill p-3"
-                                placeholder="Repita aquí su contraseña" required="required" style="width: 700px;">
+                            <label for="firstNameInput" class="ms-3 mb-1 fg-oblivion">Nombre*</label>
+                            <input type="text" id="firstNameInput" name="firstName"
+                                class="form-control bg-abaloneshell rounded-pill p-3"
+                                placeholder="Introduzca aquí su nombre" required="required" style="width: 300px;">
                         </div>
+                        <div>
+                            <label for="lastNameInput" class="ms-3 mb-1 fg-oblivion">Apellidos*</label>
+                            <input type="text" id="lastNameInput" name="lastName"
+                                class="form-control bg-abaloneshell rounded-pill p-3"
+                                placeholder="Introduzca aquí sus apellidos" required="required" style="width: 365px;">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailInput" class="ms-3 mb-1 fg-oblivion">Correo electrónico*</label>
+                        <input type="text" id="emailInput" name="email"
+                            class="form-control bg-abaloneshell rounded-pill p-3"
+                            placeholder="Introduzca aquí su correo electrónico" required="required"
+                            style="width: 680px;">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" id="emailRepInput" name="emailRep"
+                            class="form-control bg-abaloneshell rounded-pill p-3"
+                            placeholder="Repita aquí su correo electrónico" required="required" style="width: 680px;">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="passwordInput" class="ms-3 mb-1 fg-oblivion">Contraseña*</label>
+                        <input type="password" id="passwordInput" name="password"
+                            class="form-control bg-abaloneshell rounded-pill p-3"
+                            placeholder="Introduzca aquí su contraseña" required="required" style="width: 680px;">
+                    </div>
+
+                    <div>
+                        <input type="password" id="passwordRepInput" name="passwordRep"
+                            class="form-control bg-abaloneshell rounded-pill p-3"
+                            placeholder="Repita aquí su contraseña" required="required" style="width: 680px;">
+                    </div>
 
                         <div class="text-center mt-4">
-                            <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3" type="submit">
-                                Siguiente
-                                <i class="bi bi-caret-right-fill"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <template id="step2">
-
-                </template>
-                <template id="step3">
-                    
-                </template>
+                            <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3" type="sumbit">
+                            Siguiente <i class="bi bi-caret-right-fill"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
-        </main>
-        <th:block th:replace="fragments/footer.html :: footer" />
-    </body>
+            <div id="step2">
+
+            </div>
+            <div id="step3">
+
+            </div>
+        </div>
+    </main>
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
 </html>
+
+<script>
+    function guardarDatosPaso1() {
+        // Guardamos los valores en sessionStorage antes de pasar a la fase 2
+        sessionStorage.setItem('firstName', document.querySelector('#firstNameInput').value);
+        sessionStorage.setItem('lastName', document.querySelector('#lastNameInput').value);
+        sessionStorage.setItem('email', document.querySelector('#emailInput').value);
+        sessionStorage.setItem('password', document.querySelector('#passwordInput').value)
+        return true;
+    }
+</script>

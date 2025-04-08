@@ -20,7 +20,7 @@ VALUES (
     2,
     FALSE,
     'USER',
-    'guest',
+    'juanito03',
     'b@a.a',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W',
     'Juan',
@@ -107,6 +107,13 @@ INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) V
     (7, 16, 2, 'He desarrollado sólidas competencias en Python a través de proyectos tanto profesionales como personales, resolviendo problemas complejos de manera eficiente.', 4.7, 110),
     (8, 16, 3, 'Mi fluidez en inglés se ha fortalecido con años de estudio y experiencia en entornos internacionales, permitiéndome colaborar en proyectos globales.', 4.8, 120),
     (9, 16, 7, 'El francés lo domino gracias a estudios académicos y estancias en países francófonos, lo que enriquece mi capacidad de comunicación cultural.', 4.0, 85);
+
+-- Usuario 2: Juan Pérez
+INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) VALUES
+    (7, 16, 2, 'He desarrollado sólidas competencias en Python a través de proyectos tanto profesionales como personales, resolviendo problemas complejos de manera eficiente.', 4.7, 110),
+    (8, 16, 3, 'Mi fluidez en inglés se ha fortalecido con años de estudio y experiencia en entornos internacionales, permitiéndome colaborar en proyectos globales.', 4.8, 120),
+    (9, 16, 7, 'El francés lo domino gracias a estudios académicos y estancias en países francófonos, lo que enriquece mi capacidad de comunicación cultural.', 4.0, 85);
+
 
 -- Usuario 17: Ana
 INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) VALUES
@@ -215,6 +222,22 @@ INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
 -- Usuario 26: Miguel
 INSERT INTO DESIRED_SKILL (id, user_id, skill_id, description) VALUES
     (13, 26, 30, 'Quiero aprender chino para participar en proyectos internacionales en el sector tecnológico, aprovechando las oportunidades de un mercado en expansión.');
+
+
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (1, 2, 14, 3, 1, 'ACTIVE');
+
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (2, 2, 26, 3, 23, 'ACTIVE');
+
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (3, 2, 14, 3, 1, 'FINISHED');
+
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (4, 2, 26, 3, 23, 'PENDING');
+
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (5, 20, 2, 16, 3, 'PENDING');
 
 -- Iniciar secuencia de IDs
 ALTER SEQUENCE GEN RESTART WITH 1024;

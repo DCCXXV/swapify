@@ -1,7 +1,6 @@
 package es.ucm.fdi.iw.service;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +75,14 @@ public class UserService {
 
     public User getUsersByID(long id) {
         return userRepository.findById(id);
+    }
+
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return user;
+        } else {
+            return null;
+        }
     }
 }

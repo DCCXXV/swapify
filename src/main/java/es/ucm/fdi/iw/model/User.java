@@ -95,16 +95,28 @@ public class User implements Transferable<User.Transfer> {
         private String pic;
         private String email;
 
-        List<CurrentSkill> currentSkills;
-        List<DesiredSkill> desiredSkills;
+        List<String> currentSkills;
+        List<String> desiredSkills;
 
 		private int totalReceived;
 		private int totalSent;
     }
 
+    private static List<String> skillsToList(List<?> skills) {
+        List<String> result = new ArrayList<>();
+        if(skills != null){
+            for (Object os : skills) {
+                result.add(os.toString());
+            }
+        }
+        return result;
+    }
+
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,	username, firstName, lastName, description, pic, email, currentSkills, desiredSkills, received.size(), sent.size());
+		return new Transfer(id,	username, firstName, lastName, description, pic, email, 
+            skillsToList(currentSkills), 
+            skillsToList(desiredSkills), received.size(), sent.size());
 	}
 	
 	@Override

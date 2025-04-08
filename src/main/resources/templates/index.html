@@ -4,12 +4,17 @@
 	<head>
 		<th:block th:replace="fragments/head :: header" />
 		<title>Inicio | Swapify</title>
+		<script th:inline="javascript">
+			const users = [[${otherusers}]];
+			const me = [[${me}]];
+		</script>
 	</head>
 
 	<body class="d-flex flex-column h-100 bg-abaloneshell">
 		<header th:replace="fragments/nav.html :: nav"></header>
 		<main class="flex-shrink-0">
 			<div class="container">
+				<!--
 				<h2 class="mt-4 fg-orchid bold">Usuarios recomendados</h2>
 				<hr class="hr-swp">
 
@@ -18,27 +23,22 @@
 					<div class="d-flex align-items-center">
 						<span class="fg-oblivion ms-3">Habilidades que buscas: </span>
 						<div class="d-flex align-items-center row-md-8 ms-3 flex-nowrap overflow-auto">
-							<!-- testeando, cuando hagamos esto con th:each ya lo terminaré  -->
 							<span class="badge rounded-pill bg-lushaqua p-2 pe-3 mx-2" id="badge1">
 								<i hx-get="#del" hx-target="#badge1" hx-swap="delete" class="bi bi-x fs-5 badge-cancel"></i>
 								Inglés
 							</span>
-							
+
 							<span class="badge rounded-pill bg-lushaqua p-2 pe-3 mx-2">
 								<i class="bi bi-x fs-5 badge-cancel"></i>
 								Francés
 							</span>
 						</div>
 					</div>
-					<!--
-					<button class="btn bg-abaloneshell fg-oblivion bold ms-auto rounded-pill">Editar</button>
-					-->
 					<form>
-						<input 
-						type="text" 
-						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
-						placeholder="Añadir habilidad"
-						>
+						<input
+							type="text"
+							class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
+							placeholder="Añadir habilidad">
 					</form>
 				</div>
 
@@ -64,39 +64,42 @@
 							</span>
 						</div>
 					</div>
-					<!--
-					<button class="btn bg-abaloneshell fg-oblivion bold ms-auto rounded-pill">Editar</button>
-					-->
+
 					<form>
-						<input 
-						type="text" 
-						class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
-						placeholder="Añadir habilidad"
-						>
+						<input
+							type="text"
+							class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
+							placeholder="Añadir habilidad">
 					</form>
 				</div>
-				
+
 				<div class="row flex-nowrap overflow-auto mt-4">
-					<div th:each="usr : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
+					<div th:each="usr,i : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
 						<div class="row g-0 h-100">
 							<div class="col-md-4 d-flex align-items-center justify-content-center">
-								<img th:src="@{'/img/pfp/'+${usr.pic}}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
+								<img th:src="@{'/user/${usr.id}/pic'}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body p-0" style="height: 255px;">
 									<div class="d-flex justify-content-between oblivion py-3 px-1">
-										<!--TODO: al clicar en el nombre llevarte a su perfil -->
 										<span class="card-title fg-gold bold ps-3 fs-5" th:text="${usr.firstName}">Name</span>
-										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center">Swap!</button>
+										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center"
+											data-bs-toggle="modal"
+											data-bs-target="#swapModal"
+											th:attr="data-user-idx=${i}">
+											Swap!
+										</button>
 									</div>
 									<div class="fg-abaloneshell overflow-auto px-3">
 										<p class="card-text fg-muted" th:text="${usr.description ?: 'Descripción no disponible'}">Description</p>
 										<p class="card-text">
 											<div class="row-md-8 mb-3">
-												<span th:each="skill : ${usr.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${skill}">Skill</span>
+												<span th:each="skill : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1"
+													th:text="${skill}">Skill</span>
 											</div>
 											<div class="row-md-8">
-												<span th:each="skill : ${usr.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid me-1" th:text="${skill}">Skill</span>
+												<span th:each="skill : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1"
+													th:text="${skill}">Skill</span>
 											</div>
 										</p>
 									</div>
@@ -105,7 +108,7 @@
 						</div>
 					</div>
 				</div>
-
+				-->
 				<h2 class="mt-5 fg-orchid bold">Habilidades más pedidas</h2>
 				<hr class="hr-swp">
 				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide" data-bs-ride="carousel">
@@ -137,47 +140,68 @@
 				</div>
 				<div class="container text-center overflow-hidden mt-5">
 					<div class="row gap-3 text-center skills-row">
-					  	<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${desiredSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
-					  	</div>
+						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
-						<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
-						  	<span th:text="${skill}">Error</span>
+						<div th:each="skill : ${desiredSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
-						<div th:each="skill : ${desiredSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${desiredSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
-				</div>		  
+				</div>
 
-				<h2 class="mt-5 fg-orchid bold">Otros usuarios que te podrian interesar</h2>
+				<h2 class="mt-5 fg-orchid bold">Usuarios que te podrian interesar</h2>
 				<hr class="hr-swp">
 
 				<div class="container mt-3 p-0">
 					<div class="row row-cols-3 gap-3">
-						<div th:each="usr : ${otherusers}" class="card bg-oblivion" style="width: 419px; height: 265px;">
+						<div th:each="usr,i : ${otherusers}" th:if="${i.index < 9}" class="card bg-oblivion" style="width: 419px; height: 265px;">
 							<div class="d-flex h-100">
-								<div class="col-md-4 d-flex align-items-center justify-content-center">
-									<img th:src="@{'/img/pfp/'+${usr.pic}}" class="img-fluid rounded" alt="Foto de perfil">
+								<div class="col-md-4 d-flex align-items-center justify-content-center mb-3">
+									<a th:href="@{/user/{userId}(userId=${usr.id})}">
+										<img th:src="@{/user/{id}/pic(id=${usr.id})}" class="img-fluid rounded fg-abaloneshell" th:alt="${'Foto de perfil de' + usr.username}">
+									</a>
 								</div>
 								<div class="col-md-8">
 									<div class="card-body p-0" style="height: 245px;">
 										<div class="d-flex justify-content-between oblivion py-3 px-1">
-											<!--TODO: al clicar en el nombre llevarte a su perfil -->
-											<span class="card-title fg-gold bold ps-3 fs-5" th:text="${usr.firstName}">Name</span>
-											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center">Swap!</button>
+											<div class="d-flex flex-column">
+												<a th:href="@{/user/{userId}(userId=${usr.id})}" class="text-decoration-none">
+													<span class="card-title fg-gold bold ps-3 fs-5 username" th:text="${usr.firstName}">Name</span>
+												</a>
+												<a th:href="@{/user/{userId}(userId=${usr.id})}" class="text-decoration-none">
+													<span class="card-title fg-muted ps-3 fs-6" th:text="${'@' + usr.username}">Name</span>
+												</a>
+											</div>
+											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 px-2 ms-2 text-center"
+												data-bs-toggle="modal"
+												data-bs-target="#swapModal"
+												th:attr="data-user-idx=${i.index}">
+												Swap!
+											</button>
 										</div>
 										<div class="fg-abaloneshell overflow-auto px-3">
 											<p class="card-text fg-muted" th:text="${usr.description}">Description</p>
 											<p class="card-text">
 												<div class="row-md-8 mb-3">
-													<span th:each="cs : ${usr.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1" th:text="${cs.skill.name}">Skill</span>
+													<span th:each="cs : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1"
+														th:text="${cs}">Skill</span>
 												</div>
 												<div class="row-md-8">
-													<span th:each="ds : ${usr.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid me-1" th:text="${ds.skill.name}">Skill</span>
+													<span th:each="ds : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1"
+														th:text="${ds}">Skill</span>
 												</div>
 											</p>
 										</div>
@@ -187,9 +211,16 @@
 						</div>
 					</div>
 
-					<div class="d-flex align-items-center text-center">
-
-					</div>
+					<th:block th:if="${#lists.size(otherusers) > 9}">
+						<div class="d-flex align-items-center my-4">
+							<div class="flex-grow-1 load-more-line"></div>
+							<button id="loadMoreUsersBtn" class="btn bg-abaloneshell-l1 fg-oblivion bold mx-3">
+								Cargar más
+							</button>
+							<div class="flex-grow-1 load-more-line"></div>
+						</div>
+					</th:block>
+					
 				</div>
 
 				<h2 class="mt-5 fg-orchid bold">Habilidades más comunes</h2>
@@ -224,23 +255,212 @@
 
 				<div class="container my-5 text-center overflow-hidden">
 					<div class="row gap-3 text-center skills-row">
-					  	<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${commonSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
-					  	</div>
+						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
-						<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
-						  	<span th:text="${skill}">Error</span>
+						<div th:each="skill : ${commonSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
-						<div th:each="skill : ${commonSkills}" class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center" style="height: 90px;">
+						<div th:each="skill : ${commonSkills}"
+							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
+							style="height: 90px;">
 							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
+
+		<!-- Swap Modal -->
+		<div class="modal fade" id="swapModal" tabindex="-1" aria-labelledby="swapModalLabel" aria-hidden="true">
+			<div class="modal-dialog ">
+				<div class="modal-content bg-abaloneshell fg-oblivion">
+					<div class="modal-header">
+						<h4 class="modal-title" id="swapModalLabel">Confirmar Swap</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="d-flex justify-content-center">
+							<div class="d-felx flex-column">
+								<img id="swapUserPic" class="img-fluid rounded me-3" style="width: 100px;" alt="Foto de perfil">
+								<h5 id="swapUserName" class="my-2"></h5>
+							</div>
+						</div>
+						<hr>
+						<div class="fg-lushaqua">
+							<h5>Habilidades que enseña:</h5>
+							<div id="swapUserSkills" class="mb-3">
+								<!-- skills como badges -->
+							</div>
+							<p class="fg-oblivion"><b>Descripción:</b> <span id="swapUserSkillDesc">Selecciona una habilidad</span></p>
+						</div>
+						<hr>
+						<div class="fg-orchid">
+							<h5>Tu habilidad a ofrecer:</h5>
+							<div id="yourSkills" class="mb-3">
+								<!-- skills como badges -->
+							</div>
+							<p class="fg-oblivion"><b>Descripción:</b> <span id="yourSkillDesc">Selecciona una habilidad</span></p>
+						</div>
+						<hr>
+						<input type="hidden" id="selectedUserSkill" value="">
+						<input type="hidden" id="selectedYourSkill" value="">
+					</div>
+					<div class="px-3">
+						<label for="messageInput" class="mb-1 fg-oblivion">Mensaje</label>
+      					<textarea id="messageInputInput" class="form-control bg-abaloneshell-l0 rounded p-3 me-4 border-0"
+        				placeholder="Envia un mensaje a usuario"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn bg-abaloneshell fg-orchid" data-bs-dismiss="modal">Volver</button>
+						<button type="button" class="btn bg-orchid fg-abaloneshell" id="confirmSwap">Confirmar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const swapModal = document.getElementById("swapModal");
+				const confirmSwapButton = document.getElementById("confirmSwap");
+				let selectedUser = null;
+
+				swapModal.addEventListener("show.bs.modal", (event) => {
+					const button = event.relatedTarget;
+					const userIdx = button.dataset.userIdx;
+					selectedUser = users[userIdx];
+					console.log("Usuario seleccionado:", selectedUser);
+
+					// Limpiar
+					document.getElementById("selectedUserSkill").value = "";
+					document.getElementById("selectedYourSkill").value = "";
+					document.getElementById("swapUserSkillDesc").textContent = "Selecciona una habilidad";
+					document.getElementById("yourSkillDesc").textContent = "Selecciona una habilidad";
+					
+					document.getElementById("swapUserPic").src = "/user/" + selectedUser.id + "/pic";
+					document.getElementById("swapUserName").textContent = selectedUser.firstName + " " + selectedUser.lastName;
+					
+					// Habilidades del usuario seleccionado
+					const userSkillsContainer = document.getElementById("swapUserSkills");
+					userSkillsContainer.innerHTML = "";
+					
+					if (selectedUser.currentSkills && selectedUser.currentSkills.length > 0) {
+						selectedUser.currentSkills.forEach((skillName, index) => {
+							const badge = document.createElement("span");
+							badge.className = "badge rounded-pill bg-lushaqua m-1 skill-badge";
+							badge.textContent = skillName;
+							badge.dataset.skill = "skill_" + index;
+							badge.dataset.skillName = skillName;
+							
+							badge.addEventListener("click", function() {
+								userSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
+									b.classList.remove("selected-badge");
+									b.removeAttribute("data-selected");
+								});
+								this.setAttribute("data-selected", "true");
+								this.classList.add("selected-badge"); 
+								document.getElementById("selectedUserSkill").value = this.dataset.skill;
+								
+								document.getElementById("swapUserSkillDesc").textContent = 
+									selectedUser.firstName + " puede enseñarte " + skillName + " con sus conocimientos en esta área.";
+							});
+							userSkillsContainer.appendChild(badge);
+						});
+					} else {
+						userSkillsContainer.innerHTML = "<p class='fg-lushaqua'>No tiene habilidades disponibles</p>";
+					}
+					
+					// Tus propias habilidades
+					const yourSkillsContainer = document.getElementById("yourSkills");
+					yourSkillsContainer.innerHTML = "";
+					
+					if (me && me.currentSkills && me.currentSkills.length > 0) {
+
+						me.currentSkills.forEach((skillName, index) => {
+							const badge = document.createElement("span");
+							badge.className = "badge rounded-pill bg-orchid m-1 skill-badge";
+							badge.textContent = skillName;
+							badge.dataset.skill = "my_skill_" + index; // Identificador único para la habilidad
+							badge.dataset.skillName = skillName;
+							
+							badge.addEventListener("click", function() {
+								yourSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
+									b.classList.remove("selected-badge"); 
+									b.removeAttribute("data-selected");
+								});
+								this.setAttribute("data-selected", "true");
+								this.classList.add("selected-badge");
+								document.getElementById("selectedYourSkill").value = this.dataset.skill;
+								
+								document.getElementById("yourSkillDesc").textContent = 
+									"Puedo enseñar " + skillName + " con mi experiencia y conocimientos en esta área.";
+							});
+							yourSkillsContainer.appendChild(badge);
+						});
+					} else {
+						yourSkillsContainer.innerHTML = "<p class='fg-orchid'>No tienes habilidades disponibles</p>";
+					}
+				});
+
+				confirmSwapButton.addEventListener("click", () => {
+					const selectedUserSkillElement = document.querySelector('#swapUserSkills .skill-badge[data-selected="true"]');
+					const selectedYourSkillElement = document.querySelector('#yourSkills .skill-badge[data-selected="true"]');
+					
+					if (!selectedUserSkillElement || !selectedYourSkillElement) {
+						alert("Por favor, selecciona una habilidad de cada usuario.");
+						return;
+					}
+					
+					const userSkillName = selectedUserSkillElement.dataset.skillName;
+					const yourSkillName = selectedYourSkillElement.dataset.skillName;
+					
+					console.log("Creando swap:", {
+						userSkill: userSkillName,
+						yourSkill: yourSkillName,
+						userA: me.id,
+						userB: selectedUser.id
+					});
+					
+					fetch("/swaps/create", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"X-CSRF-TOKEN": config.csrf.value
+						},
+						body: JSON.stringify({
+							userA: me.id,
+							userB: selectedUser.id,
+							skillA: yourSkillName,  // Enviamos el nombre 
+							skillB: userSkillName 
+						})
+					})
+					.then(response => {
+						if (response.ok) {
+							return response.json();
+						} else {
+							return response.json().then(data => {
+								throw new Error(data.message || "Error al crear el swap");
+							});
+						}
+					})
+					.then(data => {
+						window.location.href = "/swaps";
+					})
+					.catch(err => {
+						console.error(err);
+						alert("Error al crear el swap: " + err.message);
+					});
+				});
+			});
+		</script>
 
 		<th:block th:replace="fragments/footer.html :: footer" />
 	</body>

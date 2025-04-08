@@ -1,0 +1,125 @@
+<form id="signupStep3Form" class="form-signup" action="/finalizarRegistro" method="POST" enctype="multipart/form-data"
+  onsubmit="añadirDatosPaso1y2()">
+
+  <input type="hidden" name="firstName" id="firstNameHidden">
+  <input type="hidden" name="lastName" id="lastNameHidden">
+  <input type="hidden" name="email" id="emailHidden">
+  <input type="hidden" name="password" id="passwordHidden">
+  <input type="hidden" name="description" id="descriptionHidden">
+  <input type="hidden" name="photoBase64" id="photoBase64Hidden">
+  <input type="hidden" name="_csrf" id="_csrf">
+
+
+  <h2 class="form-signin-heading fg-orchid bold mb-3 text-center">Introduzca sus datos</h2>
+
+  <!-- Dos inputs: uno para la habilidad y otro para la descripción opcional -->
+  <div class="mb-4">
+    <label for="currentSkillInput" class="ms-3 mb-1 fg-oblivion">Habilidades actuales*</label>
+    <div class="d-flex align-items-stretch mb-2">
+      <input type="text" id="currentSkillInput" class="form-control bg-abaloneshell rounded-pill p-3"
+        placeholder="Escribe una habilidad">
+      <button class="btn bg-orchid fg-abaloneshell bold ms-3 pe-3 ps-3 rounded-pill" type="button"
+        onclick="addSkill('currentSkillInput', 'currentSkillDescriptionInput', 'currentSkillList')">
+        <i class="bi bi-plus-square fs-3"></i>
+      </button>
+
+    </div>
+
+    <div>
+      <label for="currentSkillDescriptionInput" class="ms-3 mb-1 fg-oblivion">Descripción (opcional)</label>
+      <textarea id="currentSkillDescriptionInput" class="form-control bg-abaloneshell rounded p-3 ms-3"
+        placeholder="Escribe la descripción de la habilidad" style="width: 600px; height: 150px;"></textarea>
+    </div>
+  </div>
+
+  <ul id="currentSkillList" class="list-unstyled d-flex flex-column gap-3 px-3" style="width: 600px;"> </ul>
+
+
+  <div class="mb-4">
+    <label for="desirekillInput" class="ms-3 mb-1 fg-oblivion">Habilidades deseadas*</label>
+    <div class="d-flex align-items-stretch mb-2">
+      <input type="text" id="desireSkillInput" class="form-control bg-abaloneshell rounded-pill p-3"
+        placeholder="Escribe una habilidad">
+      <button class="btn bg-orchid fg-abaloneshell bold ms-3 pe-3 ps-3 rounded-pill" type="button"
+        onclick="addSkill('desireSkillInput', 'desireSkillDescriptionInput', 'desiredSkillList')">
+        <i class="bi bi-plus-square fs-3"></i>
+      </button>
+
+    </div>
+
+
+    <div class="mb-4">
+      <label for="desireSkillDescriptionInput" class="ms-3 mb-1 fg-oblivion">Descripción (opcional)</label>
+      <textarea id="desireSkillDescriptionInput" class="form-control bg-abaloneshell rounded p-3 ms-3"
+        placeholder="Escribe la descripción de la habilidad" style="width: 600px; height: 150px;"></textarea>
+    </div>
+  </div>
+
+  <ul id="desiredSkillList" class="list-unstyled d-flex flex-column gap-3 px-3" style="width: 600px;"> </ul>
+
+
+
+
+  <div class="text-center mt-4">
+    <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill me-3" type="submit">
+      Finalizar <i class="bi bi-caret-right-fill"></i>
+    </button>
+
+  </div>
+
+  <script>
+    function addSkill(skilllInputId, descriptionInputId, skillListId) {
+      // Obtener los inputs y la lista
+      let skillInput = document.getElementById(skilllInputId);
+      let descriptionInput = document.getElementById(descriptionInputId);
+      let skillList = document.getElementById(skillListId);
+
+      let skill = skillInput.value.trim();
+      if (skill === "") return; // No agregar si está vacío
+
+      let description = descriptionInput.value.trim();
+
+      // Crear un nuevo elemento de lista que muestre la habilidad y, si se ingresó, su descripción
+      let li = document.createElement("li");
+      li.classList.add("list-unstyled");
+      li.innerHTML = `
+       <div class="card bg-abaloneshell shadow-sm rounded">
+          <div class="card-body p-3">
+            <div class="d-flex justify-content-between oblivion">
+              <div class="d-flex flex-column">
+                  <span class="card-title bold fs-5 username">${skill}</span>
+              </div>
+              <button class="btn btn-sm fg-abaloneshell ms-3 rounded" type="button" onclick="this.closest('li').remove()">
+                <i class="bi bi-x-square text-dark"></i>
+              </button>
+            </div>
+            <p class="card-text text-dark m-0">${description}</p>
+          </div>
+        </div>
+        <input type="hidden" name="${skillListId.includes('current') ? 'currentSkillNames[]' : 'desiredSkillNames[]'}" value="${skill}">
+        <input type="hidden" name="${skillListId.includes('current') ? 'currentSkillDescriptions[]' : 'desiredSkillDescriptions[]'}" value="${description}">
+          `;
+
+      // Agregar el nuevo item a la lista
+      skillList.appendChild(li);
+
+      // Limpiar los campos de entrada
+      skillInput.value = "";
+      descriptionInput.value = "";
+    }
+
+    function añadirDatosPaso1y2() {
+      document.getElementById("firstNameHidden").value = sessionStorage.getItem("firstName");
+      document.getElementById("lastNameHidden").value = sessionStorage.getItem("lastName");
+      document.getElementById("emailHidden").value = sessionStorage.getItem("email");
+      document.getElementById("passwordHidden").value = sessionStorage.getItem("password");
+      document.getElementById("descriptionHidden").value = sessionStorage.getItem("description");
+      document.getElementById("photoBase64Hidden").value = sessionStorage.getItem("photoBase64");
+      document.getElementById("_csrf").value = config.csrf.value;
+
+
+      return true;
+    }
+  </script>
+
+</form>
