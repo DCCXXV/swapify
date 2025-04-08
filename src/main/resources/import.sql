@@ -236,5 +236,8 @@ INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status)
 INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
     (4, 2, 26, 3, 23, 'PENDING');
 
+INSERT INTO SWAP (id, user_a_id, user_b_id, skill_a_id, skill_b_id, swap_status) VALUES 
+    (5, 20, 2, 16, 3, 'PENDING');
+
 -- Iniciar secuencia de IDs
 ALTER SEQUENCE GEN RESTART WITH 1024;
