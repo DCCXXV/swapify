@@ -250,6 +250,10 @@ public class SwapsController {
             review.setText(reviewRequest.getText());
             review.setRating(reviewRequest.getRating());
             review.setSwapId(id);
+            review.setUserA(transfer.getUserA());
+            review.setUserB(transfer.getUserB());
+            review.setSkillA(transfer.getSkillA());
+            review.setSkillB(transfer.getSkillB());
 
             reviewService.saveReview(review);
 

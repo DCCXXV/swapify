@@ -12,7 +12,7 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    public void saveReview(Review review) {
-        reviewRepository.save(review);
+    public Review.Transfer saveReview(Review review) {
+        return reviewRepository.save(review).toTransfer();
     }
 }

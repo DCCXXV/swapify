@@ -14,27 +14,46 @@ public class Review implements Transferable<Review.Transfer> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
-	private long id;
+	private Long id;
 
     @Lob
     @Column(nullable = false)
     private String text;
 
     @Column(nullable = false)
-    private double rating;
+    private Double rating;
 
     @Column(nullable = false)
-    private long swapId;
+    private Long swapId;
+
+    @ManyToOne
+    private User userA;
+
+    @ManyToOne
+    private User userB;
+
+    @ManyToOne
+    private Skill skillA;
+
+    @ManyToOne
+    private Skill skillB;
 
     @Getter
     @AllArgsConstructor
     public static class Transfer {
-		private long id;
+		private Long id;
+		private Long swapId;
+		private Double rating;
+		private String text;
+		private Long userAId;
+		private Long userBId;
+		private String skillA;
+		private String skillB;
     }
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id);
+		return new Transfer(id, swapId, rating, text, userA.getId(), userB.getId(), skillA.getName(), skillB.getName());
 	}
 }
 
