@@ -271,6 +271,18 @@ public class SwapsController {
         }
     }
 
+    @PostMapping("/{id}/finishSwap")
+    public String finishSwap(@PathVariable long id) {
+        Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.FINISHED);
+        return "redirect:/swaps";
+    }
+
+        @PostMapping("/{id}/acceptSwap")
+    public String acceptSwap(@PathVariable long id) {
+        Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.ACTIVE);
+        return "redirect:/swaps";
+    }
+
     @GetMapping("/info")
     public String info(Model model) {
         return "swapinfo";

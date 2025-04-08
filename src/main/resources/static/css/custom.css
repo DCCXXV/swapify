@@ -443,5 +443,5 @@ i {
 }
 
 .selected-badge {
-    border: 2px solid #00ff22;
+    filter: brightness(75%);
 }

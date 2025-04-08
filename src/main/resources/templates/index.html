@@ -281,34 +281,34 @@
 
 		<!-- Swap Modal -->
 		<div class="modal fade" id="swapModal" tabindex="-1" aria-labelledby="swapModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
+			<div class="modal-dialog ">
+				<div class="modal-content bg-abaloneshell fg-oblivion">
 					<div class="modal-header">
-						<h5 class="modal-title" id="swapModalLabel">Confirmar Swap</h5>
+						<h4 class="modal-title" id="swapModalLabel">Confirmar Swap</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<div class="d-flex align-items-center">
-							<img id="swapUserPic" class="img-fluid rounded me-3" style="width: 100px;" alt="Foto de perfil">
-							<div>
-								<h5 id="swapUserName"></h5>
+						<div class="d-flex justify-content-center">
+							<div class="d-felx flex-column">
+								<img id="swapUserPic" class="img-fluid rounded me-3" style="width: 100px;" alt="Foto de perfil">
+								<h5 id="swapUserName" class="my-2"></h5>
 							</div>
 						</div>
 						<hr>
-						<div>
+						<div class="fg-lushaqua">
 							<h5>Habilidades que enseña:</h5>
 							<div id="swapUserSkills" class="mb-3">
 								<!-- skills como badges -->
 							</div>
-							<p><strong>Descripción:</strong> <span id="swapUserSkillDesc">Selecciona una habilidad</span></p>
+							<p class="fg-oblivion"><b>Descripción:</b> <span id="swapUserSkillDesc">Selecciona una habilidad</span></p>
 						</div>
 						<hr>
-						<div>
+						<div class="fg-orchid">
 							<h5>Tu habilidad a ofrecer:</h5>
 							<div id="yourSkills" class="mb-3">
 								<!-- skills como badges -->
 							</div>
-							<p><strong>Descripción:</strong> <span id="yourSkillDesc">Selecciona una habilidad</span></p>
+							<p class="fg-oblivion"><b>Descripción:</b> <span id="yourSkillDesc">Selecciona una habilidad</span></p>
 						</div>
 						<hr>
 						<input type="hidden" id="selectedUserSkill" value="">
@@ -316,12 +316,12 @@
 					</div>
 					<div class="px-3">
 						<label for="messageInput" class="mb-1 fg-oblivion">Mensaje</label>
-      					<textarea id="messageInputInput" class="form-control bg-abaloneshell rounded p-3 me-4"
+      					<textarea id="messageInputInput" class="form-control bg-abaloneshell-l0 rounded p-3 me-4 border-0"
         				placeholder="Envia un mensaje a usuario"></textarea>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
-						<button type="button" class="btn btn-primary" id="confirmSwap">Confirmar</button>
+						<button type="button" class="btn bg-abaloneshell fg-orchid" data-bs-dismiss="modal">Volver</button>
+						<button type="button" class="btn bg-orchid fg-abaloneshell" id="confirmSwap">Confirmar</button>
 					</div>
 				</div>
 			</div>
@@ -357,7 +357,7 @@
 							const badge = document.createElement("span");
 							badge.className = "badge rounded-pill bg-lushaqua m-1 skill-badge";
 							badge.textContent = skillName;
-							badge.dataset.skill = "skill_" + index; // Identificador único para la habilidad
+							badge.dataset.skill = "skill_" + index;
 							badge.dataset.skillName = skillName;
 							
 							badge.addEventListener("click", function() {
@@ -375,7 +375,7 @@
 							userSkillsContainer.appendChild(badge);
 						});
 					} else {
-						userSkillsContainer.innerHTML = "<p class='text-muted'>No tiene habilidades disponibles</p>";
+						userSkillsContainer.innerHTML = "<p class='fg-lushaqua'>No tiene habilidades disponibles</p>";
 					}
 					
 					// Tus propias habilidades
@@ -406,7 +406,7 @@
 							yourSkillsContainer.appendChild(badge);
 						});
 					} else {
-						yourSkillsContainer.innerHTML = "<p class='text-muted'>No tienes habilidades disponibles</p>";
+						yourSkillsContainer.innerHTML = "<p class='fg-orchid'>No tienes habilidades disponibles</p>";
 					}
 				});
 
@@ -452,7 +452,6 @@
 						}
 					})
 					.then(data => {
-						alert("¡Swap creado con éxito!");
 						window.location.href = "/swaps";
 					})
 					.catch(err => {

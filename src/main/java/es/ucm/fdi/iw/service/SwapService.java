@@ -35,6 +35,13 @@ public class SwapService {
             .toList();
     }
 
+    public Swap.Transfer updateStatus(Long id, Swap.Status status) {
+        Swap swap = swapRepository.findById(id.longValue());
+        swap.setSwapStatus(status);
+        swapRepository.save(swap);
+        return swap.toTransfer();
+    }
+
     public Swap.Transfer getById(Long id) {
         return swapRepository.findById(id)
             .map(Swap::toTransfer)
