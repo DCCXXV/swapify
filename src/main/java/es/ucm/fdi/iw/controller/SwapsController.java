@@ -250,18 +250,25 @@ public class SwapsController {
             review.setText(reviewRequest.getText());
             review.setRating(reviewRequest.getRating());
             review.setSwapId(id);
-            review.setUserA(transfer.getUserA());
-            review.setUserB(transfer.getUserB());
-            review.setSkillA(transfer.getSkillA());
-            review.setSkillB(transfer.getSkillB());
-
-            reviewService.saveReview(review);
-
+            
             if (isUserA) {
+                review.setUserA(currentUser);  // quien escribe la reseña
+                review.setUserB(transfer.getUserB());  // quien recibe la reseña
+                review.setSkillA(transfer.getSkillA());  // habilidad del que evalúa
+                review.setSkillB(transfer.getSkillB());  // habilidad evaluada
                 swap.setReviewA(review);
             } else {
+                // El usuario actual es userB en el swap, por lo que:
+                // Está evaluando a userA
+                // userB evalúa la habilidad skillA de userA
+                review.setUserA(currentUser);  // quien escribe la reseña
+                review.setUserB(transfer.getUserA());  // quien recibe la reseña
+                review.setSkillA(transfer.getSkillB());  // habilidad del que evalúa (B usa skillB)
+                review.setSkillB(transfer.getSkillA());  // habilidad evaluada (la de A)
                 swap.setReviewB(review);
             }
+
+            reviewService.saveReview(review);
 
             swapService.saveSwap(swap);
 

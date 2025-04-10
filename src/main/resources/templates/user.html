@@ -63,72 +63,28 @@
                         <h5 class="fg-lushaqua bold me-3">Reseñas</h5>
                         <div class="mb-4">
                             <span class="fg-oblivion bold">Valoración promedio:</span>
-                            <span class="bg-abaloneshell-l0 fg-oblivion rounded-circle bold ms-3 p-3 fs-6"
-                                th:text="${currentSkill.rating}">defecto</span>
+                            <span class="bg-abaloneshell-l0 fg-oblivion rounded-circle bold ms-3 p-3 fs-6" th:text="${currentSkill.averageRating}">0.0</span>
                         </div>
 
                         <span>Reseñas recientes:</span>
                         <span class="hr-swp mt-2 mb-3"></span>
                         <div class="container text-center">
                             <div class="row gap-3">
-                                <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
+                                <div th:each="review : ${reviewsBySkill.get(currentSkill.id)}" 
+                                     class="col card bg-oblivion fg-abaloneshell text-start p-3">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h5 class="card-header fg-gold bold">Juan Alberto</h5>
+                                            <h5 th:text="${review.userName}">Nombre</h5>
                                             <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño
-                                                    gráfico</span>
+                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2" th:text="${review.skillA}">Habilidad A</span>
                                                 <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
-                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Desarrollo
-                                                    web</span>
+                                                <span class="badge rounded-pill bg-orchid mx-2 p-2" th:text="${review.skillB}">Habilidad B</span>
                                             </div>
+                                            <p class="card-text" th:text="${review.text}">Comentario</p>
                                         </div>
-                                        <span class="fg-abaloneshell bold ms-3 p-3 fs-2">9.1</span>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <p class="card-text">Un gran profesor! nuestro intercambio fue muy
-                                            fructífero. Espero tener el placer de realizar más swaps con el.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
-                                    <div class="d-flex justify-content-between">
                                         <div>
-                                            <h5 class="card-header fg-gold bold">Ana</h5>
-                                            <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño
-                                                    gráfico</span>
-                                                <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
-                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Yoga</span>
-                                            </div>
+                                            <span class="badge rounded-pill bg-lushaqua p-2" th:text="${review.rating}">5.0</span>
                                         </div>
-                                        <span class="fg-abaloneshell bold ms-3 p-3 fs-2">8.9</span>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <p class="card-text">Tiene una gran habilidad con el diseño gráfico. Un
-                                            profesor muy recomendable.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col card bg-oblivion fg-abaloneshell text-start p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h5 class="card-header fg-gold bold">Luis</h5>
-                                            <div class="d-flex my-2">
-                                                <span class="badge rounded-pill bg-lushaqua mx-2 p-2">Diseño
-                                                    gráfico</span>
-                                                <i class="bi bi-arrow-left-right fg-abaloneshell"></i>
-                                                <span class="badge rounded-pill bg-orchid mx-2 p-2">Guitarra</span>
-                                            </div>
-                                        </div>
-                                        <span class="fg-abaloneshell bold ms-3 p-3 fs-2">8.7</span>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <p class="card-text">Es un asombroso prfesor de diseño gráfico. Nunca había
-                                            aprendido tanto.</p>
                                     </div>
                                 </div>
                             </div>

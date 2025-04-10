@@ -49,11 +49,22 @@ public class Review implements Transferable<Review.Transfer> {
 		private Long userBId;
 		private String skillA;
 		private String skillB;
+		private String userName;  // Para mostrar el nombre del usuario
     }
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id, swapId, rating, text, userA.getId(), userB.getId(), skillA.getName(), skillB.getName());
+		return new Transfer(
+            id, 
+            swapId, 
+            rating, 
+            text, 
+            userA.getId(), 
+            userB.getId(), 
+            skillA.getName(), 
+            skillB.getName(),
+            userA.getUsername()
+        );
 	}
 }
 
