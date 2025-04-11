@@ -10,6 +10,8 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,22 +76,28 @@ public class RootController {
     }
 
     @GetMapping("/")
-    public String index(Model model, HttpSession session) throws JsonProcessingException {
+    public String index(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "9") int size) throws JsonProcessingException {
         model.addAttribute("actual", "inicio");
 
-        List<User.Transfer> otherusers = userService.getAllUsers();
+
+        Page<User> pagedUsers = userService.findUsers(page, size);
+        List<User.Transfer> userTransfers = pagedUsers.getContent()
+                .stream().map(User::toTransfer).toList();
+        
+        model.addAttribute("users", userTransfers);
+        model.addAttribute("hasMore", pagedUsers.hasNext());
+        model.addAttribute("currentPage", page);
 
         List<String> desiredSkills = SkillService.getRequestedSkills();
         List<String> commonSkills = SkillService.getCommonSkills();
-
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
 
         User me = userService.getUsersByID(((User) session.getAttribute("u")).getId());
-
         model.addAttribute("me", me.toTransfer());
-        model.addAttribute("otherusers", otherusers);
 
+        model.addAttribute("hasMore", pagedUsers.hasNext());
         return "index";
     }
 
@@ -211,5 +219,23 @@ public class RootController {
         model.addAttribute("users", userService.getUsersByKeyword(keyword));
         model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
         return "search";
+    }
+
+    @GetMapping("/loadMoreUsers")
+    @ResponseBody
+    public List<User.Transfer> loadMoreUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size) {
+        
+        // Obtenemos el siguiente grupo de usuarios paginado
+        Page<User> pagedUsers = userService.findUsers(page, size);
+    
+        // Convertimos cada usuario a su Transfer (DTO para el frontend)
+        List<User.Transfer> userTransfers = pagedUsers.getContent()
+            .stream()
+            .map(User::toTransfer)
+            .toList();
+    
+        return userTransfers;
     }
 }

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 public class UserService {
@@ -84,5 +87,10 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+    public Page<User> findUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findAll(pageable);
     }
 }
