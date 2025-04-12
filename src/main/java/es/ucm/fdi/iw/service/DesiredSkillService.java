@@ -14,11 +14,12 @@ public class DesiredSkillService {
     @Autowired
     private DesiredSkillRepository desiredSkillRepository;
 
-    public List<DesiredSkill> getAllByUserId(long id){
+    public List<DesiredSkill> getAllById(long id){
         return desiredSkillRepository.findAllByUserId(id);
     }
 
     public void saveDesiredSkill(DesiredSkill ds) {
         desiredSkillRepository.save(ds);
     }
+
 }

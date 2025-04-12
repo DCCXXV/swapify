@@ -6,9 +6,11 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.ucm.fdi.iw.controller.RootController;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Swap;
 import es.ucm.fdi.iw.model.User;

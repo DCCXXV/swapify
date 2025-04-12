@@ -110,7 +110,7 @@
 				</div>
 				-->
 				<h2 class="mt-5 fg-orchid bold">Habilidades más pedidas</h2>
-				<p class="hr-swp"></p>
+				<hr class="hr-swp">
 				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide" data-bs-ride="carousel">
 					<div class="carousel-inner">
 						<div class="carousel-item active bg-orchid" data-bs-interval="5000" style="height: 300px;">
@@ -143,27 +143,27 @@
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill.name}">Error</span>
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill.name}">Error</span>
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill.name}">Error</span>
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 				</div>
 
 				<h2 class="mt-5 fg-orchid bold">Usuarios que te podrian interesar</h2>
-				<p class="hr-swp"></p>
+				<hr class="hr-swp">
 
 				<div class="container mt-3 p-0">
 					<div class="row row-cols-3 gap-3">
@@ -224,7 +224,7 @@
 				</div>
 
 				<h2 class="mt-5 fg-orchid bold">Habilidades más comunes</h2>
-				<p class="hr-swp"></p>
+				<hr class="hr-swp">
 				<div id="carouseldHabilidadesComunesCerca" class="carousel slide">
 					<div class="carousel-inner">
 						<div class="carousel-item active bg-lushaqua" style="height: 300px;">
@@ -258,21 +258,21 @@
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill.name}">Error</span>
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill.name}">Error</span>
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill.name}">Error</span>
+							<span th:text="${skill}">Error</span>
 						</div>
 					</div>
 				</div>
