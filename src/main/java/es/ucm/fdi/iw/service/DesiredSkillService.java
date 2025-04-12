@@ -14,7 +14,7 @@ public class DesiredSkillService {
     @Autowired
     private DesiredSkillRepository desiredSkillRepository;
 
-    public List<DesiredSkill> getAllById(long id){
+    public List<DesiredSkill> getAllByUserId(long id){
         return desiredSkillRepository.findAllByUserId(id);
     }
 

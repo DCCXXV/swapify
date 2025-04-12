@@ -25,7 +25,7 @@ public class ReviewService {
         
         // Encontrar el CurrentSkill correspondiente y añadir la review
         // El usuario que es valorado (userB) es quien enseñó la habilidad (skillB)
-        List<CurrentSkill> skills = currentSkillService.getAllById(review.getUserB().getId());
+        List<CurrentSkill> skills = currentSkillService.getAllByUserId(review.getUserB().getId());
         for (CurrentSkill cs : skills) {
             if (cs.getSkill().getId() == review.getSkillB().getId()) {
                 cs.getReviews().add(review);

@@ -139,18 +139,16 @@ public class UserController {
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
         
-        List<CurrentSkill> currentSkills = currentSkillService.getAllById(id);
+        List<CurrentSkill> currentSkills = currentSkillService.getAllByUserId(id);
         model.addAttribute("currentSkills", currentSkills);
-        model.addAttribute("desiredSkills", desiredSkillService.getAllById(id));
+        model.addAttribute("desiredSkills", desiredSkillService.getAllByUserId(id));
 
         List<Review.Transfer> reviews = reviewService.getAllByUsername(target.getUsername());
         model.addAttribute("reviews", reviews);
         
-        // Agrupar reviews para cada CurrentSkill para mostrarlas en las habilidades correspondientes
         Map<Long, List<Review.Transfer>> reviewsBySkill = new HashMap<>();
         for (CurrentSkill cs : currentSkills) {
             List<Review.Transfer> filtered = reviews.stream().filter(r -> 
-                // Filtrar reviews donde la habilidad evaluada (skillB) coincide con la habilidad actual
                 r.getSkillB().equals(cs.getSkill().getName())
             ).collect(Collectors.toList());
             reviewsBySkill.put(cs.getId(), filtered);
@@ -372,7 +370,7 @@ public class UserController {
     public Map<String, Object> getUserReviews(@PathVariable long id) {
         User user = userService.getUsersByID(id);
         List<Review.Transfer> reviews = reviewService.getAllByUsername(user.getUsername());
-        List<CurrentSkill> skills = currentSkillService.getAllById(id);
+        List<CurrentSkill> skills = currentSkillService.getAllByUserId(id);
         
         double averageRating = skills.stream()
             .mapToDouble(CurrentSkill::getAverageRating)

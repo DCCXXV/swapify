@@ -89,8 +89,8 @@ public class RootController {
         model.addAttribute("hasMore", pagedUsers.hasNext());
         model.addAttribute("currentPage", page);
 
-        List<String> desiredSkills = SkillService.getRequestedSkills();
-        List<String> commonSkills = SkillService.getCommonSkills();
+        List<Skill.Transfer> desiredSkills = skillService.getDesired();
+        List<Skill.Transfer> commonSkills = skillService.getCommon();
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
 

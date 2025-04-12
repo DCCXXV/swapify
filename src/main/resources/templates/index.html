@@ -143,21 +143,21 @@
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 				</div>
@@ -258,21 +258,21 @@
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 				</div>
@@ -388,7 +388,7 @@
 							const badge = document.createElement("span");
 							badge.className = "badge rounded-pill bg-orchid m-1 skill-badge";
 							badge.textContent = skillName;
-							badge.dataset.skill = "my_skill_" + index; // Identificador único para la habilidad
+							badge.dataset.skill = "my_skill_" + index;
 							badge.dataset.skillName = skillName;
 							
 							badge.addEventListener("click", function() {
