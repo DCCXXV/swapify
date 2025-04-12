@@ -131,8 +131,8 @@ public class UserController {
     public String index(@PathVariable long id, Model model, HttpSession session) {
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
-		model.addAttribute("currentSkills", currentSkillService.getAllById(id));
-		model.addAttribute("desiredSkills", desiredSkillService.getAllById(id));
+		model.addAttribute("currentSkills", currentSkillService.getAllByUserId(id));
+		model.addAttribute("desiredSkills", desiredSkillService.getAllByUserId(id));
 		return "user";
     }
 

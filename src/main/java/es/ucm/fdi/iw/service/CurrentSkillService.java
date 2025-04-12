@@ -13,12 +13,11 @@ public class CurrentSkillService {
     @Autowired
     private CurrentSkillRepository currentSkillRepository;
 
-    public List<CurrentSkill> getAllById(long id){
+    public List<CurrentSkill> getAllByUserId(long id){
         return currentSkillRepository.findAllByUserId(id);
     }
 
     public void saveCurrentSkill(CurrentSkill cs) {
         currentSkillRepository.save(cs);
     }
-    
 }
