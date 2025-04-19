@@ -222,30 +222,23 @@ public class SwapsController {
                 return "{\"status\":\"error\",\"message\":\"Usuario no autenticado\"}";
             }
 
-            Swap.Transfer transfer = swapService.getById(id);
-            Swap swap = new Swap();
-            swap.setId(transfer.getId());
-            swap.setUserA(transfer.getUserA());
-            swap.setUserB(transfer.getUserB());
-            swap.setSkillA(transfer.getSkillA());
-            swap.setSkillB(transfer.getSkillB());
-            swap.setSwapStatus(Swap.Status.valueOf(transfer.getSwapStatus()));
-
-            if (swap == null || swap.getSwapStatus() != Swap.Status.FINISHED) {
+            Swap swap = swapService.getSwapByID(id);
+            
+            if (swap.getSwapStatus() != Swap.Status.FINISHED) {
                 return "{\"status\":\"error\",\"message\":\"No se puede escribir una reseña para un swap que no está finalizado\"}";
             }
-
+            
             boolean isUserA = swap.getUserA().getId() == currentUser.getId();
             boolean isUserB = swap.getUserB().getId() == currentUser.getId();
-
+            
             if (!isUserA && !isUserB) {
                 return "{\"status\":\"error\",\"message\":\"No puedes escribir una reseña para un swap en el que no participaste\"}";
             }
-
+            
             if ((isUserA && swap.getReviewA() != null) || (isUserB && swap.getReviewB() != null)) {
                 return "{\"status\":\"error\",\"message\":\"Ya has enviado una reseña para este swap\"}";
             }
-
+            
             Review review = new Review();
             review.setText(reviewRequest.getText());
             review.setRating(reviewRequest.getRating());
@@ -253,25 +246,23 @@ public class SwapsController {
             
             if (isUserA) {
                 review.setUserA(currentUser);  // quien escribe la reseña
-                review.setUserB(transfer.getUserB());  // quien recibe la reseña
-                review.setSkillA(transfer.getSkillA());  // habilidad del que evalúa
-                review.setSkillB(transfer.getSkillB());  // habilidad evaluada
+                review.setUserB(swap.getUserB());  // quien recibe la reseña
+                review.setSkillA(swap.getSkillA());  // habilidad del que evalúa
+                review.setSkillB(swap.getSkillB());  // habilidad evaluada
                 swap.setReviewA(review);
             } else {
                 // El usuario actual es userB en el swap, por lo que:
                 // Está evaluando a userA
-                // userB evalúa la habilidad skillA de userA
                 review.setUserA(currentUser);  // quien escribe la reseña
-                review.setUserB(transfer.getUserA());  // quien recibe la reseña
-                review.setSkillA(transfer.getSkillB());  // habilidad del que evalúa (B usa skillB)
-                review.setSkillB(transfer.getSkillA());  // habilidad evaluada (la de A)
+                review.setUserB(swap.getUserA());  // quien recibe la reseña
+                review.setSkillA(swap.getSkillB());  // habilidad del que evalúa (B usa skillB)
+                review.setSkillB(swap.getSkillA());  // habilidad evaluada (la de A)
                 swap.setReviewB(review);
             }
-
+            
             reviewService.saveReview(review);
-
             swapService.saveSwap(swap);
-
+            
             return "{\"status\":\"success\",\"message\":\"Reseña enviada con éxito\"}";
         } catch (Exception e) {
             return "{\"status\":\"error\",\"message\":\"Error al enviar la reseña: " + e.getMessage() + "\"}";

@@ -99,4 +99,10 @@ public class SwapService {
         }
         return false;
     }
+
+
+    public Swap getSwapByID(Long id) {
+        return swapRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("Swap no encontrado con id: " + id));
+    }
 }
