@@ -7,15 +7,10 @@ Background:
   Given driver baseUrl
 
 Scenario: Flujo principal de intercambio (swap)
-  # 1. El usuario entra a la página e inicia sesión
-  And input('#usernameInput', 'Isabel')
-  And input('#passwordInput', 'aa')
-  And click('button[id=loginButton]')
-  # verificamos
-  And waitFor('button[id=logoutButton]')
-  And match driver.title == "Inicio | Swapify"
+  # 1. Isabel entra a la página e inicia sesión
+  And call read('login.feature@login_isabel')
 
-  # 2. El usuario empieza un swap nuevo
+  # 2. Isabel empieza un swap nuevo
   And click('button[id=swapButton0]')
   And delay(500)
   And click('#currentSkill0')
@@ -24,3 +19,34 @@ Scenario: Flujo principal de intercambio (swap)
   # verificamos
   And waitFor('#sideBarTitle')
   And match driver.title == "Intercambios | Swapify"
+
+  # 3. Isabel comprueba el nuevo swap pendiente
+  And click('#pendientes')
+  And waitFor('#pendingSwap0')
+  And click('#pendingSwap0')
+  And waitFor('#pendingBlock')
+  And match text('#pendingBlock') contains "¿Esperando a que el usuario lo acepte?"
+
+  # 4. Juan (el que recibe el Swap) inicia sesión
+  And call read('login.feature@login_juan')
+  
+  # 5. Juan comprueba el nuevo swap pendiente
+  And click('#navBarSwap')
+  And waitFor('#sideBarTitle')
+  And match driver.title == "Intercambios | Swapify"
+  And click('#pendientes')
+  And waitFor('#pendingSwap2')
+  And click('#pendingSwap2')
+  And waitFor('#pendingBlock')
+  And click('#AcceptSwapButton')
+
+  # 6. Juan abre el nuevo swap activo
+  And click('#activos')
+  And waitFor('#activeSwap0')
+  And click('#activeSwap0')
+  # verificamos
+  And waitFor('#endSwapButton')
+  
+  # 7. Juan envía un mensaje
+  And input('#chat-message-input', 'Holaaaaaaaaaa' + Key.ENTER)
+  And delay(10000)

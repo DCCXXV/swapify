@@ -30,12 +30,12 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item" th:classappend="${actual == 'inicio' ? 'active' : ''}">
-                                <a class="nav-link fg-abaloneshell bold" href="/">
+                                <a id="navBarHome" class="nav-link fg-abaloneshell bold" href="/">
                                     Inicio
                                 </a>
                             </li>
                             <li class="nav-item" th:classappend="${actual == 'swaps' ? 'active' : ''}">
-                                <a class="nav-link fg-abaloneshell bold" href="/swaps">
+                                <a id="navBarSwap" class="nav-link fg-abaloneshell bold" href="/swaps">
                                     Swaps
                                 </a>
                             </li>

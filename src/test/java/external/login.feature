@@ -42,3 +42,20 @@ Scenario: login malo en github
     Then waitForUrl(baseUrl + '/admin')
     When submit().click("{button}logout")
     Then waitForUrl(baseUrl + '/login')
+
+  
+  @login_isabel
+   Scenario: login with Isabel
+    Given driver baseUrl + '/login'
+    And input('#usernameInput', 'Isabel')
+    And input('#passwordInput', 'aa')
+    And click('button[id=loginButton]')
+    And waitFor('button[id=logoutButton]')
+
+  @login_juan
+   Scenario: login with Juan
+    Given driver baseUrl + '/login'
+    And input('#usernameInput', 'juanito03')
+    And input('#passwordInput', 'aa')
+    And click('button[id=loginButton]')
+    And waitFor('button[id=logoutButton]')
