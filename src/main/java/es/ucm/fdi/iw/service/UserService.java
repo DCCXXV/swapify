@@ -10,6 +10,7 @@ import es.ucm.fdi.iw.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class UserService {
@@ -93,4 +94,10 @@ public class UserService {
         Pageable pageable = PageRequest.of(page, size);
         return userRepository.findAll(pageable);
     }
+    public Page<User> findUsers(int page, int size, long currentUserId) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findByUsernameNotAndIdNot("a", currentUserId, pageable);
+    }
+    
+    
 }

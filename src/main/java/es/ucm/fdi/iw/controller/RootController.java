@@ -81,8 +81,9 @@ public class RootController {
         model.addAttribute("actual", "inicio");
 
 
-        Page<User> pagedUsers = userService.findUsers(page, size);
-        List<User.Transfer> userTransfers = pagedUsers.getContent()
+        User currentUser = (User) session.getAttribute("u");
+        Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
+                List<User.Transfer> userTransfers = pagedUsers.getContent()
                 .stream().map(User::toTransfer).toList();
         
         model.addAttribute("users", userTransfers);
@@ -225,17 +226,16 @@ public class RootController {
     @ResponseBody
     public List<User.Transfer> loadMoreUsers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "9") int size) {
-        
-        // Obtenemos el siguiente grupo de usuarios paginado
-        Page<User> pagedUsers = userService.findUsers(page, size);
+            @RequestParam(defaultValue = "9") int size,
+            HttpSession session) {
     
-        // Convertimos cada usuario a su Transfer (DTO para el frontend)
-        List<User.Transfer> userTransfers = pagedUsers.getContent()
-            .stream()
-            .map(User::toTransfer)
-            .toList();
+        User currentUser = (User) session.getAttribute("u");
     
-        return userTransfers;
+        Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
+        return pagedUsers.getContent()
+                         .stream()
+                         .map(User::toTransfer)
+                         .toList();
     }
+    
 }
