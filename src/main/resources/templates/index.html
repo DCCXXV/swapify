@@ -469,9 +469,12 @@
 				fetch(`/loadMoreUsers?page=${++currentPage}&size=${size}`)
 					.then(response => response.json())
 					.then(newUsers => {
-						const container = document.getElementById("userContainer");
+												const container = document.getElementById("userContainer");
+						const startIndex = users.length; // Índice inicial para los nuevos usuarios
+						users.push(...newUsers); // Actualizar el array global de usuarios
 		
-						newUsers.forEach(user => {
+						newUsers.forEach((user, i) => {
+							const userIndex = startIndex + i; // Calcular el índice correcto
 							const card = document.createElement("div");
 							card.className = "col card bg-oblivion";
 							card.style = "width: 419px; height: 265px;";
@@ -495,7 +498,9 @@
 													</a>
 												</div>
 												<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 px-2 ms-2 text-center"
-													data-bs-toggle="modal" data-bs-target="#swapModal">
+													data-bs-toggle="modal" 
+													data-bs-target="#swapModal"
+													data-user-idx="${userIndex}">
 													Swap!
 												</button>
 											</div>
