@@ -188,7 +188,9 @@
 											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 px-2 ms-2 text-center"
 												data-bs-toggle="modal"
 												data-bs-target="#swapModal"
-												th:attr="data-user-idx=${i.index}">
+												th:attr="data-user-idx=${i.index}"
+												th:id="${'swapButton' + {i.index}}"
+												>
 												Swap!
 											</button>
 										</div>
@@ -359,6 +361,7 @@
 							badge.textContent = skillName;
 							badge.dataset.skill = "skill_" + index;
 							badge.dataset.skillName = skillName;
+							badge.id = "currentSkill" + index
 							
 							badge.addEventListener("click", function() {
 								userSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
@@ -390,6 +393,7 @@
 							badge.textContent = skillName;
 							badge.dataset.skill = "my_skill_" + index;
 							badge.dataset.skillName = skillName;
+							badge.id = "desiredSkill" + index
 							
 							badge.addEventListener("click", function() {
 								yourSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
@@ -438,7 +442,7 @@
 						body: JSON.stringify({
 							userA: me.id,
 							userB: selectedUser.id,
-							skillA: yourSkillName,  // Enviamos el nombre 
+							skillA: yourSkillName,
 							skillB: userSkillName 
 						})
 					})
@@ -469,12 +473,12 @@
 				fetch(`/loadMoreUsers?page=${++currentPage}&size=${size}`)
 					.then(response => response.json())
 					.then(newUsers => {
-												const container = document.getElementById("userContainer");
-						const startIndex = users.length; // Índice inicial para los nuevos usuarios
-						users.push(...newUsers); // Actualizar el array global de usuarios
+						const container = document.getElementById("userContainer");
+						const startIndex = users.length;
+						users.push(...newUsers);
 		
 						newUsers.forEach((user, i) => {
-							const userIndex = startIndex + i; // Calcular el índice correcto
+							const userIndex = startIndex + i;
 							const card = document.createElement("div");
 							card.className = "col card bg-oblivion";
 							card.style = "width: 419px; height: 265px;";

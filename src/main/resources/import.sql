@@ -89,6 +89,8 @@ INSERT INTO IWUser (id, deleted, roles, username, email, password, first_Name, l
 -- 3. INSERTAR REGISTROS EN LA TABLA CURRENT_SKILL (habilidades actuales)
 -- ========================================================
 -- Para cada registro se incluye una descripción detallada, además de rating y points.
+INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) VALUES
+    (99, 2, 3, 'Mi fluidez en inglés se ha fortalecido con años de estudio y experiencia en entornos internacionales, permitiéndome colaborar en proyectos globales.', 4.8, 120);
 
 -- Usuario 14: Isabel
 INSERT INTO CURRENT_SKILL (id, user_id, skill_id, description, rating, points) VALUES
