@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>Perfil de Usuario | Swapify</title>
+    <title th:text="${'Perfil de ' + user.firstName + ' | Swapify'}">Perfil de Usuario | Swapify</title>
 </head>
 
 <body class="d-flex flex-column h-100 bg-abaloneshell rounded">
@@ -20,7 +20,7 @@
                 <div class="col-md-9 fg-oblivion">
                     <div class="overflow-auto rounded" style="height: 500px;">
                         <div class="sticky-top bg-abaloneshell-l0">
-                            <h2 class="fg-oblivion bold mb-1" th:text="${user.firstName} + ' ' + ${user.lastName}">
+                            <h2 th:id="${'name' + user.username}" class="fg-oblivion bold mb-1" th:text="${user.firstName} + ' ' + ${user.lastName}">
                                 Nombre por defecto</h2>
                             <span class="fg-oblivion fs-6" th:text="|@| + ${user.username}">@Defecto</span>
 
@@ -63,7 +63,7 @@
                         <h5 class="fg-lushaqua bold me-3">Reseñas</h5>
                         <div class="mb-4">
                             <span class="fg-oblivion bold">Valoración promedio:</span>
-                            <span class="bg-abaloneshell-l0 fg-oblivion rounded-circle bold ms-3 p-3 fs-6" th:text="${currentSkill.averageRating}">0.0</span>
+                            <span th:id="${averageRating + currentSkill.skill.name}" class="bg-abaloneshell-l0 fg-oblivion rounded-circle bold ms-3 p-3 fs-6" th:text="${currentSkill.averageRating}">0.0</span>
                         </div>
 
                         <span>Reseñas recientes:</span>
