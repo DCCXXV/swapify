@@ -3,6 +3,7 @@ package es.ucm.fdi.iw.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,5 +105,16 @@ public class SwapService {
     public Swap getSwapByID(Long id) {
         return swapRepository.findById(id)
             .orElseThrow(() -> new NoSuchElementException("Swap no encontrado con id: " + id));
+    }
+
+    public long countActiveSwaps() {
+        return swapRepository.countBySwapStatus(Swap.Status.ACTIVE);
+    }
+
+    public List<Swap.Transfer> getAllSwaps() {
+        return swapRepository.findAll()
+            .stream()
+            .map(Swap::toTransfer)
+            .collect(Collectors.toList());
     }
 }

@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+            <!--
             <div class="col-md-4">
                 <div class="card bg-abaloneshell-l0 fg-oblivion">
                     <div class="card-body">
@@ -32,11 +33,12 @@
                     </div>
                 </div>
             </div>
+            -->
             <div class="col-md-4">
                 <div class="card bg-abaloneshell-l0 fg-oblivion">
                     <div class="card-body">
                         <h5 class="card-title">Swaps Activos</h5>
-                        <p class="card-text fs-3 bold">120</p>
+                        <p class="card-text fs-3 bold" th:text="${totalSwapsActivated != null ? totalSwapsActivated : 0}">0</p>
                     </div>
                 </div>
             </div>
@@ -48,16 +50,19 @@
                     data-bs-toggle="tab" data-bs-target="#users" role="tab" aria-controls="users"
                     aria-selected="true">Usuarios</a>
             </li>
+            <!--
             <li class="nav-item swp-tab" role="presentation">
                 <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" id="reports-tab"
                     data-bs-toggle="tab" data-bs-target="#reports" role="tab" aria-controls="reports"
                     aria-selected="false">Reportes</a>
             </li>
+            -->
             <li class="nav-item swp-tab" role="presentation">
                 <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" id="swaps-tab"
                     data-bs-toggle="tab" data-bs-target="#swaps" role="tab" aria-controls="swaps"
                     aria-selected="false">Swaps</a>
             </li>
+            
         </ul>
 
         <div class="tab-content mt-2" id="adminTabsContent">
@@ -108,7 +113,9 @@
                     </div>
                 </div>
             </div>
-            <!-- Gestión de Reportes -->
+
+            
+            <!-- Gestión de Reportes 
             <div class="tab-pane fade" id="reports" role="tabpanel">
                 <div class="mb-4 bg-abaloneshell-l0">
                     <div class="bg-orchid rounded text-white p-2">Gestión de Reportes</div>
@@ -183,6 +190,8 @@
                     </div>
                 </div>
             </div>
+            -->
+            
 
             <!-- Gestión de Swaps -->
             <div class="tab-pane fade" id="swaps" role="tabpanel">
@@ -205,48 +214,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="bg-abaloneshell-l0">1</td>
-                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
-                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
-                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                    <td class="bg-abaloneshell-l0">Activo</td>
+                                <tr th:each="swap : ${swaps}">
+                                    <td class="bg-abaloneshell-l0" th:text="${swap.id}"></td>
+                                    <td class="bg-abaloneshell-l0" 
+                                        th:text="${swap.skillA.name} + ' por ' + ${swap.skillB.name}"></td>
+                                    <td class="bg-abaloneshell-l0" th:text="${swap.userA.username}"></td>
+                                    <td class="bg-abaloneshell-l0" th:text="${swap.userB.username}"></td>
+                                    <td class="bg-abaloneshell-l0" th:text="${swap.swapStatus}"></td>
                                     <td class="bg-abaloneshell-l0 text-center">
                                         <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                            data-bs-toggle="modal" data-bs-target="#cancelSwapModal">Cancelar</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-abaloneshell-l0">1</td>
-                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
-                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
-                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                    <td class="bg-abaloneshell-l0">Activo</td>
-                                    <td class="bg-abaloneshell-l0 text-center">
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                            data-bs-toggle="modal" data-bs-target="#cancelSwapModal">Cancelar</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-abaloneshell-l0">1</td>
-                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
-                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
-                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                    <td class="bg-abaloneshell-l0">Activo</td>
-                                    <td class="bg-abaloneshell-l0 text-center">
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                            data-bs-toggle="modal" data-bs-target="#cancelSwapModal">Cancelar</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-abaloneshell-l0">1</td>
-                                    <td class="bg-abaloneshell-l0">Clases de guitarra por clases de inglés</td>
-                                    <td class="bg-abaloneshell-l0">@Juanperez12</td>
-                                    <td class="bg-abaloneshell-l0">@marlpez7</td>
-                                    <td class="bg-abaloneshell-l0">Activo</td>
-                                    <td class="bg-abaloneshell-l0 text-center">
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                            data-bs-toggle="modal" data-bs-target="#cancelSwapModal">Cancelar</button>
+                                                th:attr="data-swap-id=${swap.id}"
+                                                data-bs-toggle="modal" data-bs-target="#cancelSwapModal">
+                                            Cancelar
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>

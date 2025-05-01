@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.UserService;
+import es.ucm.fdi.iw.service.SwapService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
@@ -36,6 +37,9 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SwapService swapService;
+
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {        
         for (String name : new String[] {"u", "url", "ws"}) {
@@ -50,6 +54,8 @@ public class AdminController {
         log.info("Admin acaba de entrar");
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("totalUser", userService.getAllUsers().size());
+        model.addAttribute("totalSwapsActivated", swapService.countActiveSwaps());
+        model.addAttribute("swaps", swapService.getAllSwaps());
         return "admin";
     }
     
