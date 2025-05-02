@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.UserService;
 import es.ucm.fdi.iw.service.SwapService;
+import es.ucm.fdi.iw.model.Swap;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
@@ -70,6 +71,19 @@ public class AdminController {
     }
     
 
+    @PostMapping("/cancelSwap/{id}")
+    @Transactional
+    @ResponseBody
+    public String cancelSwap(@PathVariable long id) {
+        try {
 
+            swapService.deleteSwapById(id);
+
+            return "{\"status\":\"success\"}";
+        } catch(Exception e) {
+            log.error("Error cancelando swap " + id, e);
+            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+        }
+    }
 
 }

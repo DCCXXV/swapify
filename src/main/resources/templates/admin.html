@@ -224,7 +224,7 @@
                                     <td class="bg-abaloneshell-l0 text-center">
                                         <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
                                                 th:attr="data-swap-id=${swap.id}"
-                                                data-bs-toggle="modal" data-bs-target="#cancelSwapModal">
+                                                th:onclick="'cancelSwap(' + ${swap.id} + ')'">
                                             Cancelar
                                         </button>
                                     </td>
@@ -284,6 +284,33 @@
                 });
             });
         });
+
+    
+        function cancelSwap(swapId) {
+            if(!confirm("¿Seguro que deseas cancelar este swap?")) return;
+            fetch("/admin/cancelSwap/" + swapId, {
+                method: "POST",
+                headers: {   
+                            "X-CSRF-TOKEN": config.csrf.value
+                        },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === "success"){
+                    const btn = document.querySelector("button[data-swap-id='" + swapId + "']");
+                    if(btn) {
+                        const row = btn.closest("tr");
+                        if(row) row.remove();
+                    }
+                } else {
+                    alert("Error cancelando swap: " + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error de red al cancelar swap.");
+            });
+        }
     </script>
 
 </body>

@@ -117,4 +117,12 @@ public class SwapService {
             .map(Swap::toTransfer)
             .collect(Collectors.toList());
     }
+
+    public void deleteSwapById(Long id) {
+        Swap swap = swapRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("Swap no encontrado con id: " + id));
+            
+        // Falta eliminar las reviews asociadas al swap de cada usuario
+        swapRepository.delete(swap);
+    }
 }
