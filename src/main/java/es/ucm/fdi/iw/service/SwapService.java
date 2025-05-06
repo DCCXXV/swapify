@@ -122,7 +122,6 @@ public class SwapService {
         Swap swap = swapRepository.findById(id)
             .orElseThrow(() -> new NoSuchElementException("Swap no encontrado con id: " + id));
             
-        // Falta eliminar las reviews asociadas al swap de cada usuario
         swapRepository.delete(swap);
     }
 }

@@ -61,11 +61,13 @@ public class Swap implements Transferable<Swap.Transfer> {
         private Skill skillA;
         private Skill skillB;
         private String swapStatus;
+        private Review reviewA; 
+        private Review reviewB;
     }
     
 	@Override
     public Swap.Transfer toTransfer() {
-		return new Transfer(id, userA, userB, skillA, skillB, swapStatus.toString());
+		return new Transfer(id, userA, userB, skillA, skillB, swapStatus.toString(), reviewA, reviewB);
 	}
 }
 

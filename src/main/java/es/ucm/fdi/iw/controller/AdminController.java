@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.UserService;
 import es.ucm.fdi.iw.service.SwapService;
+import es.ucm.fdi.iw.service.MessageService;
+import es.ucm.fdi.iw.service.ReviewService;
 import es.ucm.fdi.iw.model.Swap;
+import es.ucm.fdi.iw.model.Review;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
@@ -40,6 +43,12 @@ public class AdminController {
 
     @Autowired
     private SwapService swapService;
+
+    @Autowired
+    private ReviewService reviewService;
+    
+    @Autowired
+    private MessageService messageService;
 
     @ModelAttribute
     public void populateModel(HttpSession session, Model model) {        
@@ -70,14 +79,41 @@ public class AdminController {
         return "{\"deleted\":" + target.isDeleted() + "}";
     }
     
-
     @PostMapping("/cancelSwap/{id}")
     @Transactional
     @ResponseBody
     public String cancelSwap(@PathVariable long id) {
         try {
+            log.info("Admin cancela swap con id: " + id);
+            Swap.Transfer swap = swapService.getById(id);
+            long userAId = swap.getUserA().getId();
+            long userBId = swap.getUserB().getId();
 
+            Swap swapEntity = swapService.getSwapByID(id);
+            
+            try {
+                messageService.deleteAllMessagesForSwap(id);
+
+                if (swapEntity.getReviewA() != null) {
+                    Review reviewA = swap.getReviewA();
+                    // Poner a null para romper la relación con el swap
+                    swapEntity.setReviewA(null);
+                    reviewService.removeSwapFromProfile(reviewA);
+                }
+                if (swapEntity.getReviewB() != null) {
+                    Review reviewB = swap.getReviewB();
+                    swapEntity.setReviewB(null);
+                    reviewService.removeSwapFromProfile(reviewB);
+                }
+
+            } catch (Exception e) {
+                log.error("Error al eliminar mensajes o reviews del swap " + id, e);
+            }
+            
             swapService.deleteSwapById(id);
+            
+            reviewService.updateRating(userAId);
+            reviewService.updateRating(userBId);
 
             return "{\"status\":\"success\"}";
         } catch(Exception e) {
@@ -85,5 +121,5 @@ public class AdminController {
             return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
         }
     }
-
+    
 }

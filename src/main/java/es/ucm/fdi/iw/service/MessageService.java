@@ -115,4 +115,13 @@ public class MessageService {
             return null; // Indica fallo al controlador
         }
     }
+    
+    @Transactional
+    public void deleteAllMessagesForSwap(Long swapId) {
+        List<Message> messages = messageRepository.findBySwapId(swapId);
+        if (messages != null && !messages.isEmpty()) {
+            log.info("Eliminando {} mensajes del swap {}", messages.size(), swapId);
+            messageRepository.deleteAll(messages);
+        }
+    }
 }

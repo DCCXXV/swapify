@@ -59,4 +59,38 @@ public class ReviewService {
             .map(Review::toTransfer)
             .toList();
     }
+    
+
+    /**
+     * Elimina una review del perfil del usuario y de la base de datos
+     * @param review La review a eliminar
+     */
+    @Transactional
+    public void removeSwapFromProfile(Review review) {
+        if (review == null) {
+            return;
+        }
+        
+        // Borra primero de la tabla CURRENT_SKILL_REVIEWS para evitar problemas de integridad
+        List<CurrentSkill> skills = currentSkillService.getAllByUserId(review.getUserB().getId());
+        for (CurrentSkill cs : skills) {
+            if (cs.getSkill().getId() == review.getSkillB().getId()) {
+                cs.getReviews().removeIf(r -> r.getId().equals(review.getId()));
+                currentSkillService.saveCurrentSkill(cs);
+                break;
+            }
+        }
+
+        // Borra de la tabla REVIEWS
+        reviewRepository.deleteById(review.getId());
+    }
+
+    public void updateRating(long userId) {
+        List<CurrentSkill> skills = currentSkillService.getAllByUserId(userId);
+        for (CurrentSkill cs : skills) {
+            float avg = (float) cs.getAverageRating();
+            cs.setRating(avg);
+            currentSkillService.saveCurrentSkill(cs);
+        }
+    }
 }
