@@ -65,9 +65,16 @@ public class UserService {
             .map(User::toTransfer)
             .collect(Collectors.toList());
     }
-
+    
     public List<User.Transfer> getUsersByKeyword(String keyword) {
         return userRepository.findByUsernameContainingIgnoreCase(keyword)
+            .stream()
+            .map(User::toTransfer)
+            .collect(Collectors.toList());
+    }
+
+    public List<User.Transfer> getUsersByKeywordWithoutUser(String keyword, User user) {
+        return userRepository.findByUsernameContainingIgnoreCaseAndUsernameNot(keyword, user.getUsername())
             .stream()
             .map(User::toTransfer)
             .collect(Collectors.toList());

@@ -215,10 +215,17 @@ public class RootController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(name = "query", required = false) String keyword, Model model) {
+    public String search(@RequestParam(name = "query", required = false) String keyword, Model model, HttpSession session) {
+        User me = (User) session.getAttribute("u");
         model.addAttribute("query", keyword);
-        model.addAttribute("users", userService.getUsersByKeyword(keyword));
         model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
+
+        if(me == null){        
+            model.addAttribute("users", userService.getUsersByKeyword(keyword));
+        }else{
+            model.addAttribute("users", userService.getUsersByKeywordWithoutUser(keyword, me));
+        }
+
         return "search";
     }
 

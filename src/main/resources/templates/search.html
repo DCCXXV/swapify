@@ -138,10 +138,10 @@
                                         <div th:text="${user.description}"></div>
                                         <div>
                                             <div class="mt-2 fs-5 fg-lushaqua">Habilidades a enseñar</div>
-                                            <span th:each="cs : ${user.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1 p-2 px-3" th:text="${cs.skill.name}">Skill</span>
+                                            <span th:each="cs : ${user.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1 p-2 px-3" th:text="${cs}">Skill</span>
 
                                             <div class="mt-2 fs-5 fg-orchid">Habilidades a aprender</div>
-                                            <span th:each="ds : ${user.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid m-1 p-2 px-3" th:text="${ds.skill.name}">Skill</span>
+                                            <span th:each="ds : ${user.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid m-1 p-2 px-3" th:text="${ds}">Skill</span>
                                         </div>
                                     </div>
                                 </div>
@@ -175,10 +175,10 @@
                                         <div th:text="${user.description}"></div>
                                         <div>
                                             <div class="mt-2 fs-5 fg-lushaqua">Habilidades a enseñar</div>
-                                            <span th:each="cs : ${user.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1 p-2 px-3" th:text="${cs.skill.name}">Skill</span>
+                                            <span th:each="cs : ${user.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1 p-2 px-3" th:text="${cs}">Skill</span>
 
                                             <div class="mt-2 fs-5 fg-orchid">Habilidades a aprender</div>
-                                            <span th:each="ds : ${user.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid m-1 p-2 px-3" th:text="${ds.skill.name}">Skill</span>
+                                            <span th:each="ds : ${user.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid m-1 p-2 px-3" th:text="${ds}">Skill</span>
                                         </div>
                                     </div>
                                 </div>
