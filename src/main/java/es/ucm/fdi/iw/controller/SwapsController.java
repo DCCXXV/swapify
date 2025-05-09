@@ -4,9 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -126,6 +123,7 @@ public class SwapsController {
 
         Swap.Transfer swap = swapService.getById(id);
         User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
+
         List<Message.Transfer> messages = messageService.findMessagesForSwap(id);
 
         Map<String, Object> response = new HashMap<>();
@@ -140,29 +138,27 @@ public class SwapsController {
     }
 
 
-    @MessageMapping("/swap/{swapId}/sendMessage")
-    public void handleSendMessage(@DestinationVariable String swapId,
-                                  @Payload TChatMessage tChatMessage,
-                                  Authentication authentication) {
+    @PostMapping("/{id}/sendMessage")
+    @ResponseBody
+    public Map<String, Object> sendMessage(@PathVariable Long id, @RequestBody TChatMessage tChatMessage, Authentication auth) {
+        String username = auth.getName();
+        Swap swap = swapService.getSwapByID(id);
 
-        try {
-            long swapIdLong = Long.parseLong(swapId);
-            String username = authentication.getName();
+        if (!swap.getUserA().getUsername().equals(username) &&
+            !swap.getUserB().getUsername().equals(username)) {
+            return Map.of(
+                "status", "error",
+                "message", "No tienes permiso para enviar mensajes en este swap"
+            );
+        }
+        
+        Message savedMessage = messageService.saveNewMessage(tChatMessage.getText(), username, id);
 
-            Message savedMessage = messageService.saveNewMessage(
-                tChatMessage.getText(), username, swapIdLong);
-
-            if (savedMessage != null) {
-                messagingTemplate.convertAndSend("/topic/swap/" + swapId, savedMessage.toTransfer());
-                System.out.println("Mensaje guardado y enviado a swap " + swapId + " por " + username);
-            } else {
-                 System.err.println("Error al guardar mensaje para swap " + swapId);
-            }
-        } catch (NumberFormatException e) {
-             System.err.println("Swap ID inválido recibido en WebSocket: " + swapId);
-        } catch (Exception e) {
-             System.err.println("Error procesando mensaje WebSocket para swap " + swapId + ": " + e.getMessage());
-             e.printStackTrace();
+        if (savedMessage != null) {
+            messagingTemplate.convertAndSend("/topic/swap/" + id, savedMessage.toTransfer());
+            return Map.of("status", "success");
+        } else {
+            return Map.of("status", "error", "message", "No se pudo guardar el mensaje");
         }
     }
 
@@ -272,6 +268,12 @@ public class SwapsController {
     @PostMapping("/{id}/finishSwap")
     public String finishSwap(@PathVariable long id) {
         Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.FINISHED);
+
+        messagingTemplate.convertAndSend("/topic/swap/" + id, Map.of(
+            "type", "swapFinished",
+            "swapId", id
+        ));
+
         return "redirect:/swaps";
     }
 

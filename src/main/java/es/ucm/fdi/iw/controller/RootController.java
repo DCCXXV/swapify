@@ -5,13 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,17 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.DesiredSkill;
 import es.ucm.fdi.iw.model.Skill;
 import es.ucm.fdi.iw.model.User;
-import es.ucm.fdi.iw.model.User.Transfer;
 import es.ucm.fdi.iw.service.CurrentSkillService;
 import es.ucm.fdi.iw.service.DesiredSkillService;
 import es.ucm.fdi.iw.service.SkillService;
@@ -79,7 +74,6 @@ public class RootController {
     public String index(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "9") int size) throws JsonProcessingException {
         model.addAttribute("actual", "inicio");
-
 
         User currentUser = (User) session.getAttribute("u");
         Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
