@@ -3,6 +3,7 @@ package es.ucm.fdi.iw.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -105,6 +107,11 @@ public class SwapsController {
         User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
         List<Message.Transfer> messages = messageService.findMessagesForSwap(id);
 
+        if (!swap.getUserA().equals(me) &&
+            !swap.getUserB().equals(me)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado");
+        }
+
         boolean reviewSubmitted = swapService.isReviewSubmitted(id, me.getId());
         model.addAttribute("reviewSubmitted", reviewSubmitted);
 
@@ -146,10 +153,7 @@ public class SwapsController {
 
         if (!swap.getUserA().getUsername().equals(username) &&
             !swap.getUserB().getUsername().equals(username)) {
-            return Map.of(
-                "status", "error",
-                "message", "No tienes permiso para enviar mensajes en este swap"
-            );
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado");
         }
         
         Message savedMessage = messageService.saveNewMessage(tChatMessage.getText(), username, id);
@@ -277,7 +281,7 @@ public class SwapsController {
         return "redirect:/swaps";
     }
 
-        @PostMapping("/{id}/acceptSwap")
+    @PostMapping("/{id}/acceptSwap")
     public String acceptSwap(@PathVariable long id) {
         Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.ACTIVE);
         return "redirect:/swaps";
