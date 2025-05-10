@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,17 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.DesiredSkill;
 import es.ucm.fdi.iw.model.Skill;
 import es.ucm.fdi.iw.model.User;
-import es.ucm.fdi.iw.model.User.Transfer;
 import es.ucm.fdi.iw.service.CurrentSkillService;
 import es.ucm.fdi.iw.service.DesiredSkillService;
 import es.ucm.fdi.iw.service.SkillService;
@@ -74,22 +71,28 @@ public class RootController {
     }
 
     @GetMapping("/")
-    public String index(Model model, HttpSession session) throws JsonProcessingException {
+    public String index(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "9") int size) throws JsonProcessingException {
         model.addAttribute("actual", "inicio");
 
-        List<User.Transfer> otherusers = userService.getAllUsers();
+        User currentUser = (User) session.getAttribute("u");
+        Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
+                List<User.Transfer> userTransfers = pagedUsers.getContent()
+                .stream().map(User::toTransfer).toList();
+        
+        model.addAttribute("users", userTransfers);
+        model.addAttribute("hasMore", pagedUsers.hasNext());
+        model.addAttribute("currentPage", page);
 
-        List<String> desiredSkills = SkillService.getRequestedSkills();
-        List<String> commonSkills = SkillService.getCommonSkills();
-
+        List<Skill.Transfer> desiredSkills = skillService.getDesired();
+        List<Skill.Transfer> commonSkills = skillService.getCommon();
         model.addAttribute("desiredSkills", desiredSkills);
         model.addAttribute("commonSkills", commonSkills);
 
         User me = userService.getUsersByID(((User) session.getAttribute("u")).getId());
-
         model.addAttribute("me", me.toTransfer());
-        model.addAttribute("otherusers", otherusers);
 
+        model.addAttribute("hasMore", pagedUsers.hasNext());
         return "index";
     }
 
@@ -206,10 +209,34 @@ public class RootController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(name = "query", required = false) String keyword, Model model) {
+    public String search(@RequestParam(name = "query", required = false) String keyword, Model model, HttpSession session) {
+        User me = (User) session.getAttribute("u");
         model.addAttribute("query", keyword);
-        model.addAttribute("users", userService.getUsersByKeyword(keyword));
         model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
+
+        if(me == null){        
+            model.addAttribute("users", userService.getUsersByKeyword(keyword));
+        }else{
+            model.addAttribute("users", userService.getUsersByKeywordWithoutUser(keyword, me));
+        }
+
         return "search";
     }
+
+    @GetMapping("/loadMoreUsers")
+    @ResponseBody
+    public List<User.Transfer> loadMoreUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size,
+            HttpSession session) {
+    
+        User currentUser = (User) session.getAttribute("u");
+    
+        Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
+        return pagedUsers.getContent()
+                         .stream()
+                         .map(User::toTransfer)
+                         .toList();
+    }
+    
 }

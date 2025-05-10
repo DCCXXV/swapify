@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import es.ucm.fdi.iw.model.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
 /**
  * COMENTARIO EXPLICATIVO
@@ -41,11 +43,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     
     List<User> findByUsernameNot(String username);
-    List<User> findByUsernameContainingIgnoreCase(String partialUsername);
+    List<User> findByUsernameContainingIgnoreCase(String username);
+    List<User> findByUsernameContainingIgnoreCaseAndUsernameNot(String partialUsername, String username);
 
     List<User> findByCurrentSkillsSkillNameIgnoreCase(String skillname);
     List<User> findByDesiredSkillsSkillNameIgnoreCase(String skillname);
 
     User findByEmail(String email);
     boolean existsByEmail(String email);
+
+    Page<User> findByUsernameNotAndIdNot(String username, Long excludeId, Pageable pageable);
+
 }

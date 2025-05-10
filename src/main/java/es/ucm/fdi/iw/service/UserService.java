@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class UserService {
@@ -61,9 +65,16 @@ public class UserService {
             .map(User::toTransfer)
             .collect(Collectors.toList());
     }
-
+    
     public List<User.Transfer> getUsersByKeyword(String keyword) {
         return userRepository.findByUsernameContainingIgnoreCase(keyword)
+            .stream()
+            .map(User::toTransfer)
+            .collect(Collectors.toList());
+    }
+
+    public List<User.Transfer> getUsersByKeywordWithoutUser(String keyword, User user) {
+        return userRepository.findByUsernameContainingIgnoreCaseAndUsernameNot(keyword, user.getUsername())
             .stream()
             .map(User::toTransfer)
             .collect(Collectors.toList());
@@ -85,4 +96,15 @@ public class UserService {
             return null;
         }
     }
+
+    public Page<User> findUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findAll(pageable);
+    }
+    public Page<User> findUsers(int page, int size, long currentUserId) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findByUsernameNotAndIdNot("a", currentUserId, pageable);
+    }
+    
+    
 }

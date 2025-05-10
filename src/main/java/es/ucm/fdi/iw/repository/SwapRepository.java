@@ -11,4 +11,6 @@ import es.ucm.fdi.iw.model.Swap;
 public interface SwapRepository extends JpaRepository<Swap, Long> {
     Swap findById(long id);
     List<Swap> findByUserA_UsernameOrUserB_Username(String usernameA, String usernameB);
+    
+    long countBySwapStatus(Swap.Status status);
 }

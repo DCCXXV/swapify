@@ -5,9 +5,9 @@
 		<th:block th:replace="fragments/head :: header" />
 		<title>Inicio | Swapify</title>
 		<script th:inline="javascript">
-			const users = [[${otherusers}]];
+			const users = [[${users}]];
 			const me = [[${me}]];
-		</script>
+		</script>		
 	</head>
 
 	<body class="d-flex flex-column h-100 bg-abaloneshell">
@@ -143,21 +143,21 @@
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
 						<div th:each="skill : ${desiredSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 				</div>
@@ -166,8 +166,8 @@
 				<hr class="hr-swp">
 
 				<div class="container mt-3 p-0">
-					<div class="row row-cols-3 gap-3">
-						<div th:each="usr,i : ${otherusers}" th:if="${i.index < 9}" class="card bg-oblivion" style="width: 419px; height: 265px;">
+					<div id="userContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+						<div th:each="usr,i : ${users}" class="col card bg-oblivion" style="width: 419px; height: 265px;">
 							<div class="d-flex h-100">
 								<div class="col-md-4 d-flex align-items-center justify-content-center mb-3">
 									<a th:href="@{/user/{userId}(userId=${usr.id})}">
@@ -188,7 +188,9 @@
 											<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 px-2 ms-2 text-center"
 												data-bs-toggle="modal"
 												data-bs-target="#swapModal"
-												th:attr="data-user-idx=${i.index}">
+												th:attr="data-user-idx=${i.index}"
+												th:id="${'swapButton' + {i.index}}"
+												>
 												Swap!
 											</button>
 										</div>
@@ -211,16 +213,16 @@
 						</div>
 					</div>
 
-					<th:block th:if="${#lists.size(otherusers) > 9}">
-						<div class="d-flex align-items-center my-4">
+					<th:block th:if="${hasMore}">
+    					<div class="d-flex align-items-center my-4">
 							<div class="flex-grow-1 load-more-line"></div>
-							<button id="loadMoreUsersBtn" class="btn bg-abaloneshell-l1 fg-oblivion bold mx-3">
+							<button id="loadMoreBtn" class="btn bg-abaloneshell-l1 fg-oblivion bold mx-3">
 								Cargar más
 							</button>
 							<div class="flex-grow-1 load-more-line"></div>
-						</div>
+						</div>						
 					</th:block>
-					
+	
 				</div>
 
 				<h2 class="mt-5 fg-orchid bold">Habilidades más comunes</h2>
@@ -258,21 +260,21 @@
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row my-3" style="animation-direction: reverse;">
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 					<div class="row gap-3 text-center skills-row" style="animation-delay: -50s;">
 						<div th:each="skill : ${commonSkills}"
 							class="skill-card col py-2 px-4 bg-abaloneshell-l0 align-self-center fg-oblivion align-middle rounded bold d-flex justify-content-center align-items-center"
 							style="height: 90px;">
-							<span th:text="${skill}">Error</span>
+							<span th:text="${skill.name}">Error</span>
 						</div>
 					</div>
 				</div>
@@ -359,6 +361,7 @@
 							badge.textContent = skillName;
 							badge.dataset.skill = "skill_" + index;
 							badge.dataset.skillName = skillName;
+							badge.id = "currentSkill" + index
 							
 							badge.addEventListener("click", function() {
 								userSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
@@ -388,8 +391,9 @@
 							const badge = document.createElement("span");
 							badge.className = "badge rounded-pill bg-orchid m-1 skill-badge";
 							badge.textContent = skillName;
-							badge.dataset.skill = "my_skill_" + index; // Identificador único para la habilidad
+							badge.dataset.skill = "my_skill_" + index;
 							badge.dataset.skillName = skillName;
+							badge.id = "desiredSkill" + index
 							
 							badge.addEventListener("click", function() {
 								yourSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
@@ -438,7 +442,7 @@
 						body: JSON.stringify({
 							userA: me.id,
 							userB: selectedUser.id,
-							skillA: yourSkillName,  // Enviamos el nombre 
+							skillA: yourSkillName,
 							skillB: userSkillName 
 						})
 					})
@@ -461,6 +465,78 @@
 				});
 			});
 		</script>
+		<script th:inline="javascript">
+			let currentPage = /*[[${currentPage}]]*/ 0;
+			const size = 9;
+		
+			document.getElementById("loadMoreBtn").addEventListener("click", () => {
+				fetch(`/loadMoreUsers?page=${++currentPage}&size=${size}`)
+					.then(response => response.json())
+					.then(newUsers => {
+						const container = document.getElementById("userContainer");
+						const startIndex = users.length;
+						users.push(...newUsers);
+		
+						newUsers.forEach((user, i) => {
+							const userIndex = startIndex + i;
+							const card = document.createElement("div");
+							card.className = "col card bg-oblivion";
+							card.style = "width: 419px; height: 265px;";
+		
+							card.innerHTML = `
+								<div class="d-flex h-100">
+									<div class="col-md-4 d-flex align-items-center justify-content-center mb-3">
+										<a href="/user/${user.id}">
+											<img src="/user/${user.id}/pic" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil de ${user.username}">
+										</a>
+									</div>
+									<div class="col-md-8">
+										<div class="card-body p-0" style="height: 245px;">
+											<div class="d-flex justify-content-between oblivion py-3 px-1">
+												<div class="d-flex flex-column">
+													<a href="/user/${user.id}" class="text-decoration-none">
+														<span class="card-title fg-gold bold ps-3 fs-5 username">${user.firstName}</span>
+													</a>
+													<a href="/user/${user.id}" class="text-decoration-none">
+														<span class="card-title fg-muted ps-3 fs-6">@${user.username}</span>
+													</a>
+												</div>
+												<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 px-2 ms-2 text-center"
+													data-bs-toggle="modal" 
+													data-bs-target="#swapModal"
+													data-user-idx="${userIndex}">
+													Swap!
+												</button>
+											</div>
+											<div class="fg-abaloneshell overflow-auto px-3">
+												<p class="card-text fg-muted">${user.description || 'Descripción no disponible'}</p>
+												<div class="row-md-8 mb-3">
+													${(user.currentSkills || []).map(skill => `
+														<span class="badge rounded-pill bg-lushaqua m-1">${skill}</span>
+													`).join("")}
+												</div>
+												<div class="row-md-8">
+													${(user.desiredSkills || []).map(skill => `
+														<span class="badge rounded-pill bg-orchid me-1">${skill}</span>
+													`).join("")}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							`;
+		
+							container.appendChild(card);
+						});
+		
+						// Oculta el botón si no quedan más
+						if (newUsers.length < size) {
+							document.getElementById("loadMoreBtn").style.display = "none";
+						}
+					});
+			});
+		</script>
+		
 
 		<th:block th:replace="fragments/footer.html :: footer" />
 	</body>

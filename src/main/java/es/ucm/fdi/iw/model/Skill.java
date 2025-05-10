@@ -22,27 +22,28 @@ public class Skill implements Transferable<Skill.Transfer> {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CurrentSkill> currentUsers = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DesiredSkill> aspirantUsers = new ArrayList<>();
+
     @Getter
     @AllArgsConstructor
     public static class Transfer {
 		private long id;
         private String name;
+        private int currentUsers;
+        private int aspirantUsers;
     }
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,	name);
+		return new Transfer(id,	name, currentUsers.size(), aspirantUsers.size());
 	}
 	
 	@Override
 	public String toString() {
 		return name;
 	}
-
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CurrentSkill> currentUsers = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DesiredSkill> aspirantUsers = new ArrayList<>();
 }
-

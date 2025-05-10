@@ -4,87 +4,87 @@ Feature: Flujo de un swap
 # del horario, envío de mensajes y valoración final del swap.
 
 Background:
-  * url baseUrl
-  # Definición de los payloads para cada paso
-  * def signupPayload =
-    """
-    {
-      "username": "usuario1",
-      "password": "password123",
-      "firstName": "Juan",
-      "lastName": "Rodriguez",
-      "email": "juan@example.com"
-    }
-    """
-  * def newSwapPayload =
-    """
-    {
-      "description": "Intercambio: clases de guitarra por clases de inglés",
-      "schedule": ["Monday", "Wednesday", "Friday"],
-      "targetUser": "usuario2"
-    }
-    """
-  * def modifySwapPayload =
-    """
-    {
-      "swapId": 1,
-      "schedule": ["Tuesday", "Thursday"]
-    }
-    """
-  * def msgPayload =
-    """
-    { "message": "He actualizado el horario, revisa los nuevos días." }
-    """
-  * def completeSwapPayload =
-    """
-    { "rating": 5, "comment": "Excelente intercambio, muy puntual." }
-    """
+  Given driver baseUrl
 
+# Es necesario reiniciar el proyecto cada vez que se corre
 Scenario: Flujo principal de intercambio (swap)
-  # 1. El usuario crea su perfil
-  Given path '/signup'
-  And request signupPayload
-  When method post
-  Then status 200
+  # 1. Isabel entra a la página e inicia sesión
+  And call read('login.feature@login_isabel')
 
-  # 2. El usuario inicia sesión
-  Given path '/login'
-  And form field username = 'usuario1'
-  And form field password = 'password123'
-  When method post
-  Then status 200
+  # 2. Isabel empieza un swap nuevo
+  And click('button[id=swapButton0]')
+  And delay(500)
+  And click('#currentSkill0')
+  And click('#desiredSkill0')
+  And click('button[id=confirmSwap]')
+  And waitFor('#sideBarTitle')
+  And match driver.title == "Intercambios | Swapify"
 
-  # 3. El usuario accede al panel de swaps
-  Given path '/swaps'
-  When method get
-  Then status 200
+  # 3. Isabel comprueba el nuevo swap pendiente
+  And click('#pendientes')
+  And waitFor('#pendingSwap0')
+  And click('#pendingSwap0')
+  And waitFor('#pendingBlock')
+  And match text('#pendingBlock') contains "¿Esperando a que el usuario lo acepte?"
 
-  # 4. El usuario inicia un nuevo swap
-  Given path '/swaps/new'
-  And request newSwapPayload
-  When method post
-  Then status 200
+  # 4. Juan (el que recibe el Swap) inicia sesión
+  And call read('login.feature@login_juan')
+  
+  # 5. Juan comprueba el nuevo swap pendiente
+  And click('#navBarSwap')
+  And waitFor('#sideBarTitle')
+  And match driver.title == "Intercambios | Swapify"
+  And click('#pendientes')
+  And waitFor('#pendingSwap2')
+  And click('#pendingSwap2')
+  And waitFor('#pendingBlock')
+  And click('#AcceptSwapButton')
 
-  # 5. El usuario revisa el listado para verificar la creación
-  Given path '/swaps'
-  When method get
-  Then status 200
-  And match response contains "Intercambio: clases de guitarra por clases de inglés"
+  # 6. Juan abre el nuevo swap activo
+  And click('#activos')
+  And waitFor('#activeSwap0')
+  And click('#activeSwap0')
+  And waitFor('#endSwapButton')
+  
+  # 7. Juan envía un mensaje
+  And input('#chat-message-input', 'Holaaaaaaaaaa' + Key.ENTER)
+  And delay(1000)
 
-  # 6. El usuario modifica el horario del swap
-  Given path '/swaps/modify'
-  And request modifySwapPayload
-  When method put
-  Then status 200
+  # 8. Isabel inicia sesión de nuevo
+  And call read('login.feature@login_isabel')
 
-  # 7. El usuario envía un mensaje para avisar al otro
-  Given path '/swaps/1/msg'
-  And request msgPayload
-  When method post
-  Then status 200
+  # 9. Isabel entra en el nuevo swap activo
+  And click('#navBarSwap')
+  And waitFor('#sideBarTitle')
+  And match driver.title == "Intercambios | Swapify"
+  # Por defecto la sección de activos está abierta
+  # And click('#activos')
+  # And waitFor('#activeSwap2')
+  And click('#activeSwap0')
+  And waitFor('#endSwapButton')
 
-  # 8. Swap terminado, valoración del otro
-  Given path '/swaps/1/complete'
-  And request completeSwapPayload
-  When method post
-  Then status 200
+  # 10. Isabel envía un mensaje
+  And input('#chat-message-input', 'Adioooooos' + Key.ENTER)
+  And delay(1000)
+
+  # 11. Isabel termina el swap
+  And click('button[id=endSwapButton]')
+
+  # 12. Isabel navega al swap terminado
+  And click('#terminados')
+  And waitFor('#finishedSwap1')
+  And click('#finishedSwap1')
+  And waitFor('#finishedBlock')
+
+  # 13. Isabel envía una reseña
+  And click('button[id=reviewButton]')
+  And delay(500)
+  And input('#reviewRating', '0')
+  And input('#reviewText', 'Fatal')
+  And click('button[id=submitReview]')
+  And delay(1000)
+
+  # 13. Isabel entra al perfil de Juan y comprueba su reseña
+  And click('#otheruserUsername')
+  And waitFor('#namejuanito03')
+  And match text('#namejuanito03') == "Juan Pérez"

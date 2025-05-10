@@ -3,10 +3,8 @@ package es.ucm.fdi.iw.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -108,6 +107,11 @@ public class SwapsController {
         User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
         List<Message.Transfer> messages = messageService.findMessagesForSwap(id);
 
+        if (!swap.getUserA().equals(me) &&
+            !swap.getUserB().equals(me)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado");
+        }
+
         boolean reviewSubmitted = swapService.isReviewSubmitted(id, me.getId());
         model.addAttribute("reviewSubmitted", reviewSubmitted);
 
@@ -126,6 +130,7 @@ public class SwapsController {
 
         Swap.Transfer swap = swapService.getById(id);
         User me = userService.getUsersByID(((User)session.getAttribute("u")).getId());
+
         List<Message.Transfer> messages = messageService.findMessagesForSwap(id);
 
         Map<String, Object> response = new HashMap<>();
@@ -140,29 +145,24 @@ public class SwapsController {
     }
 
 
-    @MessageMapping("/swap/{swapId}/sendMessage")
-    public void handleSendMessage(@DestinationVariable String swapId,
-                                  @Payload TChatMessage tChatMessage,
-                                  Authentication authentication) {
+    @PostMapping("/{id}/sendMessage")
+    @ResponseBody
+    public Map<String, Object> sendMessage(@PathVariable Long id, @RequestBody TChatMessage tChatMessage, Authentication auth) {
+        String username = auth.getName();
+        Swap swap = swapService.getSwapByID(id);
 
-        try {
-            long swapIdLong = Long.parseLong(swapId);
-            String username = authentication.getName();
+        if (!swap.getUserA().getUsername().equals(username) &&
+            !swap.getUserB().getUsername().equals(username)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado");
+        }
+        
+        Message savedMessage = messageService.saveNewMessage(tChatMessage.getText(), username, id);
 
-            Message savedMessage = messageService.saveNewMessage(
-                tChatMessage.getText(), username, swapIdLong);
-
-            if (savedMessage != null) {
-                messagingTemplate.convertAndSend("/topic/swap/" + swapId, savedMessage.toTransfer());
-                System.out.println("Mensaje guardado y enviado a swap " + swapId + " por " + username);
-            } else {
-                 System.err.println("Error al guardar mensaje para swap " + swapId);
-            }
-        } catch (NumberFormatException e) {
-             System.err.println("Swap ID inválido recibido en WebSocket: " + swapId);
-        } catch (Exception e) {
-             System.err.println("Error procesando mensaje WebSocket para swap " + swapId + ": " + e.getMessage());
-             e.printStackTrace();
+        if (savedMessage != null) {
+            messagingTemplate.convertAndSend("/topic/swap/" + id, savedMessage.toTransfer());
+            return Map.of("status", "success");
+        } else {
+            return Map.of("status", "error", "message", "No se pudo guardar el mensaje");
         }
     }
 
@@ -222,49 +222,47 @@ public class SwapsController {
                 return "{\"status\":\"error\",\"message\":\"Usuario no autenticado\"}";
             }
 
-            Swap.Transfer transfer = swapService.getById(id);
-            Swap swap = new Swap();
-            swap.setId(transfer.getId());
-            swap.setUserA(transfer.getUserA());
-            swap.setUserB(transfer.getUserB());
-            swap.setSkillA(transfer.getSkillA());
-            swap.setSkillB(transfer.getSkillB());
-            swap.setSwapStatus(Swap.Status.valueOf(transfer.getSwapStatus()));
-
-            if (swap == null || swap.getSwapStatus() != Swap.Status.FINISHED) {
+            Swap swap = swapService.getSwapByID(id);
+            
+            if (swap.getSwapStatus() != Swap.Status.FINISHED) {
                 return "{\"status\":\"error\",\"message\":\"No se puede escribir una reseña para un swap que no está finalizado\"}";
             }
-
+            
             boolean isUserA = swap.getUserA().getId() == currentUser.getId();
             boolean isUserB = swap.getUserB().getId() == currentUser.getId();
-
+            
             if (!isUserA && !isUserB) {
                 return "{\"status\":\"error\",\"message\":\"No puedes escribir una reseña para un swap en el que no participaste\"}";
             }
-
+            
             if ((isUserA && swap.getReviewA() != null) || (isUserB && swap.getReviewB() != null)) {
                 return "{\"status\":\"error\",\"message\":\"Ya has enviado una reseña para este swap\"}";
             }
-
+            
             Review review = new Review();
             review.setText(reviewRequest.getText());
             review.setRating(reviewRequest.getRating());
             review.setSwapId(id);
-            review.setUserA(transfer.getUserA());
-            review.setUserB(transfer.getUserB());
-            review.setSkillA(transfer.getSkillA());
-            review.setSkillB(transfer.getSkillB());
-
-            reviewService.saveReview(review);
-
+            
             if (isUserA) {
+                review.setUserA(currentUser);  // quien escribe la reseña
+                review.setUserB(swap.getUserB());  // quien recibe la reseña
+                review.setSkillA(swap.getSkillA());  // habilidad del que evalúa
+                review.setSkillB(swap.getSkillB());  // habilidad evaluada
                 swap.setReviewA(review);
             } else {
+                // El usuario actual es userB en el swap, por lo que:
+                // Está evaluando a userA
+                review.setUserA(currentUser);  // quien escribe la reseña
+                review.setUserB(swap.getUserA());  // quien recibe la reseña
+                review.setSkillA(swap.getSkillB());  // habilidad del que evalúa (B usa skillB)
+                review.setSkillB(swap.getSkillA());  // habilidad evaluada (la de A)
                 swap.setReviewB(review);
             }
-
+            
+            reviewService.saveReview(review);
             swapService.saveSwap(swap);
-
+            
             return "{\"status\":\"success\",\"message\":\"Reseña enviada con éxito\"}";
         } catch (Exception e) {
             return "{\"status\":\"error\",\"message\":\"Error al enviar la reseña: " + e.getMessage() + "\"}";
@@ -274,10 +272,16 @@ public class SwapsController {
     @PostMapping("/{id}/finishSwap")
     public String finishSwap(@PathVariable long id) {
         Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.FINISHED);
+
+        messagingTemplate.convertAndSend("/topic/swap/" + id, Map.of(
+            "type", "swapFinished",
+            "swapId", id
+        ));
+
         return "redirect:/swaps";
     }
 
-        @PostMapping("/{id}/acceptSwap")
+    @PostMapping("/{id}/acceptSwap")
     public String acceptSwap(@PathVariable long id) {
         Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.ACTIVE);
         return "redirect:/swaps";

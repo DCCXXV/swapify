@@ -6,11 +6,9 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.ucm.fdi.iw.controller.RootController;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Swap;
 import es.ucm.fdi.iw.model.User;
@@ -115,6 +113,15 @@ public class MessageService {
             log.error("!!! DATABASE SAVE FAILED for Swap {} !!!", swapId, e); // LOG 12 - Imprime la excepción completa
             // e.printStackTrace(); // Descomenta si necesitas el stack trace completo en la consola
             return null; // Indica fallo al controlador
+        }
+    }
+    
+    @Transactional
+    public void deleteAllMessagesForSwap(Long swapId) {
+        List<Message> messages = messageRepository.findBySwapId(swapId);
+        if (messages != null && !messages.isEmpty()) {
+            log.info("Eliminando {} mensajes del swap {}", messages.size(), swapId);
+            messageRepository.deleteAll(messages);
         }
     }
 }

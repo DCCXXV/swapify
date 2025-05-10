@@ -2,12 +2,14 @@ package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Message;
+import es.ucm.fdi.iw.model.Review;
+import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
-import es.ucm.fdi.iw.repository.SkillRepository;
 import es.ucm.fdi.iw.service.CurrentSkillService;
 import es.ucm.fdi.iw.service.DesiredSkillService;
+import es.ucm.fdi.iw.service.ReviewService;
 import es.ucm.fdi.iw.service.UserService;
 
 import org.apache.logging.log4j.LogManager;
@@ -48,6 +50,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *  User management.
@@ -65,6 +69,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private ReviewService reviewService;
 
 	@Autowired
 	private CurrentSkillService currentSkillService;
@@ -131,9 +138,24 @@ public class UserController {
     public String index(@PathVariable long id, Model model, HttpSession session) {
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
-		model.addAttribute("currentSkills", currentSkillService.getAllById(id));
-		model.addAttribute("desiredSkills", desiredSkillService.getAllById(id));
-		return "user";
+        
+        List<CurrentSkill> currentSkills = currentSkillService.getAllByUserId(id);
+        model.addAttribute("currentSkills", currentSkills);
+        model.addAttribute("desiredSkills", desiredSkillService.getAllByUserId(id));
+
+        List<Review.Transfer> reviews = reviewService.getAllByUsername(target.getUsername());
+        model.addAttribute("reviews", reviews);
+        
+        Map<Long, List<Review.Transfer>> reviewsBySkill = new HashMap<>();
+        for (CurrentSkill cs : currentSkills) {
+            List<Review.Transfer> filtered = reviews.stream().filter(r -> 
+                r.getSkillB().equals(cs.getSkill().getName())
+            ).collect(Collectors.toList());
+            reviewsBySkill.put(cs.getId(), filtered);
+        }
+        model.addAttribute("reviewsBySkill", reviewsBySkill);
+        
+        return "user";
     }
 
     /**
@@ -343,4 +365,21 @@ public class UserController {
 		return "{\"result\": \"message sent.\"}";
 	}
 
+    @GetMapping("{id}/reviews")
+    @ResponseBody
+    public Map<String, Object> getUserReviews(@PathVariable long id) {
+        User user = userService.getUsersByID(id);
+        List<Review.Transfer> reviews = reviewService.getAllByUsername(user.getUsername());
+        List<CurrentSkill> skills = currentSkillService.getAllByUserId(id);
+        
+        double averageRating = skills.stream()
+            .mapToDouble(CurrentSkill::getAverageRating)
+            .average()
+            .orElse(0.0);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("reviews", reviews);
+        response.put("averageRating", averageRating);
+        return response;
+    }
 }
