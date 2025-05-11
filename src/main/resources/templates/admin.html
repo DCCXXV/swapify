@@ -24,16 +24,7 @@
                     </div>
                 </div>
             </div>
-            <!--
-            <div class="col-md-4">
-                <div class="card bg-abaloneshell-l0 fg-oblivion">
-                    <div class="card-body">
-                        <h5 class="card-title">Reportes Pendientes</h5>
-                        <p class="card-text fs-3 bold">3</p>
-                    </div>
-                </div>
-            </div>
-            -->
+
             <div class="col-md-4">
                 <div class="card bg-abaloneshell-l0 fg-oblivion">
                     <div class="card-body">
@@ -50,13 +41,7 @@
                     data-bs-toggle="tab" data-bs-target="#users" role="tab" aria-controls="users"
                     aria-selected="true">Usuarios</a>
             </li>
-            <!--
-            <li class="nav-item swp-tab" role="presentation">
-                <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" id="reports-tab"
-                    data-bs-toggle="tab" data-bs-target="#reports" role="tab" aria-controls="reports"
-                    aria-selected="false">Reportes</a>
-            </li>
-            -->
+
             <li class="nav-item swp-tab" role="presentation">
                 <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded p-2 px-4" id="swaps-tab"
                     data-bs-toggle="tab" data-bs-target="#swaps" role="tab" aria-controls="swaps"
@@ -113,86 +98,7 @@
                     </div>
                 </div>
             </div>
-
             
-            <!-- Gestión de Reportes 
-            <div class="tab-pane fade" id="reports" role="tabpanel">
-                <div class="mb-4 bg-abaloneshell-l0">
-                    <div class="bg-orchid rounded text-white p-2">Gestión de Reportes</div>
-                    <div>
-                        <div class="mx-4 p-3">
-                            <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
-                                placeholder="Buscar reporte por ID">
-                        </div>
-                        <table class="table table-borderless table-striped table-hover fg-oblivion">
-                            <thead>
-                                <tr>
-                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">ID</th>
-                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de perfil</th>
-                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Nombre de cuenta</th>
-                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Razón</th>
-                                    <th class="bg-abaloneshell-l0 fg-oblivion bold">Reportador</th>
-                                    <th class="bg-abaloneshell-l0 fg-oblivion bold text-center">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="bg-abaloneshell-l0">1</td>
-                                    <td class="bg-abaloneshell-l0">Pedro García</td>
-                                    <td class="bg-abaloneshell-l0">@pedrogar</td>
-                                    <td class="bg-abaloneshell-l0">Conducta inapropiada</td>
-                                    <td class="bg-abaloneshell-l0">@pedrogar</td>
-                                    <td class="bg-abaloneshell-l0 text-center">
-                                        <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
-                                            <i class="bi bi-clipboard2-fill me-1"></i>
-                                            Ver Reporte
-                                        </button>
-                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1">Deshabilitar
-                                            usuario</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-abaloneshell-l0">2</td>
-                                    <td class="bg-abaloneshell-l0">Ana Torres</td>
-                                    <td class="bg-abaloneshell-l0">@anaa.torres</td>
-                                    <td class="bg-abaloneshell-l0">Spam</td>
-                                    <td class="bg-abaloneshell-l0">@pedrogar</td>
-                                    <td class="bg-abaloneshell-l0 text-center">
-                                        <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
-                                            <i class="bi bi-clipboard2-fill me-1"></i>
-                                            Ver Reporte
-                                        </button>
-                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1">Deshabilitar
-                                            usuario</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-abaloneshell-l0">3</td>
-                                    <td class="bg-abaloneshell-l0">Pedro</td>
-                                    <td class="bg-abaloneshell-l0">@pedrito</td>
-                                    <td class="bg-abaloneshell-l0">Spam</td>
-                                    <td class="bg-abaloneshell-l0">@pedrogar</td>
-                                    <td class="bg-abaloneshell-l0 text-center">
-                                        <button class="btn btn-sm fg-abaloneshell bg-orchid mx-1">
-                                            <i class="bi bi-clipboard2-fill me-1"></i>
-                                            Ver Reporte
-                                        </button>
-                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1">Descartar</button>
-                                        <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                            data-bs-toggle="modal" data-bs-target="#banUserModal">Deshabilitar
-                                            usuario</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            -->
-            
-
             <!-- Gestión de Swaps -->
             <div class="tab-pane fade" id="swaps" role="tabpanel">
                 <div class="mb-4 bg-abaloneshell-l0">
@@ -225,7 +131,7 @@
                                         <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
                                                 th:attr="data-swap-id=${swap.id}"
                                                 th:onclick="'cancelSwap(' + ${swap.id} + ')'">
-                                            Cancelar
+                                            Eliminar
                                         </button>
                                     </td>
                                 </tr>
