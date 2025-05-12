@@ -105,6 +105,14 @@ public class UserService {
         Pageable pageable = PageRequest.of(page, size);
         return userRepository.findByUsernameNotAndIdNot("a", currentUserId, pageable);
     }
+
+    public boolean findEmail(String email) {
+        User u = userRepository.findByEmail(email);
+        if(u == null){
+            return false;
+        }
+        return true;
+    }
     
     
 }

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -107,6 +108,14 @@ public class RootController {
     public String processSignupStep1() {
         return "signup";
     }
+
+    @GetMapping("/checkEmail")
+    @ResponseBody
+    public ResponseEntity<?> checkEmail(@RequestParam String email) {
+        boolean existe = userService.findEmail(email);
+        return ResponseEntity.ok(existe ? "EXISTE" : "LIBRE");
+    }
+    
 
     @GetMapping("/signupstep2")
     public String processSignupStep2(HttpServletRequest request, HttpSession session) {

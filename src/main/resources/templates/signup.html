@@ -34,6 +34,7 @@
                             class="form-control bg-abaloneshell rounded-pill p-3"
                             placeholder="Introduzca aquí su correo electrónico" required="required"
                             style="width: 680px;">
+                            <div id="emailError" class="ms-3 mt-1" style="color: red;"></div>
                     </div>
                     <div class="mb-4">
                         <input type="text" id="emailRepInput" name="emailRep"
@@ -55,7 +56,7 @@
                     </div>
 
                         <div class="text-center mt-4">
-                            <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3" type="sumbit">
+                            <button class="btn btn-lg bg-orchid fg-abaloneshell bold rounded-pill py-3 px-4 me-3" type="submit">
                             Siguiente <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
@@ -69,6 +70,47 @@
             </div>
         </div>
     </main>
+
+    let emailDuplicado = false;
+    <script>
+    document.getElementById("emailInput").addEventListener("blur", function () {
+        const email = this.value;
+        const emailError = document.getElementById("emailError");
+
+        if (email.trim() === "") {
+            emailError.textContent = "";
+            emailInput.classList.remove("is-invalid");
+            emailInput.setCustomValidity("");
+            emailDuplicado = false;
+            return;
+        }
+
+        fetch(`/checkEmail?email=${encodeURIComponent(email)}`)
+            .then(response => response.text())
+            .then(data => {
+                if (data === "EXISTE") {
+                    emailError.textContent = "Este correo ya está registrado.";
+                    document.getElementById("emailInput").classList.add("is-invalid");
+                    
+                    emailInput.setCustomValidity(" ");
+                    emailDuplicado = true;
+                } else {
+                    emailError.textContent = "";
+                    document.getElementById("emailInput").classList.remove("is-invalid");
+                    
+                    emailInput.setCustomValidity("");
+                    emailDuplicado = false;
+                }
+            })
+            .catch(error => {
+                console.error("Error al validar el email:", error);
+                emailInput.setCustomValidity(" ");
+                emailDuplicado = true;
+            });
+    });
+    </script>
+
+
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 

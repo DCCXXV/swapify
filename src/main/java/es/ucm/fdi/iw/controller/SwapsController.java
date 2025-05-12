@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -38,11 +39,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *  Site administration.
- *
- *  Access to this end-point is authenticated - see SecurityConfig
- */
 @Controller
 @RequestMapping("swaps")
 public class SwapsController {
@@ -99,6 +95,7 @@ public class SwapsController {
 
     @Value("${app.websocket.endpoint:/ws}")
     private String webSocketEndpointUrl;
+
     @GetMapping("/{id}")
     public String swapChat(@PathVariable Long id, Model model, HttpSession session) {
         log.debug("intentando sacar información del chat con id: {}", id);
@@ -144,38 +141,44 @@ public class SwapsController {
         return response;
     }
 
-
     @PostMapping("/{id}/sendMessage")
     @ResponseBody
-    public Map<String, Object> sendMessage(@PathVariable Long id, @RequestBody TChatMessage tChatMessage, Authentication auth) {
+    public ResponseEntity<Map<String, Object>> sendMessage(
+            @PathVariable Long id,
+            @RequestBody TChatMessage tChatMessage,
+            Authentication auth) {
         String username = auth.getName();
         Swap swap = swapService.getSwapByID(id);
 
         if (!swap.getUserA().getUsername().equals(username) &&
             !swap.getUserB().getUsername().equals(username)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("status", "error", "message", "No autorizado"));
         }
         
         Message savedMessage = messageService.saveNewMessage(tChatMessage.getText(), username, id);
 
         if (savedMessage != null) {
             messagingTemplate.convertAndSend("/topic/swap/" + id, savedMessage.toTransfer());
-            return Map.of("status", "success");
+            return ResponseEntity.ok(Map.of("status", "success"));
         } else {
-            return Map.of("status", "error", "message", "No se pudo guardar el mensaje");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("status", "error", "message", "No se pudo guardar el mensaje"));
         }
     }
 
     @PostMapping("/create")
     @Transactional
     @ResponseBody
-    public String createSwap(@RequestBody SwapRequest swapRequest) {
-        log.info("Creando swap entre users {} y {}", swapRequest.getUserA(), swapRequest.getUserB());
-        
+    public ResponseEntity<Map<String, Object>> createSwap(@RequestBody SwapRequest swapRequest) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            if (swapRequest.getUserA() <= 0 || swapRequest.getUserB() <= 0 ||
+            if (swapRequest.getUserA() == null || swapRequest.getUserB() == null ||
+                swapRequest.getUserA() <= 0 || swapRequest.getUserB() <= 0 ||
                 swapRequest.getSkillA() == null || swapRequest.getSkillB() == null) {
-                return "{\"status\":\"error\",\"message\":\"IDs inválidos proporcionados\"}";
+                response.put("status", "error");
+                response.put("message", "IDs inválidos proporcionados");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
 
             Swap swap = new Swap();
@@ -185,7 +188,9 @@ public class SwapsController {
             
             if (userA == null || userB == null) {
                 log.error("Fallo al crear swap: usuario no encontrado");
-                return "{\"status\":\"error\",\"message\":\"Usuario no encontrado\"}";
+                response.put("status", "error");
+                response.put("message", "Usuario no encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
             
             swap.setUserA(userA);
@@ -196,7 +201,9 @@ public class SwapsController {
             
             if (skillA == null || skillB == null) {
                 log.error("Fallo al crear swap: skill no encontrada");
-                return "{\"status\":\"error\",\"message\":\"Habilidad no encontrada\"}";
+                response.put("status", "error");
+                response.put("message", "Habilidad no encontrada");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
             
             swap.setSkillA(skillA);
@@ -205,38 +212,55 @@ public class SwapsController {
             Swap.Transfer savedSwap = swapService.saveSwap(swap);
             log.info("Creado el swap con ID: {}", savedSwap.getId());
             
-            return "{\"status\":\"success\",\"message\":\"Swap creado con éxito\",\"id\":" + savedSwap.getId() + "}";
+            response.put("status", "success");
+            response.put("message", "Swap creado con éxito");
+            response.put("id", savedSwap.getId());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error al crear swap", e);
-            return "{\"status\":\"error\",\"message\":\"Error al crear el swap: " + e.getMessage() + "\"}";
+            response.put("status", "error");
+            response.put("message", "Error al crear el swap: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PostMapping("/{id}/submitReview")
     @Transactional
     @ResponseBody
-    public String submitReview(@PathVariable Long id, @RequestBody ReviewRequest reviewRequest, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> submitReview(
+            @PathVariable Long id,
+            @RequestBody ReviewRequest reviewRequest,
+            HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
         try {
             User currentUser = (User)session.getAttribute("u");
             if (currentUser == null) {
-                return "{\"status\":\"error\",\"message\":\"Usuario no autenticado\"}";
+                response.put("status", "error");
+                response.put("message", "Usuario no autenticado");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
 
             Swap swap = swapService.getSwapByID(id);
             
             if (swap.getSwapStatus() != Swap.Status.FINISHED) {
-                return "{\"status\":\"error\",\"message\":\"No se puede escribir una reseña para un swap que no está finalizado\"}";
+                response.put("status", "error");
+                response.put("message", "No se puede escribir una reseña para un swap que no está finalizado");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
             
             boolean isUserA = swap.getUserA().getId() == currentUser.getId();
             boolean isUserB = swap.getUserB().getId() == currentUser.getId();
             
             if (!isUserA && !isUserB) {
-                return "{\"status\":\"error\",\"message\":\"No puedes escribir una reseña para un swap en el que no participaste\"}";
+                response.put("status", "error");
+                response.put("message", "No puedes escribir una reseña para un swap en el que no participaste");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
             
             if ((isUserA && swap.getReviewA() != null) || (isUserB && swap.getReviewB() != null)) {
-                return "{\"status\":\"error\",\"message\":\"Ya has enviado una reseña para este swap\"}";
+                response.put("status", "error");
+                response.put("message", "Ya has enviado una reseña para este swap");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
             
             Review review = new Review();
@@ -263,9 +287,13 @@ public class SwapsController {
             reviewService.saveReview(review);
             swapService.saveSwap(swap);
             
-            return "{\"status\":\"success\",\"message\":\"Reseña enviada con éxito\"}";
+            response.put("status", "success");
+            response.put("message", "Reseña enviada con éxito");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"Error al enviar la reseña: " + e.getMessage() + "\"}";
+            response.put("status", "error");
+            response.put("message", "Error al enviar la reseña: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
