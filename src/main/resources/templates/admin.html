@@ -128,6 +128,17 @@
                                     <td class="bg-abaloneshell-l0" th:text="${swap.userB.username}"></td>
                                     <td class="bg-abaloneshell-l0" th:text="${swap.swapStatus}"></td>
                                     <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#viewSwapModal"
+                                                th:attr="data-swap-id=${swap.id}, 
+                                                         data-skillA=${swap.skillA.name}, 
+                                                         data-skillB=${swap.skillB.name},
+                                                         data-userA=${swap.userA.username},
+                                                         data-userB=${swap.userB.username},
+                                                         data-status=${swap.swapStatus}">
+                                            Ver
+                                        </button>
                                         <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
                                                 th:attr="data-swap-id=${swap.id}"
                                                 th:onclick="'cancelSwap(' + ${swap.id} + ')'">
@@ -166,6 +177,25 @@
             </div>
         </div>
 
+        <!-- MODAL: Ver Swap -->
+        <div class="modal fade" id="viewSwapModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-abaloneshell-l0">
+                    <div class="modal-header bg-orchid text-white">
+                        <h5 class="modal-title">Detalles del Swap</h5>
+                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>ID:</strong> <span id="swapId"></span></p>
+                        <p><strong>Descripción:</strong> <span id="swapDescription"></span></p>
+                        <p><strong>Usuario 1:</strong> <span id="swapUserA"></span></p>
+                        <p><strong>Usuario 2:</strong> <span id="swapUserB"></span></p>
+                        <p><strong>Estado:</strong> <span id="swapStatus"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
@@ -217,6 +247,23 @@
                 alert("Error de red al cancelar swap.");
             });
         }
+
+        const viewSwapModal = document.getElementById('viewSwapModal');
+        viewSwapModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const swapId = button.getAttribute('data-swap-id');
+            const skillA = button.getAttribute('data-skillA');
+            const skillB = button.getAttribute('data-skillB');
+            const userA = button.getAttribute('data-userA');
+            const userB = button.getAttribute('data-userB');
+            const status = button.getAttribute('data-status');
+            
+            document.getElementById('swapId').textContent = swapId;
+            document.getElementById('swapDescription').textContent = skillA + " por " + skillB;
+            document.getElementById('swapUserA').textContent = userA;
+            document.getElementById('swapUserB').textContent = userB;
+            document.getElementById('swapStatus').textContent = status;
+        });
     </script>
 
 </body>
