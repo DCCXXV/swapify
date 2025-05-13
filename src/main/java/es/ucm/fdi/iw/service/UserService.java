@@ -113,6 +113,12 @@ public class UserService {
         }
         return true;
     }
-    
-    
+
+    public boolean findFirstname(String firstName) {
+        User u = userRepository.findByFirstNameIgnoreCase(firstName);
+        if(u == null){
+            return false;
+        }
+        return true;
+    }
 }
