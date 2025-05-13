@@ -115,6 +115,13 @@ public class RootController {
         boolean existe = userService.findEmail(email);
         return ResponseEntity.ok(existe ? "EXISTE" : "LIBRE");
     }
+
+    @GetMapping("/checkFirstName")
+    @ResponseBody
+    public ResponseEntity<?> checkFirstName(@RequestParam String firstName) {
+        boolean existe = userService.findFirstname(firstName);
+        return ResponseEntity.ok(existe ? "EXISTE" : "LIBRE");
+    }
     
 
     @GetMapping("/signupstep2")

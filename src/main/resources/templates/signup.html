@@ -20,6 +20,7 @@
                             <input type="text" id="firstNameInput" name="firstName"
                                 class="form-control bg-abaloneshell rounded-pill p-3"
                                 placeholder="Introduzca aquí su nombre" required="required" style="width: 300px;">
+                                <div id="firstNameError" class="ms-3 mt-1" style="color: red;"></div>
                         </div>
                         <div>
                             <label for="lastNameInput" class="ms-3 mb-1 fg-oblivion">Apellidos*</label>
@@ -71,8 +72,9 @@
         </div>
     </main>
 
-    let emailDuplicado = false;
+
     <script>
+    let emailDuplicado = false;
     document.getElementById("emailInput").addEventListener("blur", function () {
         const email = this.value;
         const emailError = document.getElementById("emailError");
@@ -106,6 +108,45 @@
                 console.error("Error al validar el email:", error);
                 emailInput.setCustomValidity(" ");
                 emailDuplicado = true;
+            });
+    });
+    </script>
+    <script>
+    let nombreDuplicado = false;
+    document.getElementById("firstNameInput").addEventListener("blur", function () {
+        const firstName = this.value;
+        const firstNameInput = this;
+        const firstNameError = document.getElementById("firstNameError");
+
+        if (firstName.trim() === "") {
+            firstNameError.textContent = "";
+            firstNameInput.classList.remove("is-invalid");
+            firstNameInput.setCustomValidity("");
+            nombreDuplicado = false;
+            return;
+        }
+
+        fetch(`/checkFirstName?firstName=${encodeURIComponent(firstName)}`)
+            .then(response => response.text())
+            .then(data => {
+                if (data === "EXISTE") {
+                    firstNameError.textContent = "Este nombre ya está registrado.";
+                    document.getElementById("firstNameInput").classList.add("is-invalid");
+                    
+                    firstNameInput.setCustomValidity(" ");
+                    nombreDuplicado = true;
+                } else {
+                    firstNameError.textContent = "";
+                    document.getElementById("firstNameInput").classList.remove("is-invalid");
+                    
+                    firstNameInput.setCustomValidity("");
+                    nombreDuplicado = false;
+                }
+            })
+            .catch(error => {
+                console.error("Error al validar el nombre:", error);
+                firstNameInput.setCustomValidity(" ");
+                nombreDuplicado = true;
             });
     });
     </script>

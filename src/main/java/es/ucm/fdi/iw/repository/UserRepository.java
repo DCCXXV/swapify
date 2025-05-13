@@ -53,5 +53,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
     Page<User> findByUsernameNotAndIdNot(String username, Long excludeId, Pageable pageable);
-
+    User findByFirstNameIgnoreCase(String firstName);
 }
