@@ -79,17 +79,17 @@
                                     <td class="bg-abaloneshell-l0" th:text="|@${user.username}|"></td>
                                     <td class="bg-abaloneshell-l0" th:text="${user.email}"></td>
                                     <td class="bg-abaloneshell-l0">
-
+                                        
                                         <div class="d-flex">
-                                            <form>
-                                                <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
+                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#editUserModal">Editar</button>
-                                            </form>
-                                            <form th:action="@{'/admin/toggle/' + ${user.id}}" method="post">
+                                                    data-bs-target="#editUserModal">Editar
+                                            </button>
+                                        <form th:action="@{'/admin/toggle/' + ${user.id}}" method="post">
                                                 <button class="toggle btn btn-sm bg-oblivion fg-abaloneshell mx-1"
                                                     data-user-id=${user.id}>Deshabilitar usuario</button>
                                             </form>
+                                            
                                         </div>
                                     </td>
                                 </tr>
@@ -160,7 +160,8 @@
                     <div class="modal-header bg-orchid text-white">
                         <h5 class="modal-title">Editar Usuario</h5>
                         <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                            aria-label="Close">
+                        </button>
                     </div>
                     <div class="modal-body">
                         <input type="text" class="form-control bg-abaloneshell mb-2" value="Juan Pérez">
@@ -170,7 +171,7 @@
                             <option>Administrador</option>
                         </select>
                     </div>
-                    <div class="text-center m-3">
+                    <div class="modal-footer">
                         <button type="button" class="btn bg-orchid fg-abaloneshell px-5">Actualizar</button>
                     </div>
                 </div>
@@ -179,12 +180,13 @@
 
         <!-- MODAL: Ver Swap -->
         <div class="modal fade" id="viewSwapModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialo-centered">
                 <div class="modal-content bg-abaloneshell-l0">
                     <div class="modal-header bg-orchid text-white">
                         <h5 class="modal-title">Detalles del Swap</h5>
-                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" 
+                        aria-label="Close">
+                        </button>
                     </div>
                     <div class="modal-body">
                         <p><strong>ID:</strong> <span id="swapId"></span></p>
