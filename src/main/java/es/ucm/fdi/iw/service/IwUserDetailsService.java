@@ -32,13 +32,11 @@ public class IwUserDetailsService implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username){
     	try {
-			/* Usamos repositories en vez de entityManager
-				User u = entityManager.createNamedQuery("User.byUsername", User.class)
-				.setParameter("username", username)
-				.getSingleResult();
-			*/
 	        User u = userRepository.findByUsername(username);
-	        // build UserDetails object
+            if(u == null || u.isDeleted()){
+                log.info("Usuario deshabilitado o no encontrado: " + username);
+                throw new UsernameNotFoundException("Este usuario está deshabilitado o no existe");
+            }
 	        ArrayList<SimpleGrantedAuthority> roles = new ArrayList<>();
 	        for (String r : u.getRoles().split("[,]")) {
 	        	roles.add(new SimpleGrantedAuthority("ROLE_" + r));

@@ -20,8 +20,11 @@ import es.ucm.fdi.iw.model.Review;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -116,6 +119,29 @@ public class AdminController {
         } catch(Exception e) {
             log.error("Error cancelando swap " + id, e);
             return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+        }
+    }
+    
+    @PostMapping("/editarUsuario")
+    @Transactional
+    @ResponseBody
+    public Map<String, Object> editarUsuario(@RequestBody Map<String, Object> info,
+                            Model model,
+                            HttpSession session) {
+        long id = Long.parseLong(info.get("id").toString());
+        String firstName = info.get("firstName").toString();
+        String lastName = info.get("lastName").toString();
+        String username = info.get("username").toString();
+        String email = info.get("email").toString();
+        User user = userService.getUsersByID(id);
+        if (user != null) {
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUsername(username);
+            user.setEmail(email);
+            return Map.of("status", "success");
+        } else {
+            return Map.of("status", "error", "message", "Usuario no encontrado");
         }
     }
     
