@@ -57,7 +57,7 @@
                     <div class="bg-orchid rounded text-white p-2">Gestión de Usuarios</div>
                     <div>
                         <div class="mx-4 p-3">
-                            <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
+                            <input type="text" id="searchUserInput" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
                                 placeholder="Buscar usuario por ID ">
                         </div>
                         <table class="table table-borderless table-striped table-hover fg-oblivion">
@@ -70,7 +70,7 @@
                                     <th class="bg-abaloneshell-l0 fg-oblivion bold">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="usersTbody">
 
                                 <tr th:each="user: ${users}">
                                     <td class="bg-abaloneshell-l0" th:text="${user.id}"></td>
@@ -109,7 +109,7 @@
                     <div class="bg-orchid text-white rounded p-2">Gestión de Swaps</div>
                     <div>
                         <div class="mx-4 p-3">
-                            <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
+                            <input type="text" id="searchSwapInput" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
                                 placeholder="Buscar swap por ID">
                         </div>
                         <table class="table table-borderless table-striped table-hover fg-oblivion">
@@ -123,7 +123,7 @@
                                     <th class="bg-abaloneshell-l0 fg-oblivion bold text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="swapsTbody">
                                 <tr th:each="swap : ${swaps}">
                                     <td class="bg-abaloneshell-l0" th:text="${swap.id}"></td>
                                     <td class="bg-abaloneshell-l0" 
@@ -337,6 +337,95 @@
                 console.error(err);
                 alert("Error de red al actualizar usuario");
             });
+        });
+
+        document.getElementById('searchUserInput').addEventListener('keyup', function(e){
+            if(e.key === 'Enter'){
+                const id = e.target.value.trim();
+                if(!id){
+                    location.reload();
+                    return;
+                }
+                fetch(`/admin/searchUser/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('usersTbody');
+                    if(data.status === "success"){
+                        const user = data.user;
+                        tbody.innerHTML = `<tr>
+                            <td>${user.id}</td>
+                            <td>${user.firstName} ${user.lastName}</td>
+                            <td>@${user.username}</td>
+                            <td>${user.email}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editUserModal"
+                                            data-id="${user.id}"
+                                            data-firstname="${user.firstName}"
+                                            data-lastname="${user.lastName}"
+                                            data-username="${user.username}"
+                                            data-email="${user.email}">
+                                        Editar
+                                    </button>
+                                    <form action="/admin/toggle/${user.id}" method="post">
+                                        <button class="toggle btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-user-id="${user.id}">
+                                            Deshabilitar usuario
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>`;
+                    } else {
+                        tbody.innerHTML = `<tr><td colspan="5" class="text-center">Usuario no encontrado</td></tr>`;
+                    }
+                });
+            }
+        });
+
+        document.getElementById('searchSwapInput').addEventListener('keyup', function(e){
+            if(e.key === 'Enter'){
+                const id = e.target.value.trim();
+                if(!id){
+                    location.reload();
+                    return;
+                }
+                fetch(`/admin/searchSwap/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('swapsTbody');
+                    if(data.status === "success"){
+                        const swap = data.swap;
+                        tbody.innerHTML = `<tr>
+                            <td>${swap.id}</td>
+                            <td>${swap.skillA.name} por ${swap.skillB.name}</td>
+                            <td>${swap.userA.username}</td>
+                            <td>${swap.userB.username}</td>
+                            <td>${swap.swapStatus}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#viewSwapModal"
+                                        data-swap-id="${swap.id}"
+                                        data-skillA="${swap.skillA.name}"
+                                        data-skillB="${swap.skillB.name}"
+                                        data-userA="${swap.userA.username}"
+                                        data-userB="${swap.userB.username}"
+                                        data-status="${swap.swapStatus}">
+                                    Ver
+                                </button>
+                                <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
+                                        onclick="cancelSwap(${swap.id})">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>`;
+                    } else {
+                        tbody.innerHTML = `<tr><td colspan="6" class="text-center">Swap no encontrado</td></tr>`;
+                    }
+                });
+            }
         });
     </script>
 

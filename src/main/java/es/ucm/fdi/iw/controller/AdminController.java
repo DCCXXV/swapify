@@ -25,6 +25,8 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 
 
@@ -142,6 +144,50 @@ public class AdminController {
             return Map.of("status", "success");
         } else {
             return Map.of("status", "error", "message", "Usuario no encontrado");
+        }
+    }
+    
+
+    @GetMapping("/searchUser/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> searchUserById(@PathVariable long id) {
+        User user = userService.getUsersByID(id);
+        if(user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("status", "error", "message", "Usuario no encontrado"));
+        }
+        Map<String, Object> userDto = Map.of(
+             "id", user.getId(),
+             "firstName", user.getFirstName(),
+             "lastName", user.getLastName(),
+             "username", user.getUsername(),
+             "email", user.getEmail()
+        );
+        return ResponseEntity.ok(Map.of("status", "success", "user", userDto));
+    }
+
+    @GetMapping("/searchSwap/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> searchSwapById(@PathVariable long id) {
+        try {
+            Swap swapEntity = swapService.getSwapByID(id);
+            Map<String, Object> skillA = Map.of("name", swapEntity.getSkillA().getName());
+            Map<String, Object> skillB = Map.of("name", swapEntity.getSkillB().getName());
+            Map<String, Object> userA = Map.of("username", swapEntity.getUserA().getUsername());
+            Map<String, Object> userB = Map.of("username", swapEntity.getUserB().getUsername());
+            
+            Map<String, Object> swapDto = Map.of(
+                "id", swapEntity.getId(),
+                "skillA", skillA,
+                "skillB", skillB,
+                "userA", userA,
+                "userB", userB,
+                "swapStatus", swapEntity.getSwapStatus()
+            );
+            return ResponseEntity.ok(Map.of("status", "success", "swap", swapDto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("status", "error", "message", "Swap no encontrado con id: " + id));
         }
     }
     
