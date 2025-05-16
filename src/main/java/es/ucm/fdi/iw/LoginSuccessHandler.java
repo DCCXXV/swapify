@@ -3,7 +3,6 @@ package es.ucm.fdi.iw;
 import java.io.IOException;
 import java.util.Collection;
 
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,48 +17,47 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import es.ucm.fdi.iw.model.User;
-import es.ucm.fdi.iw.model.User.Role;
 import es.ucm.fdi.iw.repository.UserRepository;
 
 /**
  * Called when a user is first authenticated (via login).
  * Called from SecurityConfig; see https://stackoverflow.com/a/53353324
- * 
+ *
  * Adds a "u" variable to the session when a user is first authenticated.
- * Important: the user is retrieved from the database, but is not refreshed at each request. 
+ * Important: the user is retrieved from the database, but is not refreshed at each request.
  * You should refresh the user's information if anything important changes; for example, after
  * updating the user's profile.
  */
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Autowired 
-    private HttpSession session;
-    
     @Autowired
-    private UserRepository userRepository;    
-    
+    private HttpSession session;
+
+    @Autowired
+    private UserRepository userRepository;
+
 	private static Logger log = LogManager.getLogger(LoginSuccessHandler.class);
-	
+
     /**
      * Called whenever a user authenticates correctly.
      */
     @Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-	   
-		/* 
-		  Avoids following warning: 
-		  Cookie “JSESSIONID” will be soon rejected because it has the “SameSite” 
-		  attribute set to “None” or an invalid value, without the “secure” attribute. 
-		  To know more about the “SameSite“ attribute, read 
+
+		/*
+		  Avoids following warning:
+		  Cookie “JSESSIONID” will be soon rejected because it has the “SameSite”
+		  attribute set to “None” or an invalid value, without the “secure” attribute.
+		  To know more about the “SameSite“ attribute, read
 		  https://developer.mozilla.org/docs/Web/HTTP/Headers/Set-Cookie/SameSite
 		*/
 		addSameSiteCookieAttribute(response);
 
 		String username = ((org.springframework.security.core.userdetails.User)
 				authentication.getPrincipal()).getUsername();
-	    
+
 	    // add a 'u' session variable, accessible from thymeleaf via ${session.u}
 	    log.info("Storing user info for {} in session {}", username, session.getId());
 		/* // Usamos repositories
@@ -88,12 +86,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		// redirects to 'admin' or 'user/{id}', depending on the user
 		/*
-		String nextUrl = u.hasRole(User.Role.ADMIN) ? 
+		String nextUrl = u.hasRole(User.Role.ADMIN) ?
 			"admin/" :
 			"user/" + u.getId();
 		*/
 
-		String nextUrl = u.hasRole(User.Role.ADMIN) ? 
+		String nextUrl = u.hasRole(User.Role.ADMIN) ?
 		"admin/" :
 		"/";
 

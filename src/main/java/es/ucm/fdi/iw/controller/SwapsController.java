@@ -44,7 +44,7 @@ import lombok.Setter;
 public class SwapsController {
 
     @ModelAttribute
-    public void populateModel(HttpSession session, Model model) {        
+    public void populateModel(HttpSession session, Model model) {
         for (String name : new String[] {"u", "url", "ws"}) {
             model.addAttribute(name, session.getAttribute(name));
         }
@@ -62,7 +62,7 @@ public class SwapsController {
     private final ReviewService reviewService;
     private final SimpMessagingTemplate messagingTemplate;
 
-    public SwapsController(SwapService swapService, UserService userService, MessageService messageService, 
+    public SwapsController(SwapService swapService, UserService userService, MessageService messageService,
                           ReviewService reviewService, SimpMessagingTemplate messagingTemplate) {
         this.swapService = swapService;
         this.userService = userService;
@@ -76,7 +76,7 @@ public class SwapsController {
     @GetMapping
     public String index(Model model, HttpSession session) {
         log.debug("Loading initial swaps page");
-        model.addAttribute("actual", "swaps"); 
+        model.addAttribute("actual", "swaps");
 
         User.Transfer me = userService.getUsersByID(((User)session.getAttribute("u")).getId()).toTransfer();
         model.addAttribute("currentUser", me);
@@ -155,7 +155,7 @@ public class SwapsController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(Map.of("status", "error", "message", "No autorizado"));
         }
-        
+
         Message savedMessage = messageService.saveNewMessage(tChatMessage.getText(), username, id);
 
         if (savedMessage != null) {
@@ -182,36 +182,36 @@ public class SwapsController {
             }
 
             Swap swap = new Swap();
-            
+
             User userA = userService.getUsersByID(swapRequest.getUserA());
             User userB = userService.getUsersByID(swapRequest.getUserB());
-            
+
             if (userA == null || userB == null) {
                 log.error("Fallo al crear swap: usuario no encontrado");
                 response.put("status", "error");
                 response.put("message", "Usuario no encontrado");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
-            
+
             swap.setUserA(userA);
             swap.setUserB(userB);
-            
+
             Skill skillA = swapService.getSkillByName(swapRequest.getSkillA());
             Skill skillB = swapService.getSkillByName(swapRequest.getSkillB());
-            
+
             if (skillA == null || skillB == null) {
                 log.error("Fallo al crear swap: skill no encontrada");
                 response.put("status", "error");
                 response.put("message", "Habilidad no encontrada");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
-            
+
             swap.setSkillA(skillA);
             swap.setSkillB(skillB);
-            
+
             Swap.Transfer savedSwap = swapService.saveSwap(swap);
             log.info("Creado el swap con ID: {}", savedSwap.getId());
-            
+
             response.put("status", "success");
             response.put("message", "Swap creado con éxito");
             response.put("id", savedSwap.getId());
@@ -241,33 +241,33 @@ public class SwapsController {
             }
 
             Swap swap = swapService.getSwapByID(id);
-            
+
             if (swap.getSwapStatus() != Swap.Status.FINISHED) {
                 response.put("status", "error");
                 response.put("message", "No se puede escribir una reseña para un swap que no está finalizado");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
-            
+
             boolean isUserA = swap.getUserA().getId() == currentUser.getId();
             boolean isUserB = swap.getUserB().getId() == currentUser.getId();
-            
+
             if (!isUserA && !isUserB) {
                 response.put("status", "error");
                 response.put("message", "No puedes escribir una reseña para un swap en el que no participaste");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
-            
+
             if ((isUserA && swap.getReviewA() != null) || (isUserB && swap.getReviewB() != null)) {
                 response.put("status", "error");
                 response.put("message", "Ya has enviado una reseña para este swap");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
-            
+
             Review review = new Review();
             review.setText(reviewRequest.getText());
             review.setRating(reviewRequest.getRating());
             review.setSwapId(id);
-            
+
             if (isUserA) {
                 review.setUserA(currentUser);  // quien escribe la reseña
                 review.setUserB(swap.getUserB());  // quien recibe la reseña
@@ -283,10 +283,10 @@ public class SwapsController {
                 review.setSkillB(swap.getSkillA());  // habilidad evaluada (la de A)
                 swap.setReviewB(review);
             }
-            
+
             reviewService.saveReview(review);
             swapService.saveSwap(swap);
-            
+
             response.put("status", "success");
             response.put("message", "Reseña enviada con éxito");
             return ResponseEntity.ok(response);
@@ -299,7 +299,7 @@ public class SwapsController {
 
     @PostMapping("/{id}/finishSwap")
     public String finishSwap(@PathVariable long id) {
-        Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.FINISHED);
+        swapService.updateStatus(id, Swap.Status.FINISHED);
 
         messagingTemplate.convertAndSend("/topic/swap/" + id, Map.of(
             "type", "swapFinished",
@@ -311,7 +311,7 @@ public class SwapsController {
 
     @PostMapping("/{id}/acceptSwap")
     public String acceptSwap(@PathVariable long id) {
-        Swap.Transfer swap = swapService.updateStatus(id, Swap.Status.ACTIVE);
+        swapService.updateStatus(id, Swap.Status.ACTIVE);
         return "redirect:/swaps";
     }
 

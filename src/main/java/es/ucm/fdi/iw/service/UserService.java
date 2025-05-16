@@ -10,7 +10,6 @@ import es.ucm.fdi.iw.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 @Service
 public class UserService {
@@ -59,13 +58,13 @@ public class UserService {
          * El resultado final es una lista de objetos User.Transfer que se puede utilizar para
          * transferir datos de usuario en un formato más limpio y flexible.
          */
-        
+
         return userRepository.findByUsernameNot("a")
             .stream()
             .map(User::toTransfer)
             .collect(Collectors.toList());
     }
-    
+
     public List<User.Transfer> getUsersByKeyword(String keyword) {
         return userRepository.findByUsernameContainingIgnoreCase(keyword)
             .stream()

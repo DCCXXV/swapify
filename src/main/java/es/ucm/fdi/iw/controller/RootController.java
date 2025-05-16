@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.util.Base64;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +37,6 @@ import jakarta.servlet.http.HttpSession;
  */
 @Controller
 public class RootController {
-
-    private static final Logger log = LogManager.getLogger(RootController.class);
 
     @Autowired
     private UserService userService;
@@ -80,7 +76,7 @@ public class RootController {
         Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
                 List<User.Transfer> userTransfers = pagedUsers.getContent()
                 .stream().map(User::toTransfer).toList();
-        
+
         model.addAttribute("users", userTransfers);
         model.addAttribute("hasMore", pagedUsers.hasNext());
         model.addAttribute("currentPage", page);
@@ -122,7 +118,7 @@ public class RootController {
         boolean existe = userService.findFirstname(firstName);
         return ResponseEntity.ok(existe ? "EXISTE" : "LIBRE");
     }
-    
+
 
     @GetMapping("/signupstep2")
     public String processSignupStep2(HttpServletRequest request, HttpSession session) {
@@ -167,7 +163,7 @@ public class RootController {
         newUser.setDescription(description);
         newUser.setUsername(email.substring(0, email.indexOf("@")));
         userService.registerUser(newUser);
-        
+
         if (photoBase64 != null && !photoBase64.isBlank()) {
             // Suele venir "data:image/png;base64,iVBORw0KGgoAAA..."
             // Quitamos la parte "data:image/...;base64,"
@@ -230,7 +226,7 @@ public class RootController {
         model.addAttribute("query", keyword);
         model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
 
-        if(me == null){        
+        if(me == null){
             model.addAttribute("users", userService.getUsersByKeyword(keyword));
         }else{
             model.addAttribute("users", userService.getUsersByKeywordWithoutUser(keyword, me));
@@ -245,14 +241,14 @@ public class RootController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size,
             HttpSession session) {
-    
+
         User currentUser = (User) session.getAttribute("u");
-    
+
         Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
         return pagedUsers.getContent()
                          .stream()
                          .map(User::toTransfer)
                          .toList();
     }
-    
+
 }
