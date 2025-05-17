@@ -222,7 +222,9 @@ public class RootController {
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "query", required = false) String keyword, Model model, HttpSession session) {
-        User me = (User) session.getAttribute("u");
+        //User me = (User) session.getAttribute("u");
+        User me = userService.getUsersByID(((User) session.getAttribute("u")).getId());
+        model.addAttribute("me", me.toTransfer());
         model.addAttribute("query", keyword);
         model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
 

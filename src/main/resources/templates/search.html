@@ -4,6 +4,10 @@
     <head>
         <th:block th:replace="fragments/head :: header" />
         <title> Search | Swapify</title>
+        <script th:inline="javascript">
+            const users = [[${users}]];
+            const me = [[${me}]];
+        </script>
     </head>
 
     <body class="d-flex flex-column h-100 bg-abaloneshell">
@@ -53,7 +57,6 @@
                         th:action="@{/search}">
 
                         <div class="search-bar d-flex">
-                        </button>
                         <input type="text"
                             class="form-control rounded-pill bg-abaloneshell fg-oblivion p-3 me-4"
                             name="query"
@@ -129,11 +132,14 @@
                             <h3 class="bold">Usuarios</h3>
                             <div class="hr-swp"></div>
                             <div th:if="${not users.isEmpty()}" class="mt-3">
-                                <div th:each="user : ${users}" class="rounded bg-abaloneshell mb-3 p-3">
+                                <div th:each="user, userStat : ${users}" class="rounded bg-abaloneshell mb-3 p-3">
                                     <div class="fg-oblivion align-items-center">
                                         <div class="d-flex justify-content-between mb-3">
                                             <div class="bold fs-4" th:text="${user.firstName}"></div>
-                                            <button class="btn rounded bg-oblivion fg-abaloneshell bold text-center">Swap!</button>
+                                            <button class="btn rounded bg-oblivion fg-abaloneshell bold text-center"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#swapModal"
+                                                    th:data-user-idx="${userStat.index}">Swap!</button>
                                         </div>
                                         <div th:text="${user.description}"></div>
                                         <div>
@@ -166,11 +172,14 @@
                             <h3 class="bold">Usuarios</h3>
                             <div class="hr-swp"></div>
                             <div th:if="${not users.isEmpty()}" class="mt-3">
-                                <div th:each="user : ${users}" class="rounded bg-abaloneshell mb-3 p-3">
+                                <div th:each="user, userStat : ${users}" class="rounded bg-abaloneshell mb-3 p-3">
                                     <div class="fg-oblivion align-items-center">
                                         <div class="d-flex justify-content-between mb-3">
                                             <div class="bold fs-4" th:text="${user.firstName}"></div>
-                                            <button class="btn rounded bg-oblivion fg-abaloneshell bold text-center">Swap!</button>
+                                            <button class="btn rounded bg-oblivion fg-abaloneshell bold text-center"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#swapModal"
+                                                    th:data-user-idx="${userStat.index}">Swap!</button>
                                         </div>
                                         <div th:text="${user.description}"></div>
                                         <div>
@@ -204,5 +213,149 @@
             </div>
         </main>
         <th:block th:replace="fragments/footer.html :: footer" />
+        <!-- Modal reutilizado de index.html -->
+        <div class="modal fade" id="swapModal" tabindex="-1" aria-labelledby="swapModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-abaloneshell fg-oblivion">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="swapModalLabel">Confirmar Swap</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-center">
+                            <div class="d-flex flex-column">
+                                <img id="swapUserPic" class="img-fluid rounded me-3" style="width: 100px;" alt="Foto de perfil">
+                                <h5 id="swapUserName" class="my-2"></h5>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="fg-lushaqua">
+                            <h5>Habilidades que enseña:</h5>
+                            <div id="swapUserSkills" class="mb-3"></div>
+                        </div>
+                        <hr>
+                        <div class="fg-orchid">
+                            <h5>Tu habilidad a ofrecer:</h5>
+                            <div id="yourSkills" class="mb-3"></div>
+                        </div>
+                        <input type="hidden" id="selectedUserSkill" value="">
+                        <input type="hidden" id="selectedYourSkill" value="">
+                    </div>
+                    <div class="px-3">
+                        <label for="messageInput" class="mb-1 fg-oblivion">Mensaje</label>
+                        <textarea id="messageInputInput" class="form-control bg-abaloneshell-l0 rounded p-3 me-4 border-0"
+                            placeholder="Envia un mensaje a usuario"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-abaloneshell fg-orchid" data-bs-dismiss="modal">Volver</button>
+                        <button type="button" class="btn bg-orchid fg-abaloneshell" id="confirmSwap">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const swapModal = document.getElementById("swapModal");
+                const confirmSwapButton = document.getElementById("confirmSwap");
+                let selectedUser = null;
+
+                swapModal.addEventListener("show.bs.modal", (event) => {
+                    const button = event.relatedTarget;
+                    const userIdx = button.dataset.userIdx;
+                    selectedUser = users[userIdx];
+
+                    document.getElementById("swapUserPic").src = `/user/${selectedUser.id}/pic`;
+                    document.getElementById("swapUserName").textContent = selectedUser.firstName + " " + selectedUser.lastName;
+
+                    // Limpiar selecciones previas
+                    document.getElementById("selectedUserSkill").value = "";
+                    document.getElementById("selectedYourSkill").value = "";
+                    
+                    const userSkillsContainer = document.getElementById("swapUserSkills");
+                    userSkillsContainer.innerHTML = "";
+                    
+                    if (selectedUser.currentSkills && selectedUser.currentSkills.length > 0) {
+                        selectedUser.currentSkills.forEach((skillName, index) => {
+                            const badge = document.createElement("span");
+                            badge.className = "badge rounded-pill bg-lushaqua m-1 p-2 px-3 skill-badge";
+                            badge.textContent = skillName;
+                            badge.dataset.skill = "skill_" + index;
+                            badge.dataset.skillName = skillName;
+                            
+                            badge.addEventListener("click", function() {
+                                userSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
+                                    b.classList.remove("selected-badge");
+                                    b.removeAttribute("data-selected");
+                                });
+                                this.setAttribute("data-selected", "true");
+                                this.classList.add("selected-badge");
+                                document.getElementById("selectedUserSkill").value = skillName;
+                                document.getElementById("swapUserSkillDesc").textContent = 
+                                    selectedUser.firstName + " puede enseñarte " + skillName + " con sus conocimientos en esta área.";
+                            });
+                            userSkillsContainer.appendChild(badge);
+                        });
+                    } else {
+                        userSkillsContainer.innerHTML = "<p class='fg-lushaqua'>No tiene habilidades disponibles</p>";
+                    }
+
+                    const yourSkillsContainer = document.getElementById("yourSkills");
+                    yourSkillsContainer.innerHTML = "";
+                    
+                    if (me && me.currentSkills && me.currentSkills.length > 0) {
+                        me.currentSkills.forEach((skillName, index) => {
+                            const badge = document.createElement("span");
+                            badge.className = "badge rounded-pill bg-orchid m-1 p-2 px-3 skill-badge";
+                            badge.textContent = skillName;
+                            badge.dataset.skill = "my_skill_" + index;
+                            badge.dataset.skillName = skillName;
+                            
+                            badge.addEventListener("click", function() {
+                                yourSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
+                                    b.classList.remove("selected-badge");
+                                    b.removeAttribute("data-selected");
+                                });
+                                this.setAttribute("data-selected", "true");
+                                this.classList.add("selected-badge");
+                                document.getElementById("selectedYourSkill").value = skillName;
+                                document.getElementById("yourSkillDesc").textContent = 
+                                    "Puedo enseñar " + skillName + " con mi experiencia y conocimientos en esta área.";
+                            });
+                            yourSkillsContainer.appendChild(badge);
+                        });
+                    } else {
+                        yourSkillsContainer.innerHTML = "<p class='fg-orchid'>No tienes habilidades disponibles</p>";
+                    }
+                });
+
+                confirmSwapButton.addEventListener("click", () => {
+                    const selectedUserSkillElement = document.querySelector('#swapUserSkills .skill-badge[data-selected="true"]');
+                    const selectedYourSkillElement = document.querySelector('#yourSkills .skill-badge[data-selected="true"]');
+
+                    if (!selectedUserSkillElement || !selectedYourSkillElement) {
+                        alert("Por favor, selecciona una habilidad de cada usuario");
+                        return;
+                    }
+
+                    fetch("/swaps/create", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": config.csrf.value
+                        },
+                        body: JSON.stringify({
+                            userA: me.id,
+                            userB: selectedUser.id,
+                            skillA: selectedYourSkillElement.dataset.skillName,
+                            skillB: selectedUserSkillElement.dataset.skillName
+                        })
+                    })
+                    .then(response => response.ok ? response.json() : Promise.reject(response))
+                    .then(() => window.location.href = "/swaps")
+                    .catch(err => alert("Error al crear el swap: " + err.message));
+                });
+            });
+        </script>
     </body>
 </html>
