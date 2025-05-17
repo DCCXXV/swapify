@@ -7,6 +7,10 @@
 </head>
 
 <body class="d-flex flex-column h-100 bg-abaloneshell rounded">
+    <script th:if="${session.u != null}" th:inline="javascript">
+        window.mySwapIds = /*[[${allMySwapIds}]]*/ [];
+    </script>
+    <script th:if="${session.u != null}" src="/js/swap-notifications.js"></script>
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
@@ -62,9 +66,7 @@
                         <p th:text="${currentSkill.description}">Defecto</p>
                         <h5 class="fg-lushaqua bold me-3">Reseñas</h5>
                         <div th:if="${#lists.isEmpty(reviewsBySkill.get(currentSkill.id))}">
-                            <div class="col-12 card bg-oblivion fg-abaloneshell text-center p-3">
-                                <p class="fg-muted">Todavía no tiene reseñas</p>
-                            </div>
+                            <p class="fg-oblivion" th:text="${user.username + ' todavía no tiene reseñas en ' + currentSkill.skill.name}">Todavía no tiene reseñas</p>
                         </div>
                         <div th:if="${!#lists.isEmpty(reviewsBySkill.get(currentSkill.id))}">
                             <div class="mb-4">
@@ -113,7 +115,6 @@
                 </div>
             </div>
         </div>
-
 
         </div>
     </main>

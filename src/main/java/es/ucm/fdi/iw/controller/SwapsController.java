@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +90,10 @@ public class SwapsController {
 
         List<Swap.Transfer> pendingSwaps = swapService.getPendingByUsername(me.getUsername());
         model.addAttribute("pendingSwaps", pendingSwaps);
+
+        List<Long> swapIds = swapService.getAllByUsername(me.getUsername()).stream().map(Swap.Transfer::getId).toList();
+        if (swapIds == null) swapIds = new ArrayList<>();
+        model.addAttribute("allMySwapIds", swapIds);
 
         return "swaps";
     }

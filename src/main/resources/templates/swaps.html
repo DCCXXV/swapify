@@ -7,6 +7,10 @@
 </head>
 
 <body class="d-flex flex-column h-100 bg-abaloneshell" style="overflow-x: hidden" id="swapbody">
+    <script th:if="${session.u != null}" th:inline="javascript">
+        window.mySwapIds = /*[[${allMySwapIds}]]*/ [];
+    </script>
+    <script th:if="${session.u != null}" src="/js/swap-notifications.js"></script>
     <header th:replace="fragments/nav.html :: nav"></header>
     <main class="container-fluid m-3 flex-grow-1">
         <div class="row me-3 h-100">

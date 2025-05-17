@@ -2,7 +2,6 @@ package es.ucm.fdi.iw.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +77,7 @@ public class SwapService {
     public Skill getSkillById(long skillId) {
         return skillRepository.findById(skillId);
     }
-    
+
     public Skill getSkillByName(String skillName) {
         return skillRepository.findByName(skillName);
     }
@@ -121,7 +120,7 @@ public class SwapService {
     public void deleteSwapById(Long id) {
         Swap swap = swapRepository.findById(id)
             .orElseThrow(() -> new NoSuchElementException("Swap no encontrado con id: " + id));
-            
+
         swapRepository.delete(swap);
     }
 }

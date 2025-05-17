@@ -31,7 +31,7 @@ import java.util.List;
 public class User implements Transferable<User.Transfer> {
 
     public enum Role {
-        USER,			// normal users 
+        USER,			// normal users
         ADMIN,          // admin users
     }
 
@@ -60,14 +60,6 @@ public class User implements Transferable<User.Transfer> {
     private boolean deleted;
     private String roles; // split by ',' to separate roles
 
-	@OneToMany
-	@JoinColumn(name = "sender_id")
-	private List<Message> sent = new ArrayList<>();
-	@OneToMany
-	@JoinColumn(name = "recipient_id")	
-	private List<Message> received = new ArrayList<>();	
-    
-    
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CurrentSkill> currentSkills;
 
@@ -97,9 +89,6 @@ public class User implements Transferable<User.Transfer> {
 
         List<String> currentSkills;
         List<String> desiredSkills;
-
-		private int totalReceived;
-		private int totalSent;
     }
 
     private static List<String> skillsToList(List<?> skills) {
@@ -114,14 +103,13 @@ public class User implements Transferable<User.Transfer> {
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,	username, firstName, lastName, description, pic, email, 
-            skillsToList(currentSkills), 
-            skillsToList(desiredSkills), received.size(), sent.size());
+		return new Transfer(id,	username, firstName, lastName, description, pic, email,
+            skillsToList(currentSkills),
+            skillsToList(desiredSkills));
 	}
-	
+
 	@Override
 	public String toString() {
 		return toTransfer().toString();
 	}
 }
-

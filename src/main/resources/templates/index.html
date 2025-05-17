@@ -1,114 +1,22 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<th:block th:replace="fragments/head :: header" />
-		<title>Inicio | Swapify</title>
-		<script th:inline="javascript">
-			const users = [[${users}]];
-			const me = [[${me}]];
-		</script>		
-	</head>
-
-	<body class="d-flex flex-column h-100 bg-abaloneshell">
-		<header th:replace="fragments/nav.html :: nav"></header>
+    <head>
+        <th:block th:replace="fragments/head :: header" />
+        <title>Inicio | Swapify</title>
+        <script th:inline="javascript">
+            const users = [[${users}]];
+            const me = [[${me}]];
+        </script>
+    </head>
+    <body class="d-flex flex-column h-100 bg-abaloneshell">
+        <script th:if="${session.u != null}" th:inline="javascript">
+            window.mySwapIds = /*[[${allMySwapIds}]]*/ [];
+        </script>
+        <script th:if="${session.u != null}" src="/js/swap-notifications.js"></script>
+        <header th:replace="fragments/nav.html :: nav"></header>
 		<main class="flex-shrink-0">
 			<div class="container">
-				<!--
-				<h2 class="mt-4 fg-orchid bold">Usuarios recomendados</h2>
-				<hr class="hr-swp">
-
-				<h4 class="fg-orchid ms-2 mb-3">Filtrando por: </h4>
-				<div class="d-flex align-items-center mb-2 bg-abaloneshell-l0 p-2 rounded-pill justify-content-between">
-					<div class="d-flex align-items-center">
-						<span class="fg-oblivion ms-3">Habilidades que buscas: </span>
-						<div class="d-flex align-items-center row-md-8 ms-3 flex-nowrap overflow-auto">
-							<span class="badge rounded-pill bg-lushaqua p-2 pe-3 mx-2" id="badge1">
-								<i hx-get="#del" hx-target="#badge1" hx-swap="delete" class="bi bi-x fs-5 badge-cancel"></i>
-								Inglés
-							</span>
-
-							<span class="badge rounded-pill bg-lushaqua p-2 pe-3 mx-2">
-								<i class="bi bi-x fs-5 badge-cancel"></i>
-								Francés
-							</span>
-						</div>
-					</div>
-					<form>
-						<input
-							type="text"
-							class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
-							placeholder="Añadir habilidad">
-					</form>
-				</div>
-
-				<div class="d-flex align-items-center mb-2 bg-abaloneshell-l0 p-2 rounded-pill justify-content-between">
-					<div class="d-flex align-items-center">
-						<span class="fg-oblivion ms-3">Habilidades que puedes ofrecer: </span>
-						<div class="d-flex align-items-center row-md-8 ms-3 flex-nowrap overflow-auto">
-							<span class="badge rounded-pill bg-orchid p-2 pe-3 mx-2">
-								<i class="bi bi-x fs-5 badge-cancel"></i>
-								Programación en Java
-							</span>
-							<span class="badge rounded-pill bg-orchid p-2 pe-3 mx-2">
-								<i class="bi bi-x fs-5 badge-cancel"></i>
-								Diseño gráfico
-							</span>
-							<span class="badge rounded-pill bg-orchid p-2 pe-3 mx-2">
-								<i class="bi bi-x fs-5 badge-cancel"></i>
-								Edición de fotografía
-							</span>
-							<span class="badge rounded-pill bg-orchid p-2 pe-3 mx-2">
-								<i class="bi bi-x fs-5 badge-cancel"></i>
-								Cocina
-							</span>
-						</div>
-					</div>
-
-					<form>
-						<input
-							type="text"
-							class="form-control rounded-pill bg-abaloneshell fg-oblivion p-2 ps-3 fg-oblivion"
-							placeholder="Añadir habilidad">
-					</form>
-				</div>
-
-				<div class="row flex-nowrap overflow-auto mt-4">
-					<div th:each="usr,i : ${users}" class="col-4 card mb-3 me-3 bg-oblivion" style="max-width: 450px; height: 275px;">
-						<div class="row g-0 h-100">
-							<div class="col-md-4 d-flex align-items-center justify-content-center">
-								<img th:src="@{'/user/${usr.id}/pic'}" class="img-fluid rounded fg-abaloneshell" alt="Foto de perfil">
-							</div>
-							<div class="col-md-8">
-								<div class="card-body p-0" style="height: 255px;">
-									<div class="d-flex justify-content-between oblivion py-3 px-1">
-										<span class="card-title fg-gold bold ps-3 fs-5" th:text="${usr.firstName}">Name</span>
-										<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 ms-2 text-center"
-											data-bs-toggle="modal"
-											data-bs-target="#swapModal"
-											th:attr="data-user-idx=${i}">
-											Swap!
-										</button>
-									</div>
-									<div class="fg-abaloneshell overflow-auto px-3">
-										<p class="card-text fg-muted" th:text="${usr.description ?: 'Descripción no disponible'}">Description</p>
-										<p class="card-text">
-											<div class="row-md-8 mb-3">
-												<span th:each="skill : ${usr.currentSkills != null ? usr.currentSkills : {}}" class="badge rounded-pill bg-lushaqua m-1"
-													th:text="${skill}">Skill</span>
-											</div>
-											<div class="row-md-8">
-												<span th:each="skill : ${usr.desiredSkills != null ? usr.desiredSkills : {}}" class="badge rounded-pill bg-orchid me-1"
-													th:text="${skill}">Skill</span>
-											</div>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				-->
 				<h2 class="mt-5 fg-orchid bold">Habilidades más pedidas</h2>
 				<hr class="hr-swp">
 				<div id="carouseldHabilidadesPedidasCerca" class="carousel slide" data-bs-ride="carousel">
@@ -220,9 +128,9 @@
 								Cargar más
 							</button>
 							<div class="flex-grow-1 load-more-line"></div>
-						</div>						
+						</div>
 					</th:block>
-	
+
 				</div>
 
 				<h2 class="mt-5 fg-orchid bold">Habilidades más comunes</h2>
@@ -346,14 +254,14 @@
 					document.getElementById("selectedYourSkill").value = "";
 					document.getElementById("swapUserSkillDesc").textContent = "Selecciona una habilidad";
 					document.getElementById("yourSkillDesc").textContent = "Selecciona una habilidad";
-					
+
 					document.getElementById("swapUserPic").src = "/user/" + selectedUser.id + "/pic";
 					document.getElementById("swapUserName").textContent = selectedUser.firstName + " " + selectedUser.lastName;
-					
+
 					// Habilidades del usuario seleccionado
 					const userSkillsContainer = document.getElementById("swapUserSkills");
 					userSkillsContainer.innerHTML = "";
-					
+
 					if (selectedUser.currentSkills && selectedUser.currentSkills.length > 0) {
 						selectedUser.currentSkills.forEach((skillName, index) => {
 							const badge = document.createElement("span");
@@ -362,17 +270,17 @@
 							badge.dataset.skill = "skill_" + index;
 							badge.dataset.skillName = skillName;
 							badge.id = "currentSkill" + index
-							
+
 							badge.addEventListener("click", function() {
 								userSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
 									b.classList.remove("selected-badge");
 									b.removeAttribute("data-selected");
 								});
 								this.setAttribute("data-selected", "true");
-								this.classList.add("selected-badge"); 
+								this.classList.add("selected-badge");
 								document.getElementById("selectedUserSkill").value = this.dataset.skill;
-								
-								document.getElementById("swapUserSkillDesc").textContent = 
+
+								document.getElementById("swapUserSkillDesc").textContent =
 									selectedUser.firstName + " puede enseñarte " + skillName + " con sus conocimientos en esta área.";
 							});
 							userSkillsContainer.appendChild(badge);
@@ -380,11 +288,11 @@
 					} else {
 						userSkillsContainer.innerHTML = "<p class='fg-lushaqua'>No tiene habilidades disponibles</p>";
 					}
-					
+
 					// Tus propias habilidades
 					const yourSkillsContainer = document.getElementById("yourSkills");
 					yourSkillsContainer.innerHTML = "";
-					
+
 					if (me && me.currentSkills && me.currentSkills.length > 0) {
 
 						me.currentSkills.forEach((skillName, index) => {
@@ -394,17 +302,17 @@
 							badge.dataset.skill = "my_skill_" + index;
 							badge.dataset.skillName = skillName;
 							badge.id = "desiredSkill" + index
-							
+
 							badge.addEventListener("click", function() {
 								yourSkillsContainer.querySelectorAll(".skill-badge").forEach(b => {
-									b.classList.remove("selected-badge"); 
+									b.classList.remove("selected-badge");
 									b.removeAttribute("data-selected");
 								});
 								this.setAttribute("data-selected", "true");
 								this.classList.add("selected-badge");
 								document.getElementById("selectedYourSkill").value = this.dataset.skill;
-								
-								document.getElementById("yourSkillDesc").textContent = 
+
+								document.getElementById("yourSkillDesc").textContent =
 									"Puedo enseñar " + skillName + " con mi experiencia y conocimientos en esta área.";
 							});
 							yourSkillsContainer.appendChild(badge);
@@ -417,22 +325,22 @@
 				confirmSwapButton.addEventListener("click", () => {
 					const selectedUserSkillElement = document.querySelector('#swapUserSkills .skill-badge[data-selected="true"]');
 					const selectedYourSkillElement = document.querySelector('#yourSkills .skill-badge[data-selected="true"]');
-					
+
 					if (!selectedUserSkillElement || !selectedYourSkillElement) {
 						alert("Por favor, selecciona una habilidad de cada usuario.");
 						return;
 					}
-					
+
 					const userSkillName = selectedUserSkillElement.dataset.skillName;
 					const yourSkillName = selectedYourSkillElement.dataset.skillName;
-					
+
 					console.log("Creando swap:", {
 						userSkill: userSkillName,
 						yourSkill: yourSkillName,
 						userA: me.id,
 						userB: selectedUser.id
 					});
-					
+
 					fetch("/swaps/create", {
 						method: "POST",
 						headers: {
@@ -443,7 +351,7 @@
 							userA: me.id,
 							userB: selectedUser.id,
 							skillA: yourSkillName,
-							skillB: userSkillName 
+							skillB: userSkillName
 						})
 					})
 					.then(response => {
@@ -468,7 +376,7 @@
 		<script th:inline="javascript">
 			let currentPage = /*[[${currentPage}]]*/ 0;
 			const size = 9;
-		
+
 			document.getElementById("loadMoreBtn").addEventListener("click", () => {
 				fetch(`/loadMoreUsers?page=${++currentPage}&size=${size}`)
 					.then(response => response.json())
@@ -476,13 +384,13 @@
 						const container = document.getElementById("userContainer");
 						const startIndex = users.length;
 						users.push(...newUsers);
-		
+
 						newUsers.forEach((user, i) => {
 							const userIndex = startIndex + i;
 							const card = document.createElement("div");
 							card.className = "col card bg-oblivion";
 							card.style = "width: 419px; height: 265px;";
-		
+
 							card.innerHTML = `
 								<div class="d-flex h-100">
 									<div class="col-md-4 d-flex align-items-center justify-content-center mb-3">
@@ -502,7 +410,7 @@
 													</a>
 												</div>
 												<button class="btn rounded bg-abaloneshell fg-oblivion bold p-1 px-2 ms-2 text-center"
-													data-bs-toggle="modal" 
+													data-bs-toggle="modal"
 													data-bs-target="#swapModal"
 													data-user-idx="${userIndex}">
 													Swap!
@@ -525,10 +433,10 @@
 									</div>
 								</div>
 							`;
-		
+
 							container.appendChild(card);
 						});
-		
+
 						// Oculta el botón si no quedan más
 						if (newUsers.length < size) {
 							document.getElementById("loadMoreBtn").style.display = "none";
@@ -536,7 +444,7 @@
 					});
 			});
 		</script>
-		
+
 
 		<th:block th:replace="fragments/footer.html :: footer" />
 	</body>

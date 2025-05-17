@@ -3,6 +3,7 @@ package es.ucm.fdi.iw.controller;
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Review;
+import es.ucm.fdi.iw.model.Swap;
 import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
@@ -10,6 +11,7 @@ import es.ucm.fdi.iw.model.User.Role;
 import es.ucm.fdi.iw.service.CurrentSkillService;
 import es.ucm.fdi.iw.service.DesiredSkillService;
 import es.ucm.fdi.iw.service.ReviewService;
+import es.ucm.fdi.iw.service.SwapService;
 import es.ucm.fdi.iw.service.UserService;
 
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +48,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
@@ -70,6 +73,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+    @Autowired
+    private SwapService swapService;
+
 	@Autowired
 	private ReviewService reviewService;
 
@@ -89,7 +95,7 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 
     @ModelAttribute
-    public void populateModel(HttpSession session, Model model) {        
+    public void populateModel(HttpSession session, Model model) {
         for (String name : new String[] {"u", "url", "ws"}) {
             model.addAttribute(name, session.getAttribute(name));
         }
@@ -97,12 +103,12 @@ public class UserController {
 
 	/**
      * Exception to use when denying access to unauthorized users.
-     * 
+     *
      * In general, admins are always authorized, but users cannot modify
      * each other's profiles.
      */
 	@ResponseStatus(
-		value=HttpStatus.FORBIDDEN, 
+		value=HttpStatus.FORBIDDEN,
 		reason="No eres administrador, y éste no es tu perfil")  // 403
 	public static class NoEsTuPerfilException extends RuntimeException {}
 
@@ -112,7 +118,7 @@ public class UserController {
 	 * encodings, since encodings contain a randomly-generated salt.
 	 * @param rawPassword to encode
 	 * @return the encoded password (typically a 60-character string)
-	 * for example, a possible encoding of "test" is 
+	 * for example, a possible encoding of "test" is
 	 * {bcrypt}$2y$12$XCKz0zjXAP6hsFyVc8MucOzx6ER6IsC1qo5zQbclxhddR1t6SfrHm
 	 */
 	public String encodePassword(String rawPassword) {
@@ -138,23 +144,27 @@ public class UserController {
     public String index(@PathVariable long id, Model model, HttpSession session) {
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
-        
+
         List<CurrentSkill> currentSkills = currentSkillService.getAllByUserId(id);
         model.addAttribute("currentSkills", currentSkills);
         model.addAttribute("desiredSkills", desiredSkillService.getAllByUserId(id));
 
         List<Review.Transfer> reviews = reviewService.getAllByUsername(target.getUsername());
         model.addAttribute("reviews", reviews);
-        
+
         Map<Long, List<Review.Transfer>> reviewsBySkill = new HashMap<>();
         for (CurrentSkill cs : currentSkills) {
-            List<Review.Transfer> filtered = reviews.stream().filter(r -> 
+            List<Review.Transfer> filtered = reviews.stream().filter(r ->
                 r.getSkillB().equals(cs.getSkill().getName())
             ).collect(Collectors.toList());
             reviewsBySkill.put(cs.getId(), filtered);
         }
         model.addAttribute("reviewsBySkill", reviewsBySkill);
-        
+
+        List<Long> swapIds = swapService.getAllByUsername(target.getUsername()).stream().map(Swap.Transfer::getId).toList();
+        if (swapIds == null) swapIds = new ArrayList<>();
+        model.addAttribute("allMySwapIds", swapIds);
+
         return "user";
     }
 
@@ -165,11 +175,11 @@ public class UserController {
 	@Transactional
 	public String postUser(
 			HttpServletResponse response,
-			@PathVariable long id, 
-			@ModelAttribute User edited, 
+			@PathVariable long id,
+			@ModelAttribute User edited,
 			@RequestParam(required=false) String pass2,
 			Model model, HttpSession session) throws IOException {
-		
+
         User requester = (User)session.getAttribute("u");
         User target = null;
         if (id == -1 && requester.hasRole(Role.ADMIN)) {
@@ -181,19 +191,19 @@ public class UserController {
             entityManager.flush(); // forces DB to add user & assign valid id
             id = target.getId();   // retrieve assigned id from DB
         }
-        
+
         // retrieve requested user
         target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
 
 		// TODO: Fallo aquí, no funciona el "actual"
 		model.addAttribute("actual", "profile");
-		
+
 		if (requester.getId() != target.getId() &&
 				! requester.hasRole(Role.ADMIN)) {
 			throw new NoEsTuPerfilException();
 		}
-		
+
 		if (edited.getPassword() != null) {
             if ( ! edited.getPassword().equals(pass2)) {
                 log.warn("Passwords do not match - returning to user form");
@@ -204,7 +214,7 @@ public class UserController {
                 // save encoded version of password
                 target.setPassword(encodePassword(edited.getPassword()));
             }
-		}		
+		}
 		target.setUsername(edited.getUsername());
 		target.setFirstName(edited.getFirstName());
 		target.setLastName(edited.getLastName());
@@ -215,11 +225,11 @@ public class UserController {
         }
 
 		return "user";
-	}	
+	}
 
     /**
      * Returns the default profile pic
-     * 
+     *
      * @return
      */
     private static InputStream defaultPic() {
@@ -230,7 +240,7 @@ public class UserController {
 
     /**
      * Downloads a profile pic for a user id
-     * 
+     *
      * @param id
      * @return
      * @throws IOException
@@ -244,26 +254,26 @@ public class UserController {
 
     /**
      * Uploads a profile pic for a user id
-     * 
+     *
      * @param id
      * @return
      * @throws IOException
      */
     @PostMapping("{id}/pic")
 	@ResponseBody
-    public String setPic(@RequestParam("photo") MultipartFile photo, @PathVariable long id, 
+    public String setPic(@RequestParam("photo") MultipartFile photo, @PathVariable long id,
         HttpServletResponse response, HttpSession session, Model model) throws IOException {
 
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
-		
+
 		// check permissions
 		User requester = (User)session.getAttribute("u");
 		if (requester.getId() != target.getId() &&
 				! requester.hasRole(Role.ADMIN)) {
             throw new NoEsTuPerfilException();
 		}
-		
+
 		log.info("Updating photo for user {}", id);
 		File f = localData.getFile("user", ""+id+".jpg");
 		if (photo.isEmpty()) {
@@ -289,35 +299,20 @@ public class UserController {
 		return "error";
 	}
 
-
     /**
-     * Returns JSON with all received messages
-     */
-    @GetMapping(path = "received", produces = "application/json")
-	@Transactional // para no recibir resultados inconsistentes
-	@ResponseBody  // para indicar que no devuelve vista, sino un objeto (jsonizado)
-	public List<Message.Transfer> retrieveMessages(HttpSession session) {
-		long userId = ((User)session.getAttribute("u")).getId();		
-		User u = entityManager.find(User.class, userId);
-		log.info("Generating message list for user {} ({} messages)", 
-				u.getUsername(), u.getReceived().size());
-		return  u.getReceived().stream().map(Transferable::toTransfer).collect(Collectors.toList());
-	}	
-    
-    /**
-     * Returns JSON with count of unread messages 
+     * Returns JSON with count of unread messages
      */
 	@GetMapping(path = "unread", produces = "application/json")
 	@ResponseBody
 	public String checkUnread(HttpSession session) {
-		long userId = ((User)session.getAttribute("u")).getId();		
+		long userId = ((User)session.getAttribute("u")).getId();
 		long unread = entityManager.createNamedQuery("Message.countUnread", Long.class)
 			.setParameter("userId", userId)
 			.getSingleResult();
 		session.setAttribute("unread", unread);
 		return "{\"unread\": " + unread + "}";
     }
-    
+
     /**
      * Posts a message to a user.
      * @param id of target user (source user is from ID)
@@ -327,16 +322,16 @@ public class UserController {
     @PostMapping("/{id}/msg")
 	@ResponseBody
 	@Transactional
-	public String postMsg(@PathVariable long id, 
-			@RequestBody JsonNode o, Model model, HttpSession session) 
+	public String postMsg(@PathVariable long id,
+			@RequestBody JsonNode o, Model model, HttpSession session)
 		throws JsonProcessingException {
-		
+
 		String text = o.get("message").asText();
 		User u = entityManager.find(User.class, id);
 		User sender = entityManager.find(
 				User.class, ((User)session.getAttribute("u")).getId());
 		model.addAttribute("user", u);
-		
+
 		// construye mensaje, lo guarda en BD
 		Message m = new Message();
 		m.setRecipient(u);
@@ -345,7 +340,7 @@ public class UserController {
 		m.setText(text);
 		entityManager.persist(m);
 		entityManager.flush(); // to get Id before commit
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 		/*
 		// construye json: método manual
@@ -371,7 +366,7 @@ public class UserController {
         User user = userService.getUsersByID(id);
         List<Review.Transfer> reviews = reviewService.getAllByUsername(user.getUsername());
         List<CurrentSkill> skills = currentSkillService.getAllByUserId(id);
-        
+
         double averageRating = skills.stream()
             .mapToDouble(CurrentSkill::getAverageRating)
             .average()

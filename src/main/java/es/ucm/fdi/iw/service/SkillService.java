@@ -1,6 +1,5 @@
 package es.ucm.fdi.iw.service;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +12,7 @@ import es.ucm.fdi.iw.repository.SkillRepository;
 
 @Service
 public class SkillService {
-    
+
     @Autowired
     private SkillRepository skillRepository;
 
@@ -26,7 +25,7 @@ public class SkillService {
         }
         return skill;
     }
-    
+
     public List<Skill.Transfer> getSkillsByKeyword(String keyword) {
         return skillRepository.findByNameContainingIgnoreCase(keyword)
             .stream()
@@ -39,7 +38,7 @@ public class SkillService {
             .stream()
             .map(Skill::toTransfer)
             .sorted(Comparator.comparingInt(Skill.Transfer::getCurrentUsers))
-            .collect(Collectors.toList());    
+            .collect(Collectors.toList());
     }
 
     public List<Skill.Transfer> getDesired() {
@@ -47,6 +46,6 @@ public class SkillService {
             .stream()
             .map(Skill::toTransfer)
             .sorted(Comparator.comparingInt(Skill.Transfer::getAspirantUsers))
-            .collect(Collectors.toList());    
+            .collect(Collectors.toList());
     }
 }

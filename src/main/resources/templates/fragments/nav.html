@@ -15,7 +15,7 @@
                     <a class="navbar-brand fg-gold" th:href="@{/}" href="/">
                         <img th:src="@{/img/logo.svg}" src="/img/logo.svg"
                             alt="" width="38" height="38"
-                            class="d-inline-block m-1"> 
+                            class="d-inline-block m-1">
                             <span class="bold">Swapify</span>
                     </a>
                     <!-- menu hamburguesa si no cabe todo -->
@@ -75,7 +75,7 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-item mx-2" 
+                                <li class="nav-item mx-2"
                                     th:classappend="${actual == 'profile' ? 'active' : ''}"
                                     id="navuser">
                                     <a class="nav-link"
@@ -95,12 +95,10 @@
                                     <button type="button"
                                         class="btn bg-orchid rounded-circle fg-abaloneshell btn-sm position-relative">
                                         <i class="bi bi-envelope-fill fs-5"></i>
-                                        <span id="nav-unread"
-                                            th:if="false"
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">0
-                                            <span class="visually-hidden">unread
-                                                messages</span></span>
-                                            <!-- cambiar th:if de false a diferente de 0 cuando las notificaciones funcionen -->
+                                        <span id="nav-unread" style="display:none;"
+                                              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold">0
+                                          <span class="visually-hidden">unread messages</span>
+                                        </span>
                                     </button>
                                 </li>
                                 <li class="nav-item align-self-center">
