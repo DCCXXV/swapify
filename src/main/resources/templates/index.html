@@ -189,7 +189,7 @@
 			</div>
 		</main>
 
-		<!-- Swap Modal -->
+<!-- Swap Modal -->
 		<div class="modal fade" id="swapModal" tabindex="-1" aria-labelledby="swapModalLabel" aria-hidden="true">
 			<div class="modal-dialog ">
 				<div class="modal-content bg-abaloneshell fg-oblivion">
@@ -226,7 +226,7 @@
 					</div>
 					<div class="px-3">
 						<label for="messageInput" class="mb-1 fg-oblivion">Mensaje</label>
-      					<textarea id="messageInputInput" class="form-control bg-abaloneshell-l0 rounded p-3 me-4 border-0"
+      					<textarea id="messageInput" class="form-control bg-abaloneshell-l0 rounded p-3 me-4 border-0"
         				placeholder="Envia un mensaje a usuario"></textarea>
 					</div>
 					<div class="modal-footer">
@@ -241,6 +241,7 @@
 			document.addEventListener("DOMContentLoaded", () => {
 				const swapModal = document.getElementById("swapModal");
 				const confirmSwapButton = document.getElementById("confirmSwap");
+				const messageInput = document.getElementById("messageInput");
 				let selectedUser = null;
 
 				swapModal.addEventListener("show.bs.modal", (event) => {
@@ -249,16 +250,15 @@
 					selectedUser = users[userIdx];
 					console.log("Usuario seleccionado:", selectedUser);
 
-					// Limpiar
 					document.getElementById("selectedUserSkill").value = "";
 					document.getElementById("selectedYourSkill").value = "";
 					document.getElementById("swapUserSkillDesc").textContent = "Selecciona una habilidad";
 					document.getElementById("yourSkillDesc").textContent = "Selecciona una habilidad";
+					messageInput.value = "";
 
 					document.getElementById("swapUserPic").src = "/user/" + selectedUser.id + "/pic";
 					document.getElementById("swapUserName").textContent = selectedUser.firstName + " " + selectedUser.lastName;
 
-					// Habilidades del usuario seleccionado
 					const userSkillsContainer = document.getElementById("swapUserSkills");
 					userSkillsContainer.innerHTML = "";
 
@@ -289,7 +289,6 @@
 						userSkillsContainer.innerHTML = "<p class='fg-lushaqua'>No tiene habilidades disponibles</p>";
 					}
 
-					// Tus propias habilidades
 					const yourSkillsContainer = document.getElementById("yourSkills");
 					yourSkillsContainer.innerHTML = "";
 
@@ -325,6 +324,7 @@
 				confirmSwapButton.addEventListener("click", () => {
 					const selectedUserSkillElement = document.querySelector('#swapUserSkills .skill-badge[data-selected="true"]');
 					const selectedYourSkillElement = document.querySelector('#yourSkills .skill-badge[data-selected="true"]');
+					const message = messageInput.value.trim();
 
 					if (!selectedUserSkillElement || !selectedYourSkillElement) {
 						alert("Por favor, selecciona una habilidad de cada usuario.");
@@ -338,7 +338,8 @@
 						userSkill: userSkillName,
 						yourSkill: yourSkillName,
 						userA: me.id,
-						userB: selectedUser.id
+						userB: selectedUser.id,
+						message: message
 					});
 
 					fetch("/swaps/create", {
@@ -351,7 +352,8 @@
 							userA: me.id,
 							userB: selectedUser.id,
 							skillA: yourSkillName,
-							skillB: userSkillName
+							skillB: userSkillName,
+							message: message
 						})
 					})
 					.then(response => {

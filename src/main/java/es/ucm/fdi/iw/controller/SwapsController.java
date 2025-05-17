@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDateTime; // Import LocalDateTime
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -217,6 +218,18 @@ public class SwapsController {
             Swap.Transfer savedSwap = swapService.saveSwap(swap);
             log.info("Creado el swap con ID: {}", savedSwap.getId());
 
+            if (swapRequest.getMessage() != null && !swapRequest.getMessage().trim().isEmpty()) {
+                Message initialMessage = new Message();
+                initialMessage.setSender(userA);
+                initialMessage.setRecipient(userB);
+                initialMessage.setSwap(swapService.getSwapByID(savedSwap.getId()));
+                initialMessage.setText(swapRequest.getMessage().trim());
+                initialMessage.setDateSent(LocalDateTime.now());
+                messageService.save(initialMessage);
+                log.debug("Initial message saved for swap {}", savedSwap.getId());
+            }
+
+
             response.put("status", "success");
             response.put("message", "Swap creado con éxito");
             response.put("id", savedSwap.getId());
@@ -337,6 +350,7 @@ public class SwapsController {
         private String skillA;
         private String skillB;
         private String swapDate;
+        private String message; // Add message field
     }
 
     @Getter @Setter
