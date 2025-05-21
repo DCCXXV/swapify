@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -233,17 +236,48 @@ public class RootController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(name = "query", required = false) String keyword, Model model, HttpSession session) {
-        //User me = (User) session.getAttribute("u");
+    public String search(
+        @RequestParam(name = "query", required = false, defaultValue = "") String keyword,
+        @RequestParam(name = "filterUsers", defaultValue = "true")  boolean filterUsers,
+        @RequestParam(name = "filterSkills", defaultValue = "true") boolean filterSkills,
+        @RequestParam(name = "username", defaultValue = "false") boolean username,
+        @RequestParam(name = "userdesc", defaultValue = "false") boolean userdesc,
+        @RequestParam(name = "currentSkills", defaultValue = "false") boolean currentSkills,
+        @RequestParam(name = "desiredSkills", defaultValue = "false") boolean desiredSkills, 
+        Model model, HttpSession session, HttpServletRequest request) {
+        
+
+            System.out.println("keyword = ["+keyword+"]");
+            
+        //Para checkboxes en searchResults.html
+        model.addAttribute("filterUsers",  filterUsers);
+        model.addAttribute("filterSkills", filterSkills);
+        model.addAttribute("username",      username);
+        model.addAttribute("userdesc",      userdesc);
+        model.addAttribute("currentSkills", currentSkills);
+        model.addAttribute("desiredSkills", desiredSkills);
+
+        
         User me = userService.getUsersByID(((User) session.getAttribute("u")).getId());
         model.addAttribute("me", me.toTransfer());
-        model.addAttribute("query", keyword);
-        model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
-
-        if(me == null){
-            model.addAttribute("users", userService.getUsersByKeyword(keyword));
-        }else{
-            model.addAttribute("users", userService.getUsersByKeywordWithoutUser(keyword, me));
+        model.addAttribute("query", keyword);   
+        List<User.Transfer> users = filterUsers ? userService.getUsersByKeywordWithoutUser(keyword, me): List.<User.Transfer>of(); 
+        List<Skill.Transfer> skills = filterSkills? skillService.getSkillsByKeyword(keyword): List.<Skill.Transfer>of();
+  
+        users = userService.searchUsers(
+            keyword, me,
+            filterUsers,
+            username, userdesc,
+            currentSkills, desiredSkills
+        );
+       
+        model.addAttribute("users", users);
+        model.addAttribute("skills", skills);
+        
+       
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        if (isAjax) {
+            return "fragments/searchResults :: results";
         }
 
         return "search";
