@@ -102,15 +102,18 @@ public class UserService {
             boolean username,
             boolean userdesc,
             boolean currentSkills,
-            boolean desiredSkills) {
+            boolean desiredSkills,
+            Long userId) {
         if (!filterUsers) {
             return List.of();
         }
 
         List<User> candidates = userRepository
-                .findByUsernameContainingIgnoreCaseAndUsernameNot(keyword, "a");
+                .findByUsernameContainingIgnoreCase(keyword);
 
         return candidates.stream()
+                .filter(u -> !u.getRoles().contains("ADMIN"))
+                .filter(u -> userId == null || u.getId() != userId)
                 .filter(u -> {
                     String kw = keyword.toLowerCase();
                     boolean ok = true;

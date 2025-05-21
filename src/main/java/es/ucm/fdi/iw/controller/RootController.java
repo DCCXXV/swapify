@@ -269,12 +269,14 @@ public class RootController {
         model.addAttribute("query", keyword);   
          
         List<Skill.Transfer> skills = filterSkills? skillService.getSkillsByKeyword(keyword): List.<Skill.Transfer>of();
-  
+        
+        Long userId = sessionUser != null ? sessionUser.getId() : -1;
         List<User.Transfer> users = userService.searchUsers(
             keyword, 
             filterUsers,
             username, userdesc,
-            currentSkills, desiredSkills
+            currentSkills, desiredSkills,
+            userId
         );
        
         model.addAttribute("users", users);
