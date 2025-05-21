@@ -65,7 +65,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		        .setParameter("username", username)
 		        .getSingleResult();
 		*/
-		User u = userRepository.findByUsername(username);
+		User u = userRepository.findByUsername(username.toLowerCase());
 		session.setAttribute("u", u);
 
 		// add 'url' and 'ws' session variables

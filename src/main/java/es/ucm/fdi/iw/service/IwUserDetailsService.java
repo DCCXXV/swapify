@@ -32,7 +32,7 @@ public class IwUserDetailsService implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username){
     	try {
-	        User u = userRepository.findByUsername(username);
+	        User u = userRepository.findByUsername(username.toLowerCase());
             if(u == null || u.isDeleted()){
                 log.info("Usuario deshabilitado o no encontrado: " + username);
                 throw new UsernameNotFoundException("Este usuario está deshabilitado o no existe");

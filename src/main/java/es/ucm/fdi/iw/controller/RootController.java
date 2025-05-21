@@ -127,14 +127,6 @@ public class RootController {
         return ResponseEntity.ok(existe ? "EXISTE" : "LIBRE");
     }
 
-    @GetMapping("/checkFirstName")
-    @ResponseBody
-    public ResponseEntity<?> checkFirstName(@RequestParam String firstName) {
-        boolean existe = userService.findFirstname(firstName);
-        return ResponseEntity.ok(existe ? "EXISTE" : "LIBRE");
-    }
-
-
     @GetMapping("/signupstep2")
     public String processSignupStep2(HttpServletRequest request, HttpSession session) {
         String email = request.getParameter("email");

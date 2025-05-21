@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,6 +43,22 @@ public class SecurityConfig {
 	 * login information available.
 	 */
 
+
+	@Bean
+	public org.springframework.security.web.authentication.AuthenticationFailureHandler authenticationFailureHandler() {
+		return (request, response, exception) -> {
+			String errorMessage = "Correo o contraseña incorrectos";
+
+			if (exception instanceof DisabledException) {
+				errorMessage = "Tu cuenta ha sido desactivada.";
+			} else if (exception instanceof BadCredentialsException) {
+				errorMessage = "Correo o contraseña incorrectos";
+			}
+
+			response.sendRedirect("/login?error=true&message=" + java.net.URLEncoder.encode(errorMessage, "UTF-8"));
+		};
+	}
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
@@ -61,7 +79,7 @@ public class SecurityConfig {
 				.ignoringRequestMatchers("/api/**")
 			)
       .authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/css/**", "/js/**", "/img/**", "/error", "/search", "/signup", "/signupstep2", "/signupstep3", "/finalizarRegistro", "/checkEmail", "/checkFirstName").permitAll()
+				.requestMatchers("/css/**", "/js/**", "/img/**", "/error", "/search", "/signup", "/signupstep2", "/signupstep3", "/finalizarRegistro").permitAll()
 				.requestMatchers("/api/**").permitAll()            // <-- public api access
 				.requestMatchers("/admin/**").hasRole("ADMIN")	   // <-- administration
 				.requestMatchers("/user/**").hasRole("USER")	     // <-- logged-in users
@@ -71,7 +89,8 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .permitAll()
 				.successHandler(loginSuccessHandler)  // <-- called when login Ok; can redirect
-            );
+				.failureHandler(authenticationFailureHandler())
+			);
 
         return http.build();
     }	
