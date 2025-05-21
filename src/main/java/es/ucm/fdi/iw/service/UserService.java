@@ -98,7 +98,6 @@ public class UserService {
 
     public List<User.Transfer> searchUsers(
             String keyword,
-            User me,
             boolean filterUsers,
             boolean username,
             boolean userdesc,
@@ -109,8 +108,7 @@ public class UserService {
         }
 
         List<User> candidates = userRepository
-                .findByUsernameContainingIgnoreCaseAndUsernameNot(
-                        keyword, me.getUsername());
+                .findByUsernameContainingIgnoreCase(keyword);
 
         return candidates.stream()
                 .filter(u -> {

@@ -247,7 +247,7 @@ public class RootController {
         Model model, HttpSession session, HttpServletRequest request) {
         
 
-            System.out.println("keyword = ["+keyword+"]");
+        System.out.println("keyword = ["+keyword+"]");
             
         //Para checkboxes en searchResults.html
         model.addAttribute("filterUsers",  filterUsers);
@@ -258,14 +258,20 @@ public class RootController {
         model.addAttribute("desiredSkills", desiredSkills);
 
         
-        User me = userService.getUsersByID(((User) session.getAttribute("u")).getId());
-        model.addAttribute("me", me.toTransfer());
+         User sessionUser = (User) session.getAttribute("u");
+        if (sessionUser != null) {
+            User me = userService.getUsersByID(sessionUser.getId());
+            model.addAttribute("me", me.toTransfer());
+        } else {
+            model.addAttribute("me", null);
+        }
+        
         model.addAttribute("query", keyword);   
-        List<User.Transfer> users = filterUsers ? userService.getUsersByKeywordWithoutUser(keyword, me): List.<User.Transfer>of(); 
+         
         List<Skill.Transfer> skills = filterSkills? skillService.getSkillsByKeyword(keyword): List.<Skill.Transfer>of();
   
-        users = userService.searchUsers(
-            keyword, me,
+        List<User.Transfer> users = userService.searchUsers(
+            keyword, 
             filterUsers,
             username, userdesc,
             currentSkills, desiredSkills
