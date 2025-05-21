@@ -34,26 +34,26 @@ public class UserService {
 
     public List<User.Transfer> getAllUsers() {
         return userRepository.findByUsernameNot("a")
-            .stream()
-            .map(User::toTransfer)
-            .collect(Collectors.toList());
+                .stream()
+                .map(User::toTransfer)
+                .collect(Collectors.toList());
     }
 
     public List<User.Transfer> getUsersByKeyword(String keyword) {
         return userRepository.findByUsernameContainingIgnoreCase(keyword)
-            .stream()
-            .map(User::toTransfer)
-            .collect(Collectors.toList());
+                .stream()
+                .map(User::toTransfer)
+                .collect(Collectors.toList());
     }
 
     public List<User.Transfer> getUsersByKeywordWithoutUser(String keyword, User user) {
         return userRepository.findByUsernameContainingIgnoreCaseAndUsernameNot(keyword, user.getUsername())
-            .stream()
-            .map(User::toTransfer)
-            .collect(Collectors.toList());
+                .stream()
+                .map(User::toTransfer)
+                .collect(Collectors.toList());
     }
 
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
 
@@ -74,6 +74,7 @@ public class UserService {
         Pageable pageable = PageRequest.of(page, size);
         return userRepository.findAll(pageable);
     }
+
     public Page<User> findUsers(int page, int size, long currentUserId) {
         Pageable pageable = PageRequest.of(page, size);
         return userRepository.findByUsernameNotAndIdNot("a", currentUserId, pageable);
@@ -81,7 +82,7 @@ public class UserService {
 
     public boolean findEmail(String email) {
         User u = userRepository.findByEmail(email);
-        if(u == null){
+        if (u == null) {
             return false;
         }
         return true;
@@ -89,9 +90,49 @@ public class UserService {
 
     public boolean findFirstname(String firstName) {
         User u = userRepository.findByFirstNameIgnoreCase(firstName);
-        if(u == null){
+        if (u == null) {
             return false;
         }
         return true;
+    }
+
+    public List<User.Transfer> searchUsers(
+            String keyword,
+            User me,
+            boolean filterUsers,
+            boolean username,
+            boolean userdesc,
+            boolean currentSkills,
+            boolean desiredSkills) {
+        if (!filterUsers) {
+            return List.of();
+        }
+
+        List<User> candidates = userRepository
+                .findByUsernameContainingIgnoreCaseAndUsernameNot(
+                        keyword, me.getUsername());
+
+        return candidates.stream()
+                .filter(u -> {
+                    String kw = keyword.toLowerCase();
+                    boolean ok = true;
+                    if (username) {
+                        ok &= u.getUsername().toLowerCase().contains(kw);
+                    }
+                    if (userdesc) {
+                        ok &= u.getDescription().toLowerCase().contains(kw);
+                    }
+                    if (currentSkills) {
+                        ok &= u.getCurrentSkills().stream()
+                                .anyMatch(s -> s.toString().toLowerCase().contains(kw));
+                    }
+                    if (desiredSkills) {
+                        ok &= u.getDesiredSkills().stream()
+                                .anyMatch(s -> s.toString().toLowerCase().contains(kw));
+                    }
+                    return ok;
+                })
+                .map(User::toTransfer)
+                .collect(Collectors.toList());
     }
 }

@@ -15,6 +15,7 @@
 
         <main class="flex-shrink-0">
             <div class="container">
+
                 <form class="form-signin" method="get" th:action="@{/search}">
                     <h2
                         class="mt-4 form-signin-heading fg-orchid bold">Resultados
@@ -22,209 +23,191 @@
                     </h2>
                 </form>
 
-                <ul class="nav nav-pills my-3 gap-2" id="searchTabs" role="tablist">
+                <ul class="nav nav-pills my-3 gap-2" id="searchTabs"
+                    role="tablist">
                     <li class="nav-item swp-tab" role="presentation">
-                        <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4 active" 
-                           id="all-tab" 
-                           data-bs-toggle="tab" 
-                           data-bs-target="#all" 
-                           role="tab" 
-                           aria-controls="all" 
-                           aria-selected="true">Todo</a>
+                        <a
+                            class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4 active"
+                            id="all-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#all"
+                            role="tab"
+                            aria-controls="all"
+                            aria-selected="true">Todo</a>
                     </li>
                     <li class="nav-item swp-tab" role="presentation">
-                        <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4" 
-                           id="users-tab" 
-                           data-bs-toggle="tab" 
-                           data-bs-target="#users" 
-                           role="tab" 
-                           aria-controls="users" 
-                           aria-selected="false">Usuarios</a>
+                        <a
+                            class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4"
+                            id="users-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#users"
+                            role="tab"
+                            aria-controls="users"
+                            aria-selected="false">Usuarios</a>
                     </li>
                     <li class="nav-item swp-tab" role="presentation">
-                        <a class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4" 
-                           id="skills-tab" 
-                           data-bs-toggle="tab" 
-                           data-bs-target="#skills" 
-                           role="tab" 
-                           aria-controls="skills" 
-                           aria-selected="false">Habilidades</a>
+                        <a
+                            class="nav-link bg-abaloneshell-l0 fg-orchid bold rounded-pill p-3 px-4"
+                            id="skills-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#skills"
+                            role="tab"
+                            aria-controls="skills"
+                            aria-selected="false">Habilidades</a>
                     </li>
                 </ul>
 
-                <div class="bg-abaloneshell-l0 rounded p-4" id="searchContainer">
-                    <form class="form-signin" method="get"
+                <div class="bg-abaloneshell-l0 rounded p-4" id="container">
+
+                    <form id="searchForm" method="get"
                         th:action="@{/search}">
 
                         <div class="search-bar d-flex">
-                        <input type="text"
-                            class="form-control rounded-pill bg-abaloneshell fg-oblivion p-3 me-4"
-                            name="query"
-                            placeholder="Buscar de nuevo en Swapify"
-                            aria-label="Buscar de nuevo en Swapify"
-                            required="required">
+                            <input
+                                type="text"
+                                class="form-control rounded-pill bg-abaloneshell fg-oblivion p-3 me-4"
+                                name="query"
+                                th:value="${query}"
+                                placeholder="Buscar de nuevo en Swapify"
+                                aria-label="Buscar de nuevo en Swapify"
+                                required="required">
 
-                        <button
-                            type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false"
-                            aria-controls="filterCollapse"
-                            class="btn bg-lushaqua fg-abaloneshell bold rounded-pill d-flex p-3 me-2">
-                            <i class="bi bi-funnel-fill me-1"></i> Filtros
-                        </button>
+                            <button
+                                type="button" data-bs-toggle="collapse"
+                                data-bs-target="#filterCollapse"
+                                aria-expanded="false"
+                                aria-controls="filterCollapse"
+                                class="btn bg-lushaqua fg-abaloneshell bold rounded-pill d-flex p-3 me-2">
+                                <i class="bi bi-funnel-fill me-1"></i> Filtros
+                            </button>
 
-                        <button
-                            class="btn bg-orchid fg-abaloneshell bold rounded-pill d-flex p-3"
-                            type="submit">
-                            <i class="bi bi-search me-1"></i> Buscar
-                        </button>
-                    </div>
+                            <button
+                                class="btn bg-orchid fg-abaloneshell bold rounded-pill d-flex p-3"
+                                type="submit">
+                                <i class="bi bi-search me-1"></i> Buscar
+                            </button>
+                        </div>
 
-                    <div class="collapse" id="filterCollapse">
-                        <div class="container p-3 m-3 bg-abaloneshell rounded" style="width: 77%;">
-                            <span class="fs-4 fg-lushaqua mb-3">Buscar en ...</span>
+                        <div class="collapse" id="filterCollapse">
+                            <div
+                                class="container p-3 m-3 bg-abaloneshell rounded"
+                                style="width: 77%;">
+                                <span class="fs-4 fg-lushaqua mb-3">Buscar en
+                                    ...</span>
 
-                            <div class="form-check mb-3">
-                                <input class="form-check-input bg-lushaqua" type="checkbox" id="userFilterCheckbox" checked>
-                                <label class="form-check-label fg-oblivion" for="userFilterCheckbox">
-                                    Buscar usuarios
-                                </label>
-                            </div>
-
-                            <div class="bg-abaloneshell m-3 p-3 pt-0 rounded" id="userFilters">
-                                <span class="fs-5 fg-lushaqua">Filtros de usuario</span>
-                                <div class="form-check">
-                                    <input class="form-check-input bg-lushaqua" type="checkbox" value id="nameCheckbox" checked>
-                                    <label class="form-check-label fg-oblivion" for="nameCheckbox">
-                                        Por nombre de usuario
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input bg-lushaqua"
+                                        type="checkbox"
+                                        name="filterUsers"
+                                        id="userFilterCheckbox"
+                                        th:checked="${filterUsers}" />
+                                    <label class="form-check-label fg-oblivion"
+                                        for="userFilterCheckbox">
+                                        Buscar usuarios
                                     </label>
                                 </div>
+
+                                <div
+                                    class="bg-abaloneshell m-3 p-3 pt-0 rounded"
+                                    id="userFilters">
+                                    <span class="fs-5 fg-lushaqua">Filtros de
+                                        usuario</span>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input bg-lushaqua"
+                                            type="checkbox"
+                                            name="username"
+                                            id="usernameCheckbox"
+                                            th:checked="${username}" />
+                                        <label
+                                            class="form-check-label fg-oblivion"
+                                            for="usernameCheckbox">
+                                            Por nombre de usuario
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input bg-lushaqua"
+                                            type="checkbox"
+                                            name="userdesc"
+                                            id="descCheckbox"
+                                            th:checked="${userdesc}" />
+                                        <label
+                                            class="form-check-label fg-oblivion"
+                                            for="descCheckbox">
+                                            Por descripción
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input bg-lushaqua"
+                                            type="checkbox"
+                                            name="currentSkills"
+                                            id="currentSkillsCheckbox"
+                                            th:checked="${currentSkills}" />
+                                        <label
+                                            class="form-check-label fg-oblivion"
+                                            for="currentSkillsCheckbox">
+                                            Por habilidades actuales
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input bg-lushaqua"
+                                            type="checkbox"
+                                            name="desiredSkills"
+                                            id="desiredSkillsCheckbox"
+                                            th:checked="${desiredSkills}" />
+                                        <label
+                                            class="form-check-label fg-oblivion"
+                                            for="desiredSkillsCheckbox">
+                                            Por habilidades deseadas
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <div class="form-check">
-                                    <input class="form-check-input bg-lushaqua" type="checkbox" value id="descCheckbox">
-                                    <label class="form-check-label fg-oblivion" for="descCheckbox">
-                                        Por descripción
+                                    <input class="form-check-input bg-lushaqua"
+                                        type="checkbox"
+                                        name="filterSkills"
+                                        id="skillFilterCheckbox"
+                                        th:checked="${filterSkills}" />
+                                    <label class="form-check-label fg-oblivion"
+                                        for="skillFilterCheckbox">
+                                        Buscar habilidades
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input bg-lushaqua" type="checkbox" value id="currentSkillsCheckbox" checked>
-                                    <label class="form-check-label fg-oblivion" for="currentSkillsCheckbox">
-                                        Por habilidades actuales
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input bg-lushaqua" type="checkbox" value id="desiredSkillsCheckbox" checked>
-                                    <label class="form-check-label fg-oblivion" for="desiredSkillsCheckbox">
-                                        Por habilidades deseadas
-                                    </label>
-                                </div>
                             </div>
+                        </div>
+                    </form>
 
-                            <div class="form-check">
-                                <input class="form-check-input bg-lushaqua" type="checkbox" value id="skillFilterCheckbox" checked>
-                                <label class="form-check-label fg-oblivion" for="skillFilterCheckbox">
-                                    Buscar habilidades
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-                        <div class="p-3 fg-orchid">
-                            <h3 class="bold">Usuarios</h3>
-                            <div class="hr-swp"></div>
-                            <div th:if="${not users.isEmpty()}" class="mt-3">
-                                <div th:each="user, userStat : ${users}" class="rounded bg-abaloneshell mb-3 p-3">
-                                    <div class="fg-oblivion align-items-center">
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <div class="bold fs-4" th:text="${user.firstName}"></div>
-                                            <button class="btn rounded bg-oblivion fg-abaloneshell bold text-center"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#swapModal"
-                                                    th:data-user-idx="${userStat.index}">Swap!</button>
-                                        </div>
-                                        <div th:text="${user.description}"></div>
-                                        <div>
-                                            <div class="mt-2 fs-5 fg-lushaqua">Habilidades a enseñar</div>
-                                            <span th:each="cs : ${user.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1 p-2 px-3" th:text="${cs}">Skill</span>
-
-                                            <div class="mt-2 fs-5 fg-orchid">Habilidades a aprender</div>
-                                            <span th:each="ds : ${user.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid m-1 p-2 px-3" th:text="${ds}">Skill</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <span th:if="${users.isEmpty()}" class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
-                        </div>
-                        <div class="p-3 fg-orchid">
-                            <h3 class="bold">Habilidades</h3>
-                            <div class="hr-swp"></div>
-                            <div th:if="${not skills.isEmpty()}" class="row text-center p-3">
-                                <div th:each="skill : ${skills}" class="col-md-4 px-2">
-                                    <div  class="skill-card bg-abaloneshell fg-oblivion rounded p-3 my-2">
-                                        <span class="bold align-self-center" th:text="${skill.name}"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span th:if="${skills.isEmpty()}" class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-                        <div class="p-3 fg-orchid">
-                            <h3 class="bold">Usuarios</h3>
-                            <div class="hr-swp"></div>
-                            <div th:if="${not users.isEmpty()}" class="mt-3">
-                                <div th:each="user, userStat : ${users}" class="rounded bg-abaloneshell mb-3 p-3">
-                                    <div class="fg-oblivion align-items-center">
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <div class="bold fs-4" th:text="${user.firstName}"></div>
-                                            <button class="btn rounded bg-oblivion fg-abaloneshell bold text-center"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#swapModal"
-                                                    th:data-user-idx="${userStat.index}">Swap!</button>
-                                        </div>
-                                        <div th:text="${user.description}"></div>
-                                        <div>
-                                            <div class="mt-2 fs-5 fg-lushaqua">Habilidades a enseñar</div>
-                                            <span th:each="cs : ${user.currentSkills ?: {}}" class="badge rounded-pill bg-lushaqua m-1 p-2 px-3" th:text="${cs}">Skill</span>
-
-                                            <div class="mt-2 fs-5 fg-orchid">Habilidades a aprender</div>
-                                            <span th:each="ds : ${user.desiredSkills ?: {}}" class="badge rounded-pill bg-orchid m-1 p-2 px-3" th:text="${ds}">Skill</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <span th:if="${users.isEmpty()}" class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
-                        <div class="p-3 fg-orchid">
-                            <h3 class="bold">Habilidades</h3>
-                            <div class="hr-swp"></div>
-                            <div th:if="${not skills.isEmpty()}" class="row text-center p-3">
-                                <div th:each="skill : ${skills}" class="col-md-4 px-2">
-                                    <div  class="skill-card bg-abaloneshell fg-oblivion rounded p-3 my-2">
-                                        <span class="bold align-self-center" th:text="${skill.name}"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span th:if="${skills.isEmpty()}" class="fg-orchid fs-5 mt-3">No se encontraron resultados</span>
-                        </div>
+                    <div class="bg-abaloneshell-l0 rounded p-4"
+                        id="resultsContainer">
+                        <th:block
+                            th:replace="fragments/searchResults :: results"></th:block>
                     </div>
                 </div>
             </div>
         </main>
+
         <th:block th:replace="fragments/footer.html :: footer" />
         <!-- Modal reutilizado de index.html -->
-        <div class="modal fade" id="swapModal" tabindex="-1" aria-labelledby="swapModalLabel" aria-hidden="true">
+        <div class="modal fade" id="swapModal" tabindex="-1"
+            aria-labelledby="swapModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content bg-abaloneshell fg-oblivion">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="swapModalLabel">Confirmar Swap</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="swapModalLabel">Confirmar
+                            Swap</h4>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="d-flex justify-content-center">
                             <div class="d-flex flex-column">
-                                <img id="swapUserPic" class="img-fluid rounded me-3" style="width: 100px;" alt="Foto de perfil">
+                                <img id="swapUserPic"
+                                    class="img-fluid rounded me-3"
+                                    style="width: 100px;" alt="Foto de perfil">
                                 <h5 id="swapUserName" class="my-2"></h5>
                             </div>
                         </div>
@@ -232,27 +215,72 @@
                         <div class="fg-lushaqua">
                             <h5>Habilidades que enseña:</h5>
                             <div id="swapUserSkills" class="mb-3"></div>
+                            <p id="swapUserSkillDesc"
+                                class="fg-oblivion mt-2"></p>
                         </div>
                         <hr>
                         <div class="fg-orchid">
                             <h5>Tu habilidad a ofrecer:</h5>
                             <div id="yourSkills" class="mb-3"></div>
+                            <p id="yourSkillDesc" class="fg-oblivion mt-2"></p>
                         </div>
-                        <input type="hidden" id="selectedUserSkill" value="">
-                        <input type="hidden" id="selectedYourSkill" value="">
+                        <input type="hidden" id="selectedUserSkill" value>
+                        <input type="hidden" id="selectedYourSkill" value>
                     </div>
                     <div class="px-3">
-                        <label for="messageInput" class="mb-1 fg-oblivion">Mensaje</label>
-                        <textarea id="messageInputInput" class="form-control bg-abaloneshell-l0 rounded p-3 me-4 border-0"
+                        <label for="messageInput"
+                            class="mb-1 fg-oblivion">Mensaje</label>
+                        <textarea id="messageInputInput"
+                            class="form-control bg-abaloneshell-l0 rounded p-3 me-4 border-0"
                             placeholder="Envia un mensaje a usuario"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn bg-abaloneshell fg-orchid" data-bs-dismiss="modal">Volver</button>
-                        <button type="button" class="btn bg-orchid fg-abaloneshell" id="confirmSwap">Confirmar</button>
+                        <button type="button"
+                            class="btn bg-abaloneshell fg-orchid"
+                            data-bs-dismiss="modal">Volver</button>
+                        <button type="button"
+                            class="btn bg-orchid fg-abaloneshell"
+                            id="confirmSwap">Confirmar</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!--filterscript-->
+        <script>
+           function applyFilters() {
+            const form = document.getElementById("searchForm");
+            const params = new URLSearchParams();
+            const userFiltered = document.getElementById("userFilterCheckbox").checked;
+            params.set("query", form.query.value);
+            params.set("filterUsers",   userFiltered);
+            if(userFiltered){
+                params.set("username", document.getElementById("usernameCheckbox").checked);
+                params.set("userdesc", document.getElementById("descCheckbox").checked);
+                params.set("currentSkills", document.getElementById("currentSkillsCheckbox").checked);
+                params.set("desiredSkills", document.getElementById("desiredSkillsCheckbox").checked);
+            } 
+            params.set("filterSkills",  document.getElementById("skillFilterCheckbox").checked);
+            
+
+            const url = "/search?" + params.toString();
+            fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+            .then(r => r.ok ? r.text() : Promise.reject(r))
+            .then(html => {
+                document
+                .getElementById("resultsContainer")
+                .querySelector(".tab-content")
+                .outerHTML = html;
+            })
+            .catch(console.error);
+            }
+          
+            document.addEventListener("DOMContentLoaded", () => {
+              document
+                .querySelectorAll("#filterCollapse input[type='checkbox']")
+                .forEach(cb => cb.addEventListener("change", applyFilters));
+            });
+        </script>
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
