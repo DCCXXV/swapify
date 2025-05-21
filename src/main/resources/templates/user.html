@@ -64,7 +64,7 @@
                         <h5 class="fg-lushaqua bold rounded-pill me-3" th:text="${currentSkill.skill.name}">Defecto</h5>
 
                         <p th:text="${currentSkill.description}">Defecto</p>
-                        <h5 class="fg-lushaqua bold me-3">Reseñas</h5>
+                        <h6 class="fg-oblivion bold me-3">Reseñas</h6>
                         <div th:if="${#lists.isEmpty(reviewsBySkill.get(currentSkill.id))}">
                             <p class="fg-oblivion" th:text="${user.username + ' todavía no tiene reseñas en ' + currentSkill.skill.name}">Todavía no tiene reseñas</p>
                         </div>
