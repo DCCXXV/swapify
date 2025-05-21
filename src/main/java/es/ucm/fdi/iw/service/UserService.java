@@ -108,7 +108,7 @@ public class UserService {
         }
 
         List<User> candidates = userRepository
-                .findByUsernameContainingIgnoreCase(keyword);
+                .findByUsernameContainingIgnoreCaseAndUsernameNot(keyword, "a");
 
         return candidates.stream()
                 .filter(u -> {
