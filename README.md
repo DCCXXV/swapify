@@ -48,6 +48,8 @@ Se han realizado 6 vistas, se listarán con su nombre, lugar de acceso en la nav
 - Index, Búsqueda, Administración y Perfil de usuario estan completas.
 - Faltaría añadir la vista de notificaciones.
 
+LOS USUARIOS INICIALES TIENEN COMO CONTRASEÑA "aa" Y SU NOMBRE DE USUARIO ES SU PRIMER NOMBRE
+
 ## Material no desarrollado por nosotros (fuera de la plantilla)
 ### Librerías y estilos añadidos
   - [Librería de iconos de Bootstrap](https://icons.getbootstrap.com/) usada en todos los botones con iconos
