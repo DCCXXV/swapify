@@ -45,8 +45,8 @@ Se han realizado 6 vistas, se listarán con su nombre, lugar de acceso en la nav
 
 ### Funcionalidad de las vistas
 - De la funcionalidad principal (Swaps) está casi todo, se pueden crear swaps, que apareceran como pending hasta que la otra persona lo acepte, chatear a través de swaps activos, y terminar swaps, lo que archiva la conversación y permite a ambos escribir una reseña.
-- Falta terminar la búsqueda y administración, mejorar el index y hacer los test karate, que no estan bien hechos todavía.
-- Faltaría también añadir la vista de notificaciones.
+- Index, Búsqueda, Administración y pérfil de usuario estan completas.
+- Faltaría añadir la vista de notificaciones.
 
 ## Material no desarrollado por nosotros (fuera de la plantilla)
 ### Librerías y estilos añadidos
