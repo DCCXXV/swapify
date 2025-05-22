@@ -23,8 +23,6 @@ Se han realizado 6 vistas, se listarán con su nombre, lugar de acceso en la nav
 
 ## Cambios desde la última corrección
 ### Correcciones
- 	
-
 - ~~Mucho peligro en swaps.html, con envío de mensajes directamente por WebSocket: os habéis complicado mucho para gestionarlo, habría sido mejor usar POST con ajax para comunicación  navegador->servidor, con WS sólo para servidor->navegador(es).~~ RESUELTO
 - ~~hay varios errores de inserción SQL por clave primaria duplicada (skills de Juan Alberto & Juan Pérez).~~ RESUELTO
 - ~~Errores deberían afectar status - no está bien devolver un error con status 200.~~ RESUELTO
