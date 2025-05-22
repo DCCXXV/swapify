@@ -3,11 +3,12 @@ package es.ucm.fdi.iw.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,10 +28,12 @@ import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.CurrentSkill;
 import es.ucm.fdi.iw.model.DesiredSkill;
 import es.ucm.fdi.iw.model.Skill;
+import es.ucm.fdi.iw.model.Swap;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.service.CurrentSkillService;
 import es.ucm.fdi.iw.service.DesiredSkillService;
 import es.ucm.fdi.iw.service.SkillService;
+import es.ucm.fdi.iw.service.SwapService;
 import es.ucm.fdi.iw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -40,28 +44,30 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class RootController {
 
-    private static final Logger log = LogManager.getLogger(RootController.class);
+    private final UserService userService;
+    private final SkillService skillService;
+    private final SwapService swapService;
+    private final CurrentSkillService currentSkillService;
+    private final DesiredSkillService desiredSkillService;
+    private final PasswordEncoder passwordEncoder;
+    private final LocalData localData;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SkillService skillService;
-
-    @Autowired
-    private CurrentSkillService currentSkillService;
-
-    @Autowired
-    private DesiredSkillService desiredSkillService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private LocalData localData;
-
-    RootController(CurrentSkillService currentSkillService) {
+    public RootController(
+        UserService userService,
+        SkillService skillService,
+        SwapService swapService,
+        CurrentSkillService currentSkillService,
+        DesiredSkillService desiredSkillService,
+        PasswordEncoder passwordEncoder,
+        LocalData localData
+    ) {
+        this.userService = userService;
+        this.skillService = skillService;
+        this.swapService = swapService;
         this.currentSkillService = currentSkillService;
+        this.desiredSkillService = desiredSkillService;
+        this.passwordEncoder = passwordEncoder;
+        this.localData = localData;
     }
 
     @ModelAttribute
@@ -80,7 +86,7 @@ public class RootController {
         Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
                 List<User.Transfer> userTransfers = pagedUsers.getContent()
                 .stream().map(User::toTransfer).toList();
-        
+
         model.addAttribute("users", userTransfers);
         model.addAttribute("hasMore", pagedUsers.hasNext());
         model.addAttribute("currentPage", page);
@@ -93,7 +99,12 @@ public class RootController {
         User me = userService.getUsersByID(((User) session.getAttribute("u")).getId());
         model.addAttribute("me", me.toTransfer());
 
+        List<Long> swapIds = swapService.getAllByUsername(currentUser.getUsername()).stream().map(Swap.Transfer::getId).toList();
+        if (swapIds == null) swapIds = new ArrayList<>();
+        model.addAttribute("allMySwapIds", swapIds);
+
         model.addAttribute("hasMore", pagedUsers.hasNext());
+
         return "index";
     }
 
@@ -115,7 +126,6 @@ public class RootController {
         boolean existe = userService.findEmail(email);
         return ResponseEntity.ok(existe ? "EXISTE" : "LIBRE");
     }
-    
 
     @GetMapping("/signupstep2")
     public String processSignupStep2(HttpServletRequest request, HttpSession session) {
@@ -160,7 +170,7 @@ public class RootController {
         newUser.setDescription(description);
         newUser.setUsername(email.substring(0, email.indexOf("@")));
         userService.registerUser(newUser);
-        
+
         if (photoBase64 != null && !photoBase64.isBlank()) {
             // Suele venir "data:image/png;base64,iVBORw0KGgoAAA..."
             // Quitamos la parte "data:image/...;base64,"
@@ -218,15 +228,56 @@ public class RootController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(name = "query", required = false) String keyword, Model model, HttpSession session) {
-        User me = (User) session.getAttribute("u");
-        model.addAttribute("query", keyword);
-        model.addAttribute("skills", skillService.getSkillsByKeyword(keyword));
+    public String search(
+        @RequestParam(name = "query", required = false, defaultValue = "") String keyword,
+        @RequestParam(name = "filterUsers", defaultValue = "true")  boolean filterUsers,
+        @RequestParam(name = "filterSkills", defaultValue = "true") boolean filterSkills,
+        @RequestParam(name = "username", defaultValue = "false") boolean username,
+        @RequestParam(name = "userdesc", defaultValue = "false") boolean userdesc,
+        @RequestParam(name = "currentSkills", defaultValue = "false") boolean currentSkills,
+        @RequestParam(name = "desiredSkills", defaultValue = "false") boolean desiredSkills, 
+        Model model, HttpSession session, HttpServletRequest request) {
+        
 
-        if(me == null){        
-            model.addAttribute("users", userService.getUsersByKeyword(keyword));
-        }else{
-            model.addAttribute("users", userService.getUsersByKeywordWithoutUser(keyword, me));
+        System.out.println("keyword = ["+keyword+"]");
+            
+        //Para checkboxes en searchResults.html
+        model.addAttribute("filterUsers",  filterUsers);
+        model.addAttribute("filterSkills", filterSkills);
+        model.addAttribute("username",      username);
+        model.addAttribute("userdesc",      userdesc);
+        model.addAttribute("currentSkills", currentSkills);
+        model.addAttribute("desiredSkills", desiredSkills);
+
+        
+         User sessionUser = (User) session.getAttribute("u");
+        if (sessionUser != null) {
+            User me = userService.getUsersByID(sessionUser.getId());
+            model.addAttribute("me", me.toTransfer());
+        } else {
+            model.addAttribute("me", null);
+        }
+        
+        model.addAttribute("query", keyword);   
+         
+        List<Skill.Transfer> skills = filterSkills? skillService.getSkillsByKeyword(keyword): List.<Skill.Transfer>of();
+        
+        Long userId = sessionUser != null ? sessionUser.getId() : -1;
+        List<User.Transfer> users = userService.searchUsers(
+            keyword, 
+            filterUsers,
+            username, userdesc,
+            currentSkills, desiredSkills,
+            userId
+        );
+       
+        model.addAttribute("users", users);
+        model.addAttribute("skills", skills);
+        
+       
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+        if (isAjax) {
+            return "fragments/searchResults :: results";
         }
 
         return "search";
@@ -238,14 +289,14 @@ public class RootController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size,
             HttpSession session) {
-    
+
         User currentUser = (User) session.getAttribute("u");
-    
+
         Page<User> pagedUsers = userService.findUsers(page, size, currentUser.getId());
         return pagedUsers.getContent()
                          .stream()
                          .map(User::toTransfer)
                          .toList();
     }
-    
+
 }

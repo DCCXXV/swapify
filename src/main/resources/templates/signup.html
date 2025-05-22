@@ -20,6 +20,7 @@
                             <input type="text" id="firstNameInput" name="firstName"
                                 class="form-control bg-abaloneshell rounded-pill p-3"
                                 placeholder="Introduzca aquí su nombre" required="required" style="width: 300px;">
+                                <div id="firstNameError" class="ms-3 mt-1" style="color: red;"></div>
                         </div>
                         <div>
                             <label for="lastNameInput" class="ms-3 mb-1 fg-oblivion">Apellidos*</label>
@@ -71,8 +72,9 @@
         </div>
     </main>
 
-    let emailDuplicado = false;
+
     <script>
+    let emailDuplicado = false;
     document.getElementById("emailInput").addEventListener("blur", function () {
         const email = this.value;
         const emailError = document.getElementById("emailError");
@@ -109,8 +111,6 @@
             });
     });
     </script>
-
-
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 

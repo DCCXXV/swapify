@@ -57,8 +57,8 @@
                     <div class="bg-orchid rounded text-white p-2">Gestión de Usuarios</div>
                     <div>
                         <div class="mx-4 p-3">
-                            <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
-                                placeholder="Buscar usuario">
+                            <input type="text" id="searchUserInput" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
+                                placeholder="Buscar usuario por ID ">
                         </div>
                         <table class="table table-borderless table-striped table-hover fg-oblivion">
                             <thead>
@@ -70,7 +70,7 @@
                                     <th class="bg-abaloneshell-l0 fg-oblivion bold">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="usersTbody">
 
                                 <tr th:each="user: ${users}">
                                     <td class="bg-abaloneshell-l0" th:text="${user.id}"></td>
@@ -79,17 +79,21 @@
                                     <td class="bg-abaloneshell-l0" th:text="|@${user.username}|"></td>
                                     <td class="bg-abaloneshell-l0" th:text="${user.email}"></td>
                                     <td class="bg-abaloneshell-l0">
-
+                                        
                                         <div class="d-flex">
-                                            <form>
-                                                <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#editUserModal">Editar</button>
-                                            </form>
+                                            <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#editUserModal"
+                                                    th:attr="data-id=${user.id},data-firstname=${user.firstName},data-lastname=${user.lastName},data-username=${user.username},data-email=${user.email}">
+                                              Editar
+                                            </button>
                                             <form th:action="@{'/admin/toggle/' + ${user.id}}" method="post">
+
                                                 <button class="toggle btn btn-sm bg-oblivion fg-abaloneshell mx-1"
-                                                    data-user-id=${user.id}>Deshabilitar usuario</button>
+                                                    data-user-id=${user.id}>Deshabilitar usuario
+                                                </button>
                                             </form>
+                                            
                                         </div>
                                     </td>
                                 </tr>
@@ -105,7 +109,7 @@
                     <div class="bg-orchid text-white rounded p-2">Gestión de Swaps</div>
                     <div>
                         <div class="mx-4 p-3">
-                            <input type="text" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
+                            <input type="text" id="searchSwapInput" class="form-control bg-abaloneshell rounded-pill p-2 ps-3"
                                 placeholder="Buscar swap por ID">
                         </div>
                         <table class="table table-borderless table-striped table-hover fg-oblivion">
@@ -119,7 +123,7 @@
                                     <th class="bg-abaloneshell-l0 fg-oblivion bold text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="swapsTbody">
                                 <tr th:each="swap : ${swaps}">
                                     <td class="bg-abaloneshell-l0" th:text="${swap.id}"></td>
                                     <td class="bg-abaloneshell-l0" 
@@ -128,6 +132,17 @@
                                     <td class="bg-abaloneshell-l0" th:text="${swap.userB.username}"></td>
                                     <td class="bg-abaloneshell-l0" th:text="${swap.swapStatus}"></td>
                                     <td class="bg-abaloneshell-l0 text-center">
+                                        <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#viewSwapModal"
+                                                th:attr="data-swap-id=${swap.id}, 
+                                                         data-skillA=${swap.skillA.name}, 
+                                                         data-skillB=${swap.skillB.name},
+                                                         data-userA=${swap.userA.username},
+                                                         data-userB=${swap.userB.username},
+                                                         data-status=${swap.swapStatus}">
+                                            Ver
+                                        </button>
                                         <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
                                                 th:attr="data-swap-id=${swap.id}"
                                                 th:onclick="'cancelSwap(' + ${swap.id} + ')'">
@@ -148,24 +163,64 @@
                 <div class="modal-content bg-abaloneshell-l0">
                     <div class="modal-header bg-orchid text-white">
                         <h5 class="modal-title">Editar Usuario</h5>
-                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <input type="text" class="form-control bg-abaloneshell mb-2" value="Juan Pérez">
-                        <input type="email" class="form-control bg-abaloneshell mb-2" value="juan@example.com">
-                        <select class="form-control bg-abaloneshell">
-                            <option selected>Usuario</option>
-                            <option>Administrador</option>
-                        </select>
-                    </div>
-                    <div class="text-center m-3">
-                        <button type="button" class="btn bg-orchid fg-abaloneshell px-5">Actualizar</button>
-                    </div>
+                    <form id="editUserForm">
+                        <div class="modal-body">
+                            <div class="mb-3 row">
+                                <label for="editFirstName" class="col-sm-4 col-form-label">Nombre</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="editFirstName" name="firstName">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="editLastName" class="col-sm-4 col-form-label">Apellidos</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="editLastName" name="lastName">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="editUsername" class="col-sm-4 col-form-label">Username</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="editUsername" name="username">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="editEmail" class="col-sm-4 col-form-label">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="editEmail" name="email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn bg-abaloneshell fg-orchid" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn bg-orchid fg-abaloneshell">Actualizar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
+        <!-- MODAL: Ver Swap -->
+        <div class="modal fade" id="viewSwapModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-abaloneshell-l0">
+                    <div class="modal-header bg-orchid text-white">
+                        <h5 class="modal-title">Detalles del Swap</h5>
+                        <button type="button" class="btn-close bg-abaloneshell" data-bs-dismiss="modal" 
+                        aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>ID:</strong> <span id="swapId"></span></p>
+                        <p><strong>Descripción:</strong> <span id="swapDescription"></span></p>
+                        <p><strong>Usuario 1:</strong> <span id="swapUserA"></span></p>
+                        <p><strong>Usuario 2:</strong> <span id="swapUserB"></span></p>
+                        <p><strong>Estado:</strong> <span id="swapStatus"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
@@ -217,6 +272,161 @@
                 alert("Error de red al cancelar swap.");
             });
         }
+
+        const viewSwapModal = document.getElementById('viewSwapModal');
+        viewSwapModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const swapId = button.getAttribute('data-swap-id');
+            const skillA = button.getAttribute('data-skillA');
+            const skillB = button.getAttribute('data-skillB');
+            const userA = button.getAttribute('data-userA');
+            const userB = button.getAttribute('data-userB');
+            const status = button.getAttribute('data-status');
+            
+            document.getElementById('swapId').textContent = swapId;
+            document.getElementById('swapDescription').textContent = skillA + " por " + skillB;
+            document.getElementById('swapUserA').textContent = userA;
+            document.getElementById('swapUserB').textContent = userB;
+            document.getElementById('swapStatus').textContent = status;
+        });
+
+        var editUserModal = document.getElementById('editUserModal');
+        editUserModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var firstName = button.getAttribute('data-firstname');
+            var lastName = button.getAttribute('data-lastname');
+            var username = button.getAttribute('data-username');
+            var email = button.getAttribute('data-email');
+            var form = document.getElementById('editUserForm');
+            form.dataset.id = id;
+            document.getElementById('editFirstName').value = firstName;
+            document.getElementById('editLastName').value = lastName;
+            document.getElementById('editUsername').value = username;
+            document.getElementById('editEmail').value = email;
+        });
+
+        document.getElementById('editUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('editUserForm');
+            const id = form.dataset.id;
+            const firstName = document.getElementById('editFirstName').value;
+            const lastName = document.getElementById('editLastName').value;
+            const username = document.getElementById('editUsername').value;
+            const email = document.getElementById('editEmail').value;
+            const payload = { id, firstName, lastName, username, email };
+            fetch("/admin/editarUsuario", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": config.csrf.value
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === "success"){
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+                    modal.hide();
+                    location.reload();
+                } else {
+                    alert("Error actualizando usuario: " + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error de red al actualizar usuario");
+            });
+        });
+
+        document.getElementById('searchUserInput').addEventListener('keyup', function(e){
+            if(e.key === 'Enter'){
+                const id = e.target.value.trim();
+                if(!id){
+                    location.reload();
+                    return;
+                }
+                fetch(`/admin/searchUser/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('usersTbody');
+                    if(data.status === "success"){
+                        const user = data.user;
+                        tbody.innerHTML = `<tr>
+                            <td>${user.id}</td>
+                            <td>${user.firstName} ${user.lastName}</td>
+                            <td>@${user.username}</td>
+                            <td>${user.email}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editUserModal"
+                                            data-id="${user.id}"
+                                            data-firstname="${user.firstName}"
+                                            data-lastname="${user.lastName}"
+                                            data-username="${user.username}"
+                                            data-email="${user.email}">
+                                        Editar
+                                    </button>
+                                    <form action="/admin/toggle/${user.id}" method="post">
+                                        <button class="toggle btn btn-sm bg-oblivion fg-abaloneshell mx-1" data-user-id="${user.id}">
+                                            Deshabilitar usuario
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>`;
+                    } else {
+                        tbody.innerHTML = `<tr><td colspan="5" class="text-center">Usuario no encontrado</td></tr>`;
+                    }
+                });
+            }
+        });
+
+        document.getElementById('searchSwapInput').addEventListener('keyup', function(e){
+            if(e.key === 'Enter'){
+                const id = e.target.value.trim();
+                if(!id){
+                    location.reload();
+                    return;
+                }
+                fetch(`/admin/searchSwap/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('swapsTbody');
+                    if(data.status === "success"){
+                        const swap = data.swap;
+                        tbody.innerHTML = `<tr>
+                            <td>${swap.id}</td>
+                            <td>${swap.skillA.name} por ${swap.skillB.name}</td>
+                            <td>${swap.userA.username}</td>
+                            <td>${swap.userB.username}</td>
+                            <td>${swap.swapStatus}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm bg-abaloneshell fg-oblivion mx-1"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#viewSwapModal"
+                                        data-swap-id="${swap.id}"
+                                        data-skillA="${swap.skillA.name}"
+                                        data-skillB="${swap.skillB.name}"
+                                        data-userA="${swap.userA.username}"
+                                        data-userB="${swap.userB.username}"
+                                        data-status="${swap.swapStatus}">
+                                    Ver
+                                </button>
+                                <button class="btn btn-sm bg-oblivion fg-abaloneshell mx-1"
+                                        onclick="cancelSwap(${swap.id})">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>`;
+                    } else {
+                        tbody.innerHTML = `<tr><td colspan="6" class="text-center">Swap no encontrado</td></tr>`;
+                    }
+                });
+            }
+        });
     </script>
 
 </body>

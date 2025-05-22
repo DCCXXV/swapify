@@ -7,6 +7,10 @@
 </head>
 
 <body class="d-flex flex-column h-100 bg-abaloneshell" style="overflow-x: hidden" id="swapbody">
+    <script th:if="${session.u != null}" th:inline="javascript">
+        window.mySwapIds = /*[[${allMySwapIds}]]*/ [];
+    </script>
+    <script th:if="${session.u != null}" src="/js/swap-notifications.js"></script>
     <header th:replace="fragments/nav.html :: nav"></header>
     <main class="container-fluid m-3 flex-grow-1">
         <div class="row me-3 h-100">
@@ -429,7 +433,47 @@
             disableChatInput();
         }
     });
+
+    document.getElementById("submitReview").addEventListener("click", function() {
+    const reviewButton = document.getElementById("reviewButton");
+    const swapId = reviewButton ? reviewButton.getAttribute("data-swap-id") : null;
+    if (!swapId) {
+        alert("No se pudo identificar el swap.");
+        return;
+    }
+    const rating = document.getElementById("reviewRating").value;
+    const text = document.getElementById("reviewText").value;
+    if (text.trim() === "" || rating < 0 || rating > 10 || isNaN(rating)) {
+        alert("Por favor, ingresa una calificación y una reseña.");
+        return;
+    }
+    fetch(`/swaps/${swapId}/submitReview`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": config.csrf.value
+        },
+        body: JSON.stringify({ rating: parseFloat(rating), text: text })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+
+            const modalEl = document.getElementById("reviewModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) { modal.hide(); }
+
+        } else {
+            alert("Error al enviar reseña: " + data.message);
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Error al enviar reseña");
+    });
+});
 </script>
+
 
 </body>
 </html>

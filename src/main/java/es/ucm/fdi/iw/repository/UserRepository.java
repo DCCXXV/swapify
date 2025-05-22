@@ -1,7 +1,6 @@
 package es.ucm.fdi.iw.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -41,7 +40,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findById(long id);
     User findByUsername(String username);
-    
+
     List<User> findByUsernameNot(String username);
     List<User> findByUsernameContainingIgnoreCase(String username);
     List<User> findByUsernameContainingIgnoreCaseAndUsernameNot(String partialUsername, String username);
@@ -53,5 +52,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
     Page<User> findByUsernameNotAndIdNot(String username, Long excludeId, Pageable pageable);
-
+    User findByFirstNameIgnoreCase(String firstName);
 }

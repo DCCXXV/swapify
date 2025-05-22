@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -20,9 +19,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 class PlantillaApplicationTests {
 
     @LocalServerPort private int port;
-	@Autowired private WebApplicationContext wac;	
-	private MockMvc mockMvc;	
-	
+	@Autowired private WebApplicationContext wac;
+	private MockMvc mockMvc;
+
 	@BeforeEach
 	public void setup() throws Exception {
 	    this.mockMvc = MockMvcBuilders
@@ -39,8 +38,8 @@ class PlantillaApplicationTests {
 	    MvcResult mvcResult = this.mockMvc.perform(get("/api/status/test"))
 	      .andDo(print()).andExpect(status().isOk())
 	      .andExpect(jsonPath("$.code").value("test"))
-	      .andReturn();	     
-	    Assertions.assertEquals("application/json;charset=UTF-8", 
+	      .andReturn();
+	    Assertions.assertEquals("application/json;charset=UTF-8",
 	      mvcResult.getResponse().getContentType());
 	}
 }
